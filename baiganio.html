@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BAI Ганьо - AI Асистент - Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body, html {
+      margin: 0; padding: 0; min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #58cc02;
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover, nav a:focus {
+      color: #ffd800;
+      outline: none;
+    }
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      height: 70vh;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #58cc02;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .message {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      line-height: 1.4;
+      user-select: none;
+    }
+    .message.user {
+      background: #d1f7c4;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .message.ai {
+      background: #e6f4ea;
+      align-self: flex-start;
+      text-align: left;
+    }
+    form {
+      display: flex;
+      gap: 0.5rem;
+    }
+    textarea {
+      flex: 1;
+      resize: none;
+      padding: 0.75rem 1rem;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease;
+      font-family: 'Nunito', sans-serif;
+    }
+    textarea:focus {
+      border-color: #58cc02;
+      outline: none;
+    }
+    button {
+      background-color: #58cc02;
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      padding: 0 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover, button:focus {
+      background-color: #4aa001;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Matura Master</div>
+    <nav aria-label="Основна навигация">
+      <ul>
+        <li><a href="bulgarian.html">Български език</a></li>
+        <li><a href="literature.html">Литература</a></li>
+        <li><a href="baiganio.html" aria-current="page">BAI Ганьо</a></li>
+        <li><a href="login.html">Изход</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>BAI Ганьо - Твоят AI съреволюционер</h1>
+    <div id="chat" aria-live="polite" aria-label="Чат с BAI Ганьо"></div>
+    <form id="chat-form" aria-label="Форма за въвеждане на съобщение">
+      <textarea id="chat-input" rows="2" placeholder="Напиши въпрос към BAI Ганьо..." required></textarea>
+      <button type="submit" aria-label="Изпрати съобщение">Изпрати</button>
+    </form>
+  </main>
+  <script>
+    const chat = document.getElementById('chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    const messages = [
+      { sender: 'ai', text: 'Здравей! Аз съм BAI Ганьо, твоят AI съреволюционер. Как мога да ти помогна днес?' }
+    ];
+
+    function renderMessages() {
+      chat.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.classList.add('message', msg.sender);
+        div.textContent = msg.text;
+        chat.appendChild(div);
+      });
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function generateMockResponse(userText) {
+      const lower = userText.toLowerCase();
+      if (lower.includes('правопис')) {
+        return 'Правописът е важен! Мога да ти помогна с правила и примери.';
+      }
+      if (lower.includes('литература')) {
+        return 'Обичаш ли българската литература? Мога да ти разкажа за автори и произведения.';
+      }
+      if (lower.includes('тест')) {
+        return 'Искаш ли да направиш тест? Имам много въпроси за теб!';
+      }
+      if (lower.includes('консултация')) {
+        return 'Ако имаш нисък резултат, препоръчвам консултация с учителя.';
+      }
+      return 'Интересен въпрос! За съжаление, все още се уча. Моля, опитай с друг въпрос.';
+    }
+
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+      messages.push({ sender: 'user', text: userText });
+      renderMessages();
+      chatInput.value = '';
+      chatInput.focus();
+      setTimeout(() => {
+        const aiResponse = generateMockResponse(userText);
+        messages.push({ sender: 'ai', text: aiResponse });
+        renderMessages();
+      }, 1000);
+    });
+
+    renderMessages();
+  </script>
+</body>
+</html>
