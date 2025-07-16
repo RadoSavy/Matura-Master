@@ -140,8 +140,8 @@
       // Simulate registration success or failure
       if (username.length >= 3 && password.length >= 6) {
         errorDiv.style.display = 'none';
-        alert('Успешна регистрация! Пренасочване към страницата за вход...');
-        window.location.href = 'login.html';
+        alert('Успешна регистрация! Пренасочване към страницата с курсове...');
+        window.location.href = 'courses.html';
       } else {
         errorDiv.textContent = 'Потребителското име трябва да е поне 3 символа, а паролата поне 6.';
         errorDiv.style.display = 'block';

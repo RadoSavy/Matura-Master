@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Bulgarian from './pages/Bulgarian';
 import Literature from './pages/Literature';
 import BAIGanio from './components/BAIGanio';
+import Main from './main';
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -27,6 +29,10 @@ const App = () => {
     <>
       <Navbar user={user} />
       <Routes>
+        <Route
+          path="/main"
+          element={!user ? <Main /> : <Navigate to="/bulgarian" replace />}
+        />
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/bulgarian" replace />}
