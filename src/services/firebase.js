@@ -1,52 +1,26 @@
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signOut, signInWithCredential, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-  projectId: "YOUR_FIREBASE_PROJECT_ID",
-  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "YOUR_FIREBASE_APP_ID",
+  apiKey: "AIzaSyAUEF24NtGtaoQ-f-KmTTOcdX5jCAjhqkY",
+  authDomain: "matura-master-9fac8.firebaseapp.com",
+  projectId: "matura-master-9fac8",
+  storageBucket: "matura-master-9fac8.firebasestorage.app",
+  messagingSenderId: "885582348243",
+  appId: "1:885582348243:web:d7e27a7da880a416c6b926",
+  measurementId: "G-RYNM1RN9XF"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = () => {
-  return signInWithPopup(auth, googleProvider);
-};
-
-const signInWithEmail = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
-};
-
-const registerWithEmail = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
-};
-
-const logout = () => {
-  return signOut(auth);
-};
-
-const onAuthChange = (callback) => {
+export const onAuthChange = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
 
-export {
-  auth,
-  signInWithGoogle,
-  signInWithEmail,
-  registerWithEmail,
-  logout,
-  onAuthChange,
+export const logout = () => signOut(auth);
+
+export const loginWithGoogle = async (googleToken) => {
+  const credential = GoogleAuthProvider.credential(null, googleToken);
+  return signInWithCredential(auth, credential);
 };

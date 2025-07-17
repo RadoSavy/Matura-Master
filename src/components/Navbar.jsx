@@ -1,58 +1,24 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../services/firebase';
 
 const Navbar = ({ user }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <div className="text-lg font-bold">Matura Master</div>
+    <nav className="bg-white shadow p-4 flex justify-between">
       <div className="space-x-4">
-        <NavLink
-          to="/bulgarian"
-          className={({ isActive }) =>
-            isActive ? 'underline font-semibold' : 'hover:underline'
-          }
-        >
-          Български език
-        </NavLink>
-        <NavLink
-          to="/literature"
-          className={({ isActive }) =>
-            isActive ? 'underline font-semibold' : 'hover:underline'
-          }
-        >
-          Литература
-        </NavLink>
-        <NavLink
-          to="/baiganio"
-          className={({ isActive }) =>
-            isActive ? 'underline font-semibold' : 'hover:underline'
-          }
-        >
-          BAI Ганьо
-        </NavLink>
+        {user && (
+          <>
+            <Link to="/bulgarian" className="text-blue-600">Български</Link>
+            <Link to="/literature" className="text-blue-600">Литература</Link>
+            <Link to="/baiganio" className="text-blue-600">B.A.I. Ганьо</Link>
+          </>
+        )}
+      </div>
+      <div>
         {user ? (
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 px-3 py-1 rounded hover:bg-red-700"
-          >
-            Изход
-          </button>
+          <button onClick={logout} className="text-red-500">Изход</button>
         ) : (
-          <NavLink to="/login" className="hover:underline">
-            Вход
-          </NavLink>
+          <Link to="/login" className="text-green-600">Вход</Link>
         )}
       </div>
     </nav>
