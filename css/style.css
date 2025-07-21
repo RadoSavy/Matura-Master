@@ -1,16 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
-:root {
-  --green: #34a853;
-  --green-light: #58cc02;
-  --yellow: #ffd800;
-  --gray-light: #f5f7fa;
-  --gray-dark: #2c3e50;
-  --white: #ffffff;
-  --shadow-light: rgba(0, 0, 0, 0.08);
-  --shadow-strong: rgba(52, 168, 83, 0.3);
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,21 +8,21 @@
 
 body {
   font-family: 'Nunito', sans-serif;
-  background-color: var(--gray-light);
-  color: var(--gray-dark);
+  background-color: #f5f7fa;
+  color: #2c3e50;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 header {
-  background-color: var(--green);
+  background-color: #34a853;
   padding: 1rem 2rem;
-  color: var(--white);
+  color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px var(--shadow-light);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 header .logo {
@@ -49,7 +38,7 @@ nav ul {
 }
 
 nav a {
-  color: var(--white);
+  color: #ffffff;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -57,7 +46,7 @@ nav a {
 
 nav a:hover,
 nav a:focus {
-  color: var(--yellow);
+  color: #ffd800;
   outline: none;
 }
 
@@ -73,7 +62,7 @@ main {
 
 h1 {
   font-size: 2.5rem;
-  color: var(--green);
+  color: #34a853;
   text-align: center;
 }
 
@@ -87,7 +76,7 @@ h1 {
 
 .course-card {
   display: flex;
-  flex-direction: column; /* ⬅️ Това прави подредбата вертикална: първо снимка, после текст */
+  flex-direction: column;
   align-items: center;
   width: 200px;
   text-decoration: none;
@@ -117,15 +106,10 @@ h1 {
   text-align: center;
 }
 
-/* Мобилен изглед – подредба под едно */
+/* Мобилен изглед */
 @media (max-width: 600px) {
-  .course-card {
+  .course-list {
     flex-direction: column;
-    text-align: center;
-  }
-
-  .course-image {
-    width: 100%;
-    height: auto;
+    align-items: center;
   }
 }
