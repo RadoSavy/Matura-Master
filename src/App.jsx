@@ -1,42 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { onAuthChange } from './services/firebase';
-import Navbar from './components/Navbar';
-import Login from './pages/Login';
-import Bulgarian from './pages/Bulgarian';
-import Literature from './pages/Literature';
-import BAIGanio from './components/BAIGanio';
+import React, { useState, useEffect } from 'react';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import './app.css';
 
-const App = () => {
+const decoded = jwtDecode(token);
+
+function App() {
   const [user, setUser] = useState(null);
-  const [authChecked, setAuthChecked] = useState(false);
+  const [status, setStatus] = useState("Not signed in");
+  const [redirectCountdown, setRedirectCountdown] = useState(null);
 
+  // Изпълнява се при mount
   useEffect(() => {
-    const unsubscribe = onAuthChange((currentUser) => {
-      setUser(currentUser);
-      setAuthChecked(true);
-    });
-    return () => unsubscribe();
-  }, []);
+    if (user) {
+      setStatus("Signed in as " + user.name);
+      startRedirectCountdown();
+    }
+  }, [user]);
 
-  if (!authChecked) {
-    return <div className="flex justify-center items-center min-h-screen">Зареждане...</div>;
-  }
+  // Функция при успешно логване
+  const handleLoginSuccess = (credentialResponse) => {
+    try {
+      const decoded = jwt_decode(credentialResponse.credential);
+      console.log("Login success:", decoded);
+      setUser(decoded);
+    } catch (err) {
+      console.error("JWT decode error:", err);
+      setStatus("Failed to decode token.");
+    }
+  };
+
+  // Функция при неуспешно логване
+  const handleLoginFailure = () => {
+    console.warn("Login failed");
+    setStatus("Login failed");
+  };
+
+  // Пренасочване след успешно логване
+  const startRedirectCountdown = () => {
+    let seconds = 5;
+    setRedirectCountdown(seconds);
+
+    const interval = setInterval(() => {
+      seconds--;
+      setRedirectCountdown(seconds);
+      if (seconds === 0) {
+        clearInterval(interval);
+        window.location.href = "/courses.html"; // можеш да промениш адреса
+      }
+    }, 1000);
+  };
+
+  // Logout функция
+  const handleLogout = () => {
+    googleLogout();
+    setUser(null);
+    setStatus("Logged out");
+    setRedirectCountdown(null);
+  };
 
   return (
-    <>
-      <Navbar user={user} />
-      <Routes>
-        <Route path="/main" element={!user ? <Main /> : <Navigate to="/bulgarian" replace />} />
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/bulgarian" replace />} />
-        <Route path="/bulgarian" element={user ? <Bulgarian /> : <Navigate to="/login" replace />} />
-        <Route path="/literature" element={user ? <Literature /> : <Navigate to="/login" replace />} />
-        <Route path="/baiganio" element={user ? <BAIGanio /> : <Navigate to="/login" replace />} />
-        <Route path="/" element={<Navigate to={user ? "/bulgarian" : "/login"} replace />} />
-        <Route path="*" element={<div className="p-6 text-center">Страницата не е намерена</div>} />
-      </Routes>
-    </>
-  );
-};
+    <div className="App">
+      <h1>Google Login Example</h1>
 
+      <p>Status: {status}</p>
+
+      {!user && (
+        <div>
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={handleLoginFailure}
+          />
+        </div>
+      )}
+
+      {user && (
+        <div>
+          <img src={user.picture} alt="Profile" style={{ borderRadius: '50%', width: '100px' }} />
+          <h2>Welcome, {user.name}</h2>
+          <p>Email: {user.email}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
+
+      {redirectCountdown !== null && (
+        <p>Redirecting in {redirectCountdown} seconds...</p>
+      )}
+
+      {/* Filler за още редове с полезни компоненти */}
+      <ExtraInfo />
+    </div>
+  );
+}
 export default App;

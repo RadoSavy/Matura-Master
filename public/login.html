@@ -6,6 +6,8 @@
   <title>Вход - Matura Master</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
   <style>
     body, html {
       margin: 0; padding: 0; height: 100%;
@@ -63,22 +65,6 @@
       background-color: #4aa001;
       outline: none;
     }
-    .google-login {
-      background-color: #db4437;
-      margin-top: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .google-login:hover, .google-login:focus {
-      background-color: #c33d2e;
-      outline: none;
-    }
-    .google-login svg {
-      width: 20px;
-      height: 20px;
-    }
     .register-link {
       margin-top: 1rem;
       text-align: center;
@@ -102,27 +88,36 @@
       text-align: center;
       user-select: none;
     }
+    #google-btn {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
+
   <div class="login-container" role="main" aria-labelledby="login-title">
     <h2 id="login-title">Вход в Matura Master</h2>
     <div id="error" class="error-message" aria-live="assertive" style="display:none;"></div>
+
+    <!-- Класическа форма -->
     <form id="login-form" novalidate>
-      <input type="text" id="username" name="username" placeholder="Потребителско име" required aria-required="true" />
-      <input type="password" id="password" name="password" placeholder="Парола" required aria-required="true" />
+      <input type="text" id="username" name="username" placeholder="Потребителско име" required />
+      <input type="password" id="password" name="password" placeholder="Парола" required />
       <button type="submit">Влез</button>
     </form>
-    <button id="google-login" class="google-login" aria-label="Вход с Google">
-      <svg viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg"><path fill="#4285f4" d="M533.5 278.4c0-17.4-1.5-34.1-4.3-50.4H272v95.5h146.9c-6.3 34-25.3 62.8-54 82v68h87.1c50.9-46.9 80.5-116 80.5-194.9z"/><path fill="#34a853" d="M272 544.3c73.4 0 135.2-24.3 180.3-65.9l-87.1-68c-24.2 16.2-55.2 25.7-93.2 25.7-71.6 0-132.3-48.3-154.1-113.1H29.6v70.9c45.1 89.1 137.3 150.4 242.4 150.4z"/><path fill="#fbbc04" d="M117.9 323.1c-10.7-31.7-10.7-65.9 0-97.6v-70.9H29.6c-39.6 77.3-39.6 169.3 0 246.6l88.3-78.1z"/><path fill="#ea4335" d="M272 107.7c39.8 0 75.5 13.7 103.7 40.7l77.7-77.7C405.7 24.3 343.9 0 272 0 166.9 0 74.7 61.3 29.6 150.4l88.3 70.9c21.8-64.8 82.5-113.6 154.1-113.6z"/></svg>
-      Вход с Google
-    </button>
+
+    <!-- Google вход -->
+    <div id="google-btn"></div>
+
     <p class="register-link">Нямаш акаунт? <a href="register.html">Регистрирай се</a></p>
   </div>
+
   <script>
+    // Обработка на класическа форма
     const loginForm = document.getElementById('login-form');
     const errorDiv = document.getElementById('error');
-    const googleLoginBtn = document.getElementById('google-login');
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -135,20 +130,39 @@
         return;
       }
 
-      // Simulate login success or failure
       if (username.length >= 3 && password.length >= 6) {
         errorDiv.style.display = 'none';
-        alert('Успешен вход! Пренасочване към страницата с курсове...');
+        alert('Успешен вход! Пренасочване...');
         window.location.href = 'courses.html';
       } else {
-        errorDiv.textContent = 'Потребителското име трябва да е поне 3 символа, а паролата поне 6.';
+        errorDiv.textContent = 'Минимална дължина: име (3), парола (6)';
         errorDiv.style.display = 'block';
       }
     });
 
-    googleLoginBtn.addEventListener('click', function() {
-      alert('Вход с Google е все още в процес на разработка.');
-    });
+    // Google вход
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "562285484934-sbe73anaak500lghj135hqv2pfev8rld.apps.googleusercontent.com",
+        callback: handleGoogleResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("google-btn"),
+        { theme: "outline", size: "large", width: "100%" }
+      );
+    };
+
+    function handleGoogleResponse(response) {
+      const token = response.credential;
+      const user = jwt_decode(token);
+
+      console.log("Google вход успешно:", user);
+
+      // Запази потребителя и пренасочи
+      localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = 'courses.html';
+    }
   </script>
+
 </body>
 </html>

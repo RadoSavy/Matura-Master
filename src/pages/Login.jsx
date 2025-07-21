@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { loginWithGoogle } from '../services/firebase';
 
 const Login = () => {
   const login = useGoogleLogin({
@@ -14,17 +13,19 @@ const Login = () => {
 
         if (!res.ok) throw new Error('Failed to fetch user info');
         const userInfo = await res.json();
+
         console.log('User info:', userInfo);
 
-        await loginWithGoogle(tokenResponse.access_token);
+        window.location.href = 'courses.html';
 
-        window.location.href = '/courses.html';
       } catch (err) {
         console.error('Login failed:', err);
-        alert('Възникна грешка при входа с Google.');
+        alert('Грешка при входа с Google');
       }
     },
-    onError: () => alert("Грешка при входа с Google."),
+    onError: () => {
+      alert('Грешка при входа с Google.');
+    },
   });
 
   return (
