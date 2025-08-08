@@ -3,34 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Matura Master - Начална страница</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css">
   <style>
+    :root {
+      --primary-color: #4CAF50;
+      --primary-dark: #3d8b40;
+      --primary-light: #81C784;
+      --secondary-color: #FFC107;
+      --accent-color: #FF5722;
+      --text-color: #333;
+      --text-light: #666;
+      --text-lighter: #999;
+      --bg-color: #f8f8f8;
+      --card-bg: #fff;
+      --border-color: #e0e0e0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body, html {
-      margin: 0; padding: 0; height: 100%;
       font-family: 'Nunito', sans-serif;
-      background: #f0f4f8;
-      color: #333;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
+
+    /* Header */
     header {
-      background: #58cc02;
-      padding: 1rem 2rem;
-      color: white;
+      background-color: var(--card-bg);
+      height: 60px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 0 20px;
     }
-    header .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      user-select: none;
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
     }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background-color: var(--primary-color);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
@@ -38,134 +86,145 @@
       margin: 0;
       padding: 0;
     }
+
     nav a {
-      color: white;
+      color: var(--text-color);
       text-decoration: none;
       font-weight: 600;
-      transition: color 0.3s ease;
+      transition: var(--transition);
+      font-size: 15px;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
+
     nav a:hover, nav a:focus {
-      color: #ffd800;
-      outline: none;
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--primary-color);
     }
+
+    nav a.active {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: var(--primary-color);
+    }
+
+    /* Main Content */
     main {
       flex: 1;
-      padding: 2rem;
+      margin-top: 60px;
+      padding: 25px;
       max-width: 900px;
-      margin: 0 auto;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-bottom: 20px;
       display: flex;
-      flex-direction: column;
-      gap: 3rem;
+      align-items: center;
+      gap: 10px;
     }
-    .hero {
-      background: #58cc02;
-      color: white;
-      border-radius: 12px;
-      padding: 3rem 2rem;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(88,204,2,0.4);
-      animation: fadeInDown 1s ease forwards;
+
+    /* Content Cards */
+    .content-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
     }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      user-select: none;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-      user-select: none;
-    }
-    .btn-cta {
-      background: white;
-      color: #58cc02;
+
+    .content-card h2 {
+      font-size: 20px;
       font-weight: 700;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      font-size: 1.2rem;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: background 0.3s ease, color 0.3s ease;
-      user-select: none;
-    }
-    .btn-cta:hover, .btn-cta:focus {
-      background: #ffd800;
-      color: #333;
-      outline: none;
-    }
-    .features {
+      color: var(--primary-color);
+      margin-bottom: 15px;
       display: flex;
-      justify-content: space-around;
-      gap: 1rem;
-      flex-wrap: wrap;
-      user-select: none;
+      align-items: center;
+      gap: 10px;
     }
-    .feature-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      flex: 1 1 250px;
-      padding: 2rem;
-      font-size: 1.25rem;
+
+    .content-card p {
+      color: var(--text-color);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 10px 20px;
       font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Coming Soon */
+    .coming-soon {
       text-align: center;
-      color: #58cc02;
-      transition: transform 0.3s ease;
-      cursor: default;
+      padding: 40px 20px;
     }
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(88,204,2,0.3);
+
+    .coming-soon i {
+      font-size: 50px;
+      color: var(--text-lighter);
+      margin-bottom: 20px;
     }
-    footer {
-      background: #222;
-      color: #ccc;
-      text-align: center;
-      padding: 1rem 2rem;
-      font-size: 0.9rem;
-      user-select: none;
+
+    .coming-soon h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--text-color);
     }
-    @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+
+    .coming-soon p {
+      color: var(--text-light);
+      margin-bottom: 20px;
     }
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2.25rem;
-      }
-      .features {
-        flex-direction: column;
-        gap: 1rem;
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 24px;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" aria-label="Matura Master лого">Matura Master</div>
+    <a href="courses.html" class="logo">
+      <div class="logo-icon">MM</div>
+      <span>Matura Master</span>
+    </a>
     <nav aria-label="Основна навигация">
       <ul>
-        <li><a href="login.html" class="btn-cta">Вход / Регистрация</a></li>
+        <li><a href="login.html">Вход/Регистрация</a></li>
       </ul>
     </nav>
   </header>
-  <main>
-    <section class="hero" role="banner">
-      <h1>Добре дошли в Matura Master</h1>
-      <p>Учи и упражнявай се по Български език и Литература – точно както в Duolingo!</p>
-      <a href="login.html" class="btn-cta" role="button">Започни сега</a>
-    </section>
-    <section class="features" aria-label="Основни функции">
-      <div class="feature-card" tabindex="0" aria-describedby="feature1-desc">🧠 Учи с нива</div>
-      <div class="feature-card" tabindex="0" aria-describedby="feature2-desc">📚 Граматика и литература</div>
-      <div class="feature-card" tabindex="0" aria-describedby="feature3-desc">🎯 Персонализирани тестове</div>
-    </section>
+  
+  <main>  
+    <div class="coming-soon">
+      <i class="fas fa-tools"></i>
+      <h3>Раздел в разработка</h3>
+      <p>Този раздел ще бъде достъпен скоро с богато съдържание за българска литература, произведения и автори.</p>
+      <a href="courses.html" class="btn"><i class="fas fa-arrow-left"></i> Назад към курсовете</a>
+    </div>
   </main>
 </body>
 </html>

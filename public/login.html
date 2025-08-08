@@ -4,114 +4,237 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Вход - Matura Master</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
   <style>
+    :root {
+      --primary-color: #4CAF50;
+      --primary-dark: #3d8b40;
+      --primary-light: #81C784;
+      --secondary-color: #FFC107;
+      --accent-color: #FF5722;
+      --text-color: #333;
+      --text-light: #666;
+      --text-lighter: #999;
+      --bg-color: #f8f8f8;
+      --card-bg: #fff;
+      --border-color: #e0e0e0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body, html {
-      margin: 0; padding: 0; height: 100%;
       font-family: 'Nunito', sans-serif;
-      background: #f0f4f8;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
-    .login-container {
-      background: white;
-      padding: 2rem 3rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(88,204,2,0.3);
+
+    .auth-container {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 30px;
       width: 100%;
       max-width: 400px;
-      box-sizing: border-box;
-    }
-    h2 {
       text-align: center;
-      color: #58cc02;
-      margin-bottom: 1.5rem;
-      user-select: none;
+      animation: fadeInUp 0.5s ease;
     }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background-color: var(--primary-color);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 25px;
+    }
+
     form {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 15px;
+      margin-bottom: 20px;
     }
-    input[type="text"], input[type="password"] {
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-lighter);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px 12px 40px;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      font-size: 1rem;
-      outline-offset: 2px;
-      transition: border-color 0.3s ease;
+      font-size: 15px;
+      transition: var(--transition);
     }
-    input[type="text"]:focus, input[type="password"]:focus {
-      border-color: #58cc02;
+
+    input:focus {
+      border-color: var(--primary-color);
       outline: none;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
     }
+
     button {
-      background-color: #58cc02;
+      background-color: var(--primary-color);
       color: white;
-      font-weight: 700;
-      padding: 0.75rem 1rem;
       border: none;
-      border-radius: 50px;
-      font-size: 1.1rem;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    button:hover, button:focus {
-      background-color: #4aa001;
-      outline: none;
+
+    button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
     }
-    .register-link {
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #555;
-      user-select: none;
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: var(--text-lighter);
     }
-    .register-link a {
-      color: #58cc02;
-      text-decoration: none;
-      font-weight: 700;
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
     }
-    .register-link a:hover, .register-link a:focus {
-      text-decoration: underline;
-      outline: none;
+
+    .divider::before {
+      margin-right: 10px;
     }
-    .error-message {
-      color: #d93025;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-align: center;
-      user-select: none;
+
+    .divider::after {
+      margin-left: 10px;
     }
-    #google-btn {
-      margin-top: 1rem;
+
+    .google-btn {
+      width: 100%;
       display: flex;
       justify-content: center;
+    }
+
+    .auth-footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .auth-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-
-  <div class="login-container" role="main" aria-labelledby="login-title">
-    <h2 id="login-title">Вход в Matura Master</h2>
+  <div class="auth-container" role="main" aria-labelledby="login-title">
+    <div class="logo">
+      <div class="logo-icon">MM</div>
+      <span>Matura Master</span>
+    </div>
+    
+    <h2 id="login-title">Вход в акаунта</h2>
+    
     <div id="error" class="error-message" aria-live="assertive" style="display:none;"></div>
 
-    <!-- Класическа форма -->
     <form id="login-form" novalidate>
-      <input type="text" id="username" name="username" placeholder="Потребителско име" required />
-      <input type="password" id="password" name="password" placeholder="Парола" required />
-      <button type="submit">Влез</button>
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" name="username" placeholder="Потребителско име" required />
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" name="password" placeholder="Парола" required />
+      </div>
+      
+      <button type="submit">
+        <i class="fas fa-sign-in-alt"></i> Влез
+      </button>
     </form>
 
-    <!-- Google вход -->
-    <div id="google-btn"></div>
+    <div class="divider">или</div>
 
-    <p class="register-link">Нямаш акаунт? <a href="register.html">Регистрирай се</a></p>
+    <!-- Google вход -->
+    <div id="google-btn" class="google-btn"></div>
+
+    <p class="auth-footer">Нямаш акаунт? <a href="register.html">Регистрирай се</a></p>
   </div>
 
   <script>
@@ -147,7 +270,13 @@
       });
       google.accounts.id.renderButton(
         document.getElementById("google-btn"),
-        { theme: "outline", size: "large", width: "100%" }
+        { 
+          theme: "outline", 
+          size: "large", 
+          width: "100%",
+          text: "continue_with",
+          shape: "pill"
+        }
       );
     };
 
@@ -162,6 +291,5 @@
       window.location.href = 'courses.html';
     }
   </script>
-
 </body>
 </html>
