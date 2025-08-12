@@ -10,13 +10,12 @@
   <meta name="google" content="notranslate">
   <meta name="mobile-web-app-capable" content="yes">
   <title>Курсове - Matura Master</title>
-  <link rel="apple-touch-icon" href="https://d35aaqx5ub95lt.cloudfront.net/images/duolingo-touch-icon2.png">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/bul_lit.css">
   <style>
     main {
-      padding-right: 190px; 
+      padding-right: 90px; 
     }
     
     .course-list {
@@ -42,6 +41,7 @@
       border: 2px solid transparent;
       height: 100%;
       margin-left: 10px;
+      width: calc(40% - 30px);
     }
 
     .course-card:hover {
@@ -72,6 +72,38 @@
     h1 {
       margin-left: 30px; 
     }
+
+    @media (max-width: 768px) {
+      main {
+        padding-right: 0;
+      }
+      
+      .course-list {
+        justify-content: center;
+        flex-direction: row;
+        margin-top: 20px;
+        padding: 0 15px;
+      }
+      
+      .course-card {
+        width: calc(50% - 15px);
+        padding: 15px;
+        margin-left: 0;
+      }
+      
+      .course-card img {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .course-card span {
+        font-size: 16px;
+      }
+      
+      .course-card p {
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -90,7 +122,7 @@
   <nav class="desktop-nav">
     <a href="courses.html" class="desktop-nav-item active">
       <span class="desktop-nav-icon">📚</span>
-      <span>Курсове</span>
+      <span>Предмети</span>
     </a>
     <a href="baiganio.html" class="desktop-nav-item">
       <span class="desktop-nav-icon">🤖</span>
