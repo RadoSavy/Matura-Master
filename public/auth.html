@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход/Регистрация - Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="css/login_register.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="logo">
+      <div class="logo-icon">MM</div>
+      <span>Matura Master</span>
+    </div>
+    
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="login-tab">Вход</button>
+      <button class="auth-tab" id="register-tab">Регистрация</button>
+    </div>
+    
+    <div id="error" class="error-message" aria-live="assertive" style="display:none;"></div>
+
+    <form id="login-form" class="auth-form active">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="login-username" name="username" placeholder="Потребителско име" required />
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="login-password" name="password" placeholder="Парола" required />
+      </div>
+      
+      <p>‎</p>
+
+      <button type="submit">
+        <i class="fas fa-sign-in-alt"></i> Влез
+      </button>
+
+      <div class="divider">или</div>
+
+      <div id="google-login-btn" class="google-btn"></div>
+
+      <p class="auth-footer">Нямаш акаунт? <a href="#" id="show-register">Регистрирай се</a></p>
+    </form>
+
+    <form id="register-form" class="auth-form">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="register-username" name="username" placeholder="Потребителско име" required />
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="register-email" name="email" placeholder="Имейл адрес" required />
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="register-password" name="password" placeholder="Парола" required />
+      </div>
+
+      <p>‎ </p>
+      
+      <button type="submit">
+        <i class="fas fa-user-plus"></i> Регистрирай се
+      </button>
+
+      <div class="divider">или</div>
+
+      <div id="google-register-btn" class="google-btn"></div>
+
+      <p class="auth-footer">Вече имаш акаунт? <a href="#" id="show-login">Влез</a></p>
+    </form>
+  </div>
+
+  <script src="\scripts\auth.js"></script>
+</body>
+</html>

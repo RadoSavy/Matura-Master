@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
           
           chat.appendChild(div);
       });
-      // Scroll to bottom
       chat.scrollTop = chat.scrollHeight;
   }
 
@@ -136,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
           };
       }
       
-      if (lower.includes('под игото') || lower.includes('вазов')) {
+      if (lower.includes('под игото')) {
           return {
               text: formatAnswer(
                   knowledgeBase["под игото"].answer,
@@ -146,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
           };
       }
       
-      if (lower.includes('немили-недраги') || lower.includes('вазов')) {
+      if (lower.includes('немили-недраги') || lower.includes('немили недраги')) {
           return {
               text: formatAnswer(
                   knowledgeBase["немили-недраги"].answer,

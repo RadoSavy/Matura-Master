@@ -10,7 +10,6 @@ function App() {
   const [status, setStatus] = useState("Not signed in");
   const [redirectCountdown, setRedirectCountdown] = useState(null);
 
-  // Изпълнява се при mount
   useEffect(() => {
     if (user) {
       setStatus("Signed in as " + user.name);
@@ -18,7 +17,6 @@ function App() {
     }
   }, [user]);
 
-  // Функция при успешно логване
   const handleLoginSuccess = (credentialResponse) => {
     try {
       const decoded = jwt_decode(credentialResponse.credential);
@@ -30,13 +28,11 @@ function App() {
     }
   };
 
-  // Функция при неуспешно логване
   const handleLoginFailure = () => {
     console.warn("Login failed");
     setStatus("Login failed");
   };
 
-  // Пренасочване след успешно логване
   const startRedirectCountdown = () => {
     let seconds = 5;
     setRedirectCountdown(seconds);
@@ -46,12 +42,11 @@ function App() {
       setRedirectCountdown(seconds);
       if (seconds === 0) {
         clearInterval(interval);
-        window.location.href = "/courses.html"; // можеш да промениш адреса
+        window.location.href = "/courses.html";
       }
     }, 1000);
   };
 
-  // Logout функция
   const handleLogout = () => {
     googleLogout();
     setUser(null);
@@ -87,9 +82,6 @@ function App() {
         <p>Redirecting in {redirectCountdown} seconds...</p>
       )}
 
-      {/* Filler за още редове с полезни компоненти */}
-      <ExtraInfo />
-    </div>
-  );
+    </div>);
 }
 export default App;
