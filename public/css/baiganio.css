@@ -6,7 +6,6 @@ body, html {
   min-height: 100vh;
 }
 
-/* Header */
 header {
   background-color: #fff;
   height: 60px;
@@ -73,7 +72,6 @@ header {
   cursor: pointer;
 }
 
-/* Navigation */
 .desktop-nav {
   position: fixed;
   left: 0;
@@ -119,7 +117,6 @@ header {
   z-index: 1000;
 }
 
-/* Main Content */
 main {
   margin-left: 80px;
   margin-top: 60px;
@@ -233,7 +230,6 @@ main {
   font-size: 14px;
 }
 
-/* Chat Container */
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -334,7 +330,6 @@ main {
   transform: translateY(-2px);
 }
 
-/* Typing Indicator */
 .typing-indicator {
   display: flex;
   gap: 6px;
@@ -367,7 +362,6 @@ main {
   30% { opacity: 1; transform: translateY(-4px); }
 }
 
-/* Formatted Messages */
 .formatted-message p {
   margin-bottom: 8px;
 }
@@ -385,7 +379,6 @@ main {
   margin-bottom: 4px;
 }
 
-/* Quick Questions */
 .quick-questions-container {
   margin-bottom: 20px;
   overflow-x: auto;
@@ -419,7 +412,6 @@ main {
   transform: translateY(-2px);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .desktop-nav {
     display: none;

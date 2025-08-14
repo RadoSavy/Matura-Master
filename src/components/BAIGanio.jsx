@@ -22,7 +22,6 @@ const BAIGanio = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
 
-    // Mock AI response with delay
     setTimeout(() => {
       const aiResponse = generateMockResponse(input.trim());
       setMessages((prev) => [...prev, { sender: 'ai', text: aiResponse }]);

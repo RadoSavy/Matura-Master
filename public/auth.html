@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Вход/Регистрация - Matura Master</title>
+  <title>Вход / Регистрация - Matura Master</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="css/login_register.css">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="css/auth.css"> 
+  <script src="https://accounts.google.com/gsi/client" onload="initGoogleLogin()"></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </head>
 <body>
@@ -27,21 +27,19 @@
     <form id="login-form" class="auth-form active">
       <div class="input-group">
         <i class="fas fa-user"></i>
-        <input type="text" id="login-username" name="username" placeholder="Потребителско име" required />
+        <input type="text" id="login-username" placeholder="Потребителско име" required />
       </div>
       
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="login-password" name="password" placeholder="Парола" required />
+        <input type="password" id="login-password" placeholder="Парола" required />
       </div>
-      
-      <p>‎</p>
 
-      <button type="submit">
+      <button type="submit" class="btn-main">
         <i class="fas fa-sign-in-alt"></i> Влез
       </button>
 
-      <div class="divider">или</div>
+      <div class="divider"><span>или</span></div>
 
       <div id="google-login-btn" class="google-btn"></div>
 
@@ -51,26 +49,24 @@
     <form id="register-form" class="auth-form">
       <div class="input-group">
         <i class="fas fa-user"></i>
-        <input type="text" id="register-username" name="username" placeholder="Потребителско име" required />
+        <input type="text" id="register-username" placeholder="Потребителско име" required />
       </div>
       
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="register-email" name="email" placeholder="Имейл адрес" required />
+        <input type="email" id="register-email" placeholder="Имейл адрес" required />
       </div>
       
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="register-password" name="password" placeholder="Парола" required />
+        <input type="password" id="register-password" placeholder="Парола" required />
       </div>
-
-      <p>‎ </p>
       
-      <button type="submit">
+      <button type="submit" class="btn-main">
         <i class="fas fa-user-plus"></i> Регистрирай се
       </button>
 
-      <div class="divider">или</div>
+      <div class="divider"><span>или</span></div>
 
       <div id="google-register-btn" class="google-btn"></div>
 
@@ -78,6 +74,33 @@
     </form>
   </div>
 
-  <script src="\scripts\auth.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script>
+    function initGoogleLogin() {
+      google.accounts.id.initialize({
+        client_id: "562285484934-sbe73anaak500lghj135hqv2pfev8rld.apps.googleusercontent.com",
+        callback: handleGoogleResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("google-login-btn"),
+        { theme: "outline", size: "large", width: "100%", text: "continue_with", shape: "pill" }
+      );
+
+      google.accounts.id.renderButton(
+        document.getElementById("google-register-btn"),
+        { theme: "outline", size: "large", width: "100%", text: "continue_with", shape: "pill" }
+      );
+    }
+
+    function handleGoogleResponse(response) {
+      const token = response.credential;
+      const user = jwt_decode(token);
+      console.log("Google вход успешен:", user);
+
+      localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = 'courses.html';
+    }
+  </script>
 </body>
 </html>
