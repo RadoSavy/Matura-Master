@@ -1,4 +1,3 @@
-// texts.js
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('work-modal');
     const closeModal = document.querySelector('.close-modal');
@@ -7,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const analysisContent = document.getElementById('analysis-content');
     const modalTabs = document.querySelectorAll('.modal-tab');
     
-    // Данни за произведенията
     const worksData = {
         chintulov1: {
             title: "Стани, стани, юнак балкански",
@@ -54,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Добавете данни за всички останали произведения по същия модел
     };
 
-    // Функция за показване на модалния прозорец
     function showWorkModal(workId) {
         const work = worksData[workId];
         if (!work) return;
@@ -66,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.add('active');
     }
 
-    // Функция за превключване между произведение и анализ
     function switchTab(type) {
         modalTabs.forEach(tab => tab.classList.remove('active'));
         
@@ -81,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Слушатели за бутоните
     document.querySelectorAll('.work-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const workId = this.dataset.work;
@@ -98,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Слушатели за табовете в модалния прозорец
     modalTabs.forEach(tab => {
         tab.addEventListener('click', function() {
             const type = this.dataset.type;
@@ -106,15 +100,119 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Затваряне на модалния прозорец
     closeModal.addEventListener('click', function() {
         modal.classList.remove('active');
     });
 
-    // Затваряне при клик извън модалния прозорец
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.classList.remove('active');
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+            const worksData = {
+                // Добри Чинтулов
+                chintulov1p1: {
+                    title: "Стани, стани, юнак балкански - Част 1",
+                    text: `[Текст на Стани, стани, юнак балкански - Част 1...]`,
+                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 1...]`
+                },
+                chintulov1p2: {
+                    title: "Стани, стани, юнак балкански - Част 2",
+                    text: `[Текст на Стани, стани, юнак балкански - Част 2...]`,
+                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 2...]`
+                },
+                chintulov2: {
+                    title: "Вятър ечи, Балкан стене",
+                    text: `[Текст на Вятър ечи, Балкан стене...]`,
+                    analysis: `[Анализ на Вятър ечи, Балкан стене...]`
+                },
+                
+                // Христо Ботев
+                botev1p1: {
+                    title: "На прощаване в 1868 г. - Част 1",
+                    text: `[Текст на На прощаване в 1868 г. - Част 1...]`,
+                    analysis: `[Анализ на На прощаване в 1868 г. - Част 1...]`
+                },
+                botev1p2: {
+                    title: "На прощаване в 1868 г. - Част 2",
+                    text: `[Текст на На прощаване в 1868 г. - Част 2...]`,
+                    analysis: `[Анализ на На прощаване в 1868 г. - Част 2...]`
+                },
+                
+                // Добавете всички останали произведения по същия модел
+            };
+
+            const modal = document.getElementById('text-modal');
+            const modalTitle = document.getElementById('modal-work-title');
+            const textContent = document.getElementById('text-content');
+            const analysisContent = document.getElementById('analysis-content');
+            const closeModal = document.querySelector('.close-modal');
+            const tabs = document.querySelectorAll('.modal-tab');
+
+            function showModal(workId, type) {
+                const work = worksData[workId];
+                if (!work) return;
+
+                modalTitle.textContent = work.title;
+                textContent.innerHTML = `<h3>Текст на произведението</h3><p>${work.text}</p>`;
+                analysisContent.innerHTML = `<h3>Литературен анализ</h3><p>${work.analysis}</p>`;
+
+                if (type === 'text') {
+                    document.querySelector('.modal-tab[data-tab="text"]').classList.add('active');
+                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.remove('active');
+                    textContent.style.display = 'block';
+                    analysisContent.style.display = 'none';
+                } else {
+                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.add('active');
+                    document.querySelector('.modal-tab[data-tab="text"]').classList.remove('active');
+                    textContent.style.display = 'none';
+                    analysisContent.style.display = 'block';
+                }
+
+                modal.classList.add('active');
+            }
+
+            document.querySelectorAll('.show-text').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const workId = this.dataset.work;
+                    showModal(workId, 'text');
+                });
+            });
+
+            document.querySelectorAll('.show-analysis').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const workId = this.dataset.work;
+                    showModal(workId, 'analysis');
+                });
+            });
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabType = this.dataset.tab;
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (tabType === 'text') {
+                        textContent.style.display = 'block';
+                        analysisContent.style.display = 'none';
+                    } else {
+                        textContent.style.display = 'none';
+                        analysisContent.style.display = 'block';
+                    }
+                });
+            });
+
+            closeModal.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });

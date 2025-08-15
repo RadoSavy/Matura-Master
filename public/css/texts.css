@@ -165,7 +165,6 @@
     border-radius: 8px;
 }
 
-/* Модален стил - съгласуван с основния */
 .modal {
     position: fixed;
     top: 0;
@@ -249,7 +248,75 @@
     font-size: 18px;
 }
 
-/* Адаптивни стилове */
+ .btn-outline {
+            background-color: transparent !important;
+            color: #58cc02 !important;
+            border: 2px solid #58cc02 !important;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(88, 204, 2, 0.1) !important;
+        }
+        
+        .work-parts {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .work-part {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .work-part:hover {
+            background-color: #e8f5e9;
+            border-color: #58cc02;
+        }
+        
+        .part-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .part-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .work-item:hover .work-part {
+            background-color: #f1f8e9;
+        }
+        
+        .bonus-item {
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        
+        .bonus-item:hover {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .author-header {
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .author-header:hover {
+            background-color: rgba(88, 204, 2, 0.1);
+        }
+
 @media (max-width: 768px) {
     .work-item {
         flex-wrap: wrap;
