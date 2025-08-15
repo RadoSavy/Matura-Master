@@ -282,7 +282,6 @@ main {
   border-bottom-left-radius: 4px;
 }
 
-/* Chat Form */
 #chat-form {
   display: flex;
   gap: 10px;

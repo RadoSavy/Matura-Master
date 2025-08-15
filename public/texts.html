@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Литературни текстове | Matura Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/texts.css">
+    <style>
+        /* Fix for analysis button visibility */
+        .btn-outline {
+            background-color: transparent !important;
+            color: #58cc02 !important;
+            border: 2px solid #58cc02 !important;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(88, 204, 2, 0.1) !important;
+        }
+        
+        /* Improved work parts layout */
+        .work-parts {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .work-part {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .work-part:hover {
+            background-color: #e8f5e9;
+            border-color: #58cc02;
+        }
+        
+        .part-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .part-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Improved hover effects */
+        .work-item:hover .work-part {
+            background-color: #f1f8e9;
+        }
+        
+        .bonus-item {
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        
+        .bonus-item:hover {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        /* Author header hover */
+        .author-header {
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .author-header:hover {
+            background-color: rgba(88, 204, 2, 0.1);
+        }
+    </style>
+</head>
+<body class="literature">
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">MM</div>
+            <span>Matura Master</span>
+        </a>
+        <div class="header-actions">
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-gem"></i>
+            </button>
+            <button class="profile-btn">И</button>
+        </div>
+    </header>
+
+    <nav class="desktop-nav">
+        <a href="courses.html" class="desktop-nav-item">
+            <i class="fas fa-book desktop-nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="desktop-nav-item">
+            <i class="fas fa-robot desktop-nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="desktop-nav-item active">
+            <i class="fas fa-book-reader desktop-nav-icon"></i>
+            <span>Произведения</span>
+        </a>
+        <a href="profile.html" class="desktop-nav-item">
+            <i class="fas fa-user desktop-nav-icon"></i>
+            <span>Профил</span>
+        </a>
+        <a href="login.html" class="desktop-nav-item">
+            <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
+
+    <main>
+        <div class="content-area">
+            <div class="section-header">
+                <div class="section-title">Литература за 7-ми клас</div>
+                <h1 class="unit-title">Текстове и анализи</h1>
+            </div>
+
+            <!-- Първи раздел -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-landmark"></i>
+                    Българинът във възрожденския свят
+                </div>
+                
+                <!-- Добри Чинтулов -->
+                <div class="author-section">
+                    <div class="author-header">
+                        <div class="author-icon">ДЧ</div>
+                        <h3>Добри Чинтулов</h3>
+                    </div>
+                    
+                    <!-- Стани, стани, юнак балкански -->
+                    <div class="work-item">
+                        <div class="work-info">
+                            <i class="fas fa-file-alt work-icon"></i>
+                            <span class="work-title">Стани, стани, юнак балкански</span>
+                        </div>
+                        <div class="work-parts">
+                            <div class="work-part">
+                                <div class="part-title">Част 1 (стр. 9)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="chintulov1p1">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="chintulov1p1">Анализ</button>
+                                </div>
+                            </div>
+                            <div class="work-part">
+                                <div class="part-title">Част 2 (стр. 12)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="chintulov1p2">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="chintulov1p2">Анализ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Вятър ечи, Балкан стене -->
+                    <div class="work-item">
+                        <div class="work-info">
+                            <i class="fas fa-file-alt work-icon"></i>
+                            <span class="work-title">Вятър ечи, Балкан стене (стр. 14)</span>
+                        </div>
+                        <div class="work-parts">
+                            <div class="work-part">
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="chintulov2">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="chintulov2">Анализ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Христо Ботев -->
+                <div class="author-section">
+                    <div class="author-header">
+                        <div class="author-icon">ХБ</div>
+                        <h3>Христо Ботев</h3>
+                    </div>
+                    
+                    <!-- На прощаване в 1868 г. -->
+                    <div class="work-item">
+                        <div class="work-info">
+                            <i class="fas fa-file-alt work-icon"></i>
+                            <span class="work-title">На прощаване в 1868 г.</span>
+                        </div>
+                        <div class="work-parts">
+                            <div class="work-part">
+                                <div class="part-title">Част 1 (стр. 22)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="botev1p1">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="botev1p1">Анализ</button>
+                                </div>
+                            </div>
+                            <div class="work-part">
+                                <div class="part-title">Част 2 (стр. 25)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="botev1p2">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="botev1p2">Анализ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Добавете другите произведения на Ботев -->
+                </div>
+                
+                <!-- Иван Вазов -->
+                <div class="author-section">
+                    <div class="author-header">
+                        <div class="author-icon">ИВ</div>
+                        <h3>Иван Вазов</h3>
+                    </div>
+                    
+                    <!-- Немили-недраги -->
+                    <div class="work-item">
+                        <div class="work-info">
+                            <i class="fas fa-book work-icon"></i>
+                            <span class="work-title">Немили-недраги</span>
+                        </div>
+                        <div class="work-parts">
+                            <div class="work-part">
+                                <div class="part-title">Част 1 (стр. 35)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="vazov1p1">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="vazov1p1">Анализ</button>
+                                </div>
+                            </div>
+                            <div class="work-part">
+                                <div class="part-title">Част 2 (стр. 40)</div>
+                                <div class="part-actions">
+                                    <button class="btn btn-sm show-text" data-work="vazov1p2">Текст</button>
+                                    <button class="btn btn-sm btn-outline show-analysis" data-work="vazov1p2">Анализ</button>
+                                        </div>
+                                    </div>
+                                    <!-- Добавете останалите части по същия начин -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Добавете останалите произведения на Вазов по същия модел -->
+                </div>
+                
+                <!-- Бонус секция за първи раздел -->
+                <div class="bonus-section">
+                    <h4><i class="fas fa-star"></i> Бонус съдържание</h4>
+                    <ul class="bonus-list">
+                        <li class="bonus-item">Как да направим подборен преразказ?</li>
+                        <li class="bonus-item">Литературни жанрове</li>
+                        <li class="bonus-item">Как да учим бързо и лесно по литература</li>
+                        <li class="bonus-item">Преразказ. Същност и видове преразказ</li>
+                        <li class="bonus-item">Как да направим трансформиращ преразказ</li>
+                        <li class="bonus-item">Художествени изразни средства</li>
+                        <!-- Добавете останалите бонус точки -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Втори раздел -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-users"></i>
+                    Човекът в обществото - норми, ценности и конфликти
+                </div>
+                
+                <!-- Добавете авторите и произведенията от втория раздел по същия модел -->
+                
+                <!-- Бонус секция за втори раздел -->
+                <div class="bonus-section">
+                    <h4><i class="fas fa-star"></i> Бонус съдържание</h4>
+                    <ul class="bonus-list">
+                        <li class="bonus-item">Всичко важно за есето. Как се пише есе?</li>
+                        <li class="bonus-item">Човекът в обществото. Норми, ценности и конфликти. Обобщение</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Добавете трети и четвърти раздел по същия модел -->
+        </div>
+    </main>
+
+    <nav class="mobile-nav">
+        <a href="courses.html" class="nav-item">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="nav-item">
+            <i class="fas fa-robot nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="nav-item active">
+            <i class="fas fa-book-reader nav-icon"></i>
+            <span>Текстове</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>Профил</span>
+        </a>
+    </nav>
+
+    <!-- Модален прозорец за текст/анализ -->
+    <div class="modal" id="text-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-work-title">Заглавие на произведението</h2>
+                <div class="modal-tabs">
+                    <button class="modal-tab active" data-tab="text">Текст</button>
+                    <button class="modal-tab" data-tab="analysis">Анализ</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="text-content" class="modal-text-content">
+                    <!-- Тук ще се зарежда текстът на произведението -->
+                </div>
+                <div id="analysis-content" class="modal-text-content" style="display: none;">
+                    <!-- Тук ще се зарежда анализът -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Данни за всички произведения и анализи
+            const worksData = {
+                // Добри Чинтулов
+                chintulov1p1: {
+                    title: "Стани, стани, юнак балкански - Част 1",
+                    text: `[Текст на Стани, стани, юнак балкански - Част 1...]`,
+                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 1...]`
+                },
+                chintulov1p2: {
+                    title: "Стани, стани, юнак балкански - Част 2",
+                    text: `[Текст на Стани, стани, юнак балкански - Част 2...]`,
+                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 2...]`
+                },
+                chintulov2: {
+                    title: "Вятър ечи, Балкан стене",
+                    text: `[Текст на Вятър ечи, Балкан стене...]`,
+                    analysis: `[Анализ на Вятър ечи, Балкан стене...]`
+                },
+                
+                // Христо Ботев
+                botev1p1: {
+                    title: "На прощаване в 1868 г. - Част 1",
+                    text: `[Текст на На прощаване в 1868 г. - Част 1...]`,
+                    analysis: `[Анализ на На прощаване в 1868 г. - Част 1...]`
+                },
+                botev1p2: {
+                    title: "На прощаване в 1868 г. - Част 2",
+                    text: `[Текст на На прощаване в 1868 г. - Част 2...]`,
+                    analysis: `[Анализ на На прощаване в 1868 г. - Част 2...]`
+                },
+                
+                // Добавете всички останали произведения по същия модел
+            };
+
+            // Референции към DOM елементи
+            const modal = document.getElementById('text-modal');
+            const modalTitle = document.getElementById('modal-work-title');
+            const textContent = document.getElementById('text-content');
+            const analysisContent = document.getElementById('analysis-content');
+            const closeModal = document.querySelector('.close-modal');
+            const tabs = document.querySelectorAll('.modal-tab');
+
+            // Функция за показване на модалния прозорец
+            function showModal(workId, type) {
+                const work = worksData[workId];
+                if (!work) return;
+
+                modalTitle.textContent = work.title;
+                textContent.innerHTML = `<h3>Текст на произведението</h3><p>${work.text}</p>`;
+                analysisContent.innerHTML = `<h3>Литературен анализ</h3><p>${work.analysis}</p>`;
+
+                // Превключване между текст и анализ
+                if (type === 'text') {
+                    document.querySelector('.modal-tab[data-tab="text"]').classList.add('active');
+                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.remove('active');
+                    textContent.style.display = 'block';
+                    analysisContent.style.display = 'none';
+                } else {
+                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.add('active');
+                    document.querySelector('.modal-tab[data-tab="text"]').classList.remove('active');
+                    textContent.style.display = 'none';
+                    analysisContent.style.display = 'block';
+                }
+
+                modal.classList.add('active');
+            }
+
+            // Слушатели за бутоните "Текст"
+            document.querySelectorAll('.show-text').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const workId = this.dataset.work;
+                    showModal(workId, 'text');
+                });
+            });
+
+            // Слушатели за бутоните "Анализ"
+            document.querySelectorAll('.show-analysis').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const workId = this.dataset.work;
+                    showModal(workId, 'analysis');
+                });
+            });
+
+            // Слушатели за табовете в модалния прозорец
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabType = this.dataset.tab;
+                    
+                    // Превключване на активния таб
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Показване на съответното съдържание
+                    if (tabType === 'text') {
+                        textContent.style.display = 'block';
+                        analysisContent.style.display = 'none';
+                    } else {
+                        textContent.style.display = 'none';
+                        analysisContent.style.display = 'block';
+                    }
+                });
+            });
+
+            // Затваряне на модалния прозорец
+            closeModal.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+
+            // Затваряне при клик извън модалния прозорец
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

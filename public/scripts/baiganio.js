@@ -809,6 +809,17 @@ document.addEventListener('DOMContentLoaded', function () {
 }
   chatForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      handleUserInput();
+  });
+
+  chatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleUserInput();
+      }
+  });
+
+  function handleUserInput() {
       const userText = chatInput.value.trim();
       if (!userText) return;
       
@@ -845,8 +856,8 @@ document.addEventListener('DOMContentLoaded', function () {
               formatted: aiResponse.formatted
           });
           renderMessages();
-      }, 1500);
-  });
+      }, 2500);
+  }
 
   quickQuestions.forEach(button => {
       button.addEventListener('click', function() {
