@@ -41,13 +41,13 @@ header {
 }
 
 .literature .logo {
-  color: #58cc02;
+  color: #4caf50;
 }
 
 .logo-icon {
   width: 32px;
   height: 32px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@ header {
 }
 
 .literature .logo-icon {
-  background-color: #58cc02;
+  background-color: #4caf50;
 }
 
 .header-actions {
@@ -230,8 +230,8 @@ main {
 
 .literature .desktop-nav-item.active {
   background-color: rgba(88, 204, 2, 0.1);
-  color: #58cc02;
-  border-left: 3px solid #58cc02;
+  color: #4caf50;
+  border-left: 3px solid #4caf50;
 }
 
 .desktop-nav-icon {
@@ -302,7 +302,7 @@ main {
 }
 
 .literature .card-title i {
-  color: #58cc02;
+  color: #4caf50;
 }
 
 .card-text {
@@ -332,7 +332,7 @@ main {
 }
 
 .literature .btn {
-  background-color: #58cc02;
+  background-color: #4caf50;
   box-shadow: 0 4px 8px rgba(88, 204, 2, 0.3);
 }
 
@@ -359,8 +359,8 @@ main {
 }
 
 .literature .btn-outline {
-  border-color: #58cc02;
-  color: #58cc02;
+  border-color: #4caf50;
+  color: #4caf50;
 }
 
 .btn-outline:hover {

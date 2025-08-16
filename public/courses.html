@@ -12,6 +12,7 @@
   <title>Курсове - Matura Master</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,34 +22,39 @@
       <span>Matura Master</span>
     </div>
     <div class="header-actions">
-      <button class="header-btn">🔔</button>
-      <button class="header-btn">💎</button>
-      <button class="profile-btn">И</button>
-    </div>
-  </header>
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-gem"></i>
+            </button>
+            <button class="profile-btn">И</button>
+        </div>
+    </header>
 
-  <nav class="desktop-nav">
-    <a href="courses.html" class="desktop-nav-item active">
-      <span class="desktop-nav-icon">📚</span>
-      <span>Предмети</span>
-    </a>
-    <a href="baiganio.html" class="desktop-nav-item">
-      <span class="desktop-nav-icon">🤖</span>
-      <span>BAI Ганьо</span>
-    </a>
-    <a href="texts.html" class="desktop-nav-item">
-      <span class="desktop-nav-icon">📖</span>
-      <span>Произведения</span>
-    </a>
-    <a href="#" class="desktop-nav-item">
-      <span class="desktop-nav-icon">👤</span>
-      <span>Профил</span>
-    </a>
-    <a href="login.html" class="desktop-nav-item">
-      <span class="desktop-nav-icon">↩</span>
-      <span>Изход</span>
-    </a>
-  </nav>
+    <nav class="desktop-nav">
+        <a href="courses.html" class="desktop-nav-item active">
+            <i class="fas fa-book desktop-nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="desktop-nav-item">
+            <i class="fas fa-robot desktop-nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="desktop-nav-item">
+            <i class="fas fa-book-reader desktop-nav-icon"></i>
+            <span>Произведения</span>
+        </a>
+        <a href="profile.html" class="desktop-nav-item">
+            <i class="fas fa-user desktop-nav-icon"></i>
+            <span>Профил</span>
+        </a>
+        <a href="login.html" class="desktop-nav-item">
+            <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
   <main>
     <div class="course-list">
       <a href="bulgarian.html" class="course-card" tabindex="0">
@@ -65,26 +71,22 @@
     </div>
   </main>
   <nav class="mobile-nav">
-    <a href="courses.html" class="nav-item active">
-      <span class="nav-icon">📚</span>
-      <span>Курсове</span>
-    </a>
-    <a href="baiganio.html" class="nav-item">
-      <span class="nav-icon">🤖</span>
-      <span>BAI Ганьо</span>
-    </a>
-    <a href="texts.html" class="nav-item">
-      <span class="nav-icon">📖</span>
-      <span>Произведения</span>
-    </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon">👤</span>
-      <span>Профил</span>
-    </a>
-    <a href="login.html" class="nav-item">
-      <span class="nav-icon">↩</span>
-      <span>Изход</span>
-    </a>
-  </nav>
+        <a href="courses.html" class="nav-item active">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="nav-item">
+            <i class="fas fa-robot nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="nav-item active">
+            <i class="fas fa-book-reader nav-icon"></i>
+            <span>Текстове</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>Профил</span>
+        </a>
+    </nav>
 </body>
 </html>

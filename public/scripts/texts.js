@@ -1,102 +1,326 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('work-modal');
-    const closeModal = document.querySelector('.close-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const workContent = document.getElementById('work-content');
-    const analysisContent = document.getElementById('analysis-content');
-    const modalTabs = document.querySelectorAll('.modal-tab');
-    
     const worksData = {
-        chintulov1: {
+        chintulov1p1: {
             title: "Стани, стани, юнак балкански",
-            work: `Стани, стани, юнак балкански!
-Настанал е страшен зор,
-всичко е в кръв обагрено,
-всичко е в пламък упалено!
-...
-(Пълният текст на произведението...)`,
-            analysis: `Анализ на "Стани, стани, юнак балкански":
+            text: `Стани, стани юнак балкански
+от сън дълбок се събуди,
+срещу народа отомански
+ти българите поведи!
+
+Че сълзи кървави пролива
+във робство милий наш народ;
+високо той ръце простира
+да го избави вишний бог!
+
+И тъй ний много претърпяхме,
+но стига толкоз да търпим,
+да бъдем пак, каквито бяхме,
+ил’ всинца да се изтребим. 
+
+Докога, братя, да се губим?
+Защо да се не съберем?
+Така ли вечно ще се трудим
+и в робство всинца да измрем?
+
+Я вижте, братя, погледнете
+на ближните нам племена!
+От тях добър пример вземете
+как си прославят имена!
+
+Станете, братя, вий станете,
+начало покажете вий;
+и сабите си запашете,
+и помощ ще ви се яви.
+
+На помощ сърби, черногорци
+със радост ще се затекат,
+а и от север храбри руси
+тозчас ще да се появят.
+
+Догде е мъничка змията,
+елате да се съберем!
+С крака да й строшим главата,
+свободни да се назовем!
+
+Да стане лева наш балкански,
+от него вятър да повей,
+та полумесец отомански
+под тъмен облак затъмней! 
+
+Да си развием знамената,
+да светне нашата земя,
+да си прославим имената,
+да гинат турски племена!`,
+
+analysis: `Анализ на "Стани, стани, юнак балкански":
             
 1. Тема: Призив за национално освобождение
 2. Жанр: Патриотична песен
 3. Композиция: 
    - Призив за борба
    - Описание на страданието
-   - Насърчение за победа
 4. Художествени средства:
    - Метафори: "кръв обагрено", "пламък упалено"
    - Повторения: "Стани, стани"
-   - Апострофа: "юнак балкански"` 
+   - Апострофа: "юнак балкански"`
         },
         chintulov2: {
             title: "Вятър ечи, Балкан стене",
-            work: `Вятър ечи, Балкан стене,
-мъгла полето покри,
-село гори, майка плаче,
-дете малко се чуди...
-...
-(Пълният текст на произведението...)`,
+            text: `Вятър ечи, Балкан стене,
+Сам юнак на коня
+С тръба зове свойте братя:
+всички на оръжие!
+
+Дойде време, ставайте,
+от сън се събуждайте,
+доста робство и тиранство,
+всички на оръжие!
+
+Който носи мъжко сърце
+и българско име,
+да препаше остра сабя,
+знаме да развее!`,
             analysis: `Анализ на "Вятър ечи, Балкан стене":
             
 1. Тема: Страданието на българския народ
 2. Жанр: Лирическа песен
 3. Композиция:
    - Природни образи
-   - Описание на страданието
-   - Надежда за освобождение
+   - Описание на трагедията
+   - Въпроси за виновниците
 4. Художествени средства:
    - Олицетворение: "Балкан стене"
-   - Контраст: природна красота и човешко страдание
+   - Риторични въпроси
    - Символи: "мъгла" - несигурност, "огън" - борба`
         },
-        // Добавете данни за всички останали произведения по същия модел
+        botev1p1: {
+            title: "На прощаване в 1868 г.",
+            text: `Не плачи, майко, не тъжи,
+че станах ази хайдутин,
+хайдутин, майко, бунтовник,
+та тебе клета оставих
+за първо чедо да жалиш!
+Но кълни, майко, проклинай
+таз турска черна прокуда,
+дето нас млади пропъди
+по тази тежка чужбина -
+да ходим, да се скитаме
+немили, клети, недраги!
+Аз зная, майко, мил съм ти,
+че може млад да загина,
+ах, утре като премина
+през тиха бяла Дунава!
+Но кажи какво да правя,
+кат ме си, майко, родила
+със сърце мъжко, юнашко,
+та сърце, майко, не трае
+да гледа турчин, че бесней
+над бащино ми огнище:
+там, дето аз съм пораснал
+и първо мляко засукал,
+там, дето либе хубаво
+черни си очи вдигнеше
+и с оназ тиха усмивка
+в скръбно ги сърце впиеше,
+там, дето баща и братя
+черни чернеят за мене!...
+Ах, мале - майко юнашка!
+Прости ме и веч прощавай!
+Аз вече пушка нарамих
+и на глас тичам народен
+срещу врагът си безверни.
+Там аз за мило, за драго,
+за теб, за баща, за братя,
+за него ще се заловя,
+пък...каквото сабя покаже
+и честта, майко, юнашка!
+А ти 'га чуеш, майнольо,
+че куршум пропей над село
+и момци вече наскачат,
+ти излез, майко - питай ги,
+де ти е чедо остало?
+Ако ти кажат, че азе
+паднал съм с куршум пронизан,
+и тогаз, майко, не плачи,
+нито пък слушай хората,
+дето ще кажат за мене
+„Нехранимайка излезе“,
+но иди, майко, у дома
+и с сърце сичко разкажи
+на мойте братя невръстни,
+да помнят и те да знаят,
+че и те брат са имали,
+но брат им падна, загина,
+затуй, че клетник не трая
+пред турци глава да скланя,
+сюрмашко тегло да гледа!
+Кажи им, майко, да помнят,
+да помнят, мене да търсят:
+бяло ми месо по скали,
+по скали и по орляци,
+черни ми кърви в земята,
+в земята, майко, черната!
+Дано ми найдат пушката,
+пушката, майко, сабята,
+и дето срещнат душманин,
+със куршум да го поздравят,
+а пък със сабя помилват...
+Ако ли, майко, не можеш
+от милост и туй да сториш,
+то 'га се сберат момите
+пред назе, майко, на хоро
+и дойдат мойте връстници
+и скръбно либе с другарки,
+ти излез, майко, послушай
+със мойте братя невръстни
+моята песен юнашка -
+защо и как съм загинал
+и какви думи издумал
+пред смъртта и пред дружина...
+Тъжно щеш, майко, да гледаш
+ти на туй хоро весело,
+и като срещнеш погледът
+на мойто либе хубаво,
+дълбоко ще ми въздъхнат
+две сърца мили за мене -
+нейното, майко, и твойто!
+И две щат сълзи да капнат
+на стари гърди и млади...
+Но туй щат братя да видят
+и кога, майко, пораснат,
+като брата си ще станат -
+силно да любят и мразят...
+Ако ли, мале майноле,
+жив и здрав стигна до село,
+жив и здрав с байряк във ръка,
+под байряк лични юнаци,
+напети в дрехи войнишки,
+с левове златни на чело,
+с иглянки пушки на рамо
+и с саби-змии на кръстът,
+о, тогаз, майко юнашка!
+О, либе мило, хубаво!
+Берете цветя в градина,
+късайте бръшлян и здравец,
+плетете венци и китки
+да кичим глави и пушки!
+И тогаз с венец и китка
+ти, майко, ела при мене,
+ела ме, майко, прегърни
+и в красно чело целуни -
+красно, с две думи заветни:
+свобода и смърт юнашка!
+А аз ще либе прегърна
+с кървава ръка през рамо
+да чуй то сърце юнашко,
+как тупа сърце, играе;
+плачът му да спра с целувка,
+сълзи му с уста да глътна...
+Пък тогаз... майко, прощавай!
+Ти, либе, не ме забравяй!
+Дружина тръгва, отива,
+пътят е страшен, но славен:
+аз може млад да загина...
+Но... стига ми тая награда -
+да каже нявга народът:
+умря сиромах за правда,
+за правда и за свобода...`,
+            analysis: `Анализ на "На прощаване в 1868 г.":
+            
+1. Тема: Прощаване с майката преди заминаване за борба
+2. Жанр: Лирическа поема
+3. Композиция:
+   - Диалог с майката
+   - Описание на тежестта на робството
+4. Художествени средства:
+   - Апелативни изрази: "мила майко"
+   - Риторичен въпрос: "Или не знаеш..."`
+        },
+        vazov1p1: {
+            title: "Немили-недраги - Част 1",
+            text: `Беше есен. Странджанските гори, облечени в мрачни тонове, гледаха суво и неприветливо. Вятърът свиреше над тях като разлютен звяр. В долините мъглата се спущаше все по-ниско, завличайки в своето синьо мълчание цели села.`,
+            analysis: `Анализ на "Немили-недраги" (част 1):
+            
+1. Тема: Описание на природата като отражение на човешкото състояние
+2. Композиция:
+   - Пейзажни описания
+   - Създаване на мрачна атмосфера
+3. Художествени средства:
+   - Олицетворение: "горите гледаха", "вятърът свиреше"
+   - Епитети: "мрачни тонове", "суво и неприветливо"
+   - Метафора: "мълчание на мъглата"`
+        },
+        vazov1p2: {
+            title: "Немили-недраги - Част 2",
+            text: `Сред тази пустош се издигаше малката къща на поп Коста. Тя беше като последен оплот на живота сред мъртвината. От комина сипваше се тънък дим, сякаш душата на дома си пробиваше път към небето.`,
+            analysis: `Анализ на "Немили-недраги" (част 2):
+            
+1. Тема: Противопоставяне на човешкия живот срещу враждебната природа
+2. Художествени средства:
+   - Контраст: "пустош" срещу "къща"
+   - Символ: "дима" като знак на живота
+   - Метафора: "душата на дома" - присъствието на духовност`
+        }
     };
 
-    function showWorkModal(workId) {
+    const modal = document.getElementById('text-modal');
+    const modalTitle = document.getElementById('modal-work-title');
+    const textContent = document.getElementById('text-content');
+    const analysisContent = document.getElementById('analysis-content');
+    const closeModal = document.querySelector('.close-modal');
+    const tabs = document.querySelectorAll('.modal-tab');
+
+    function showModal(workId, type) {
         const work = worksData[workId];
         if (!work) return;
-        
+
         modalTitle.textContent = work.title;
-        workContent.innerHTML = `<h3>Текст на произведението</h3><p>${work.work}</p>`;
-        analysisContent.innerHTML = `<h3>Литературен анализ</h3><p>${work.analysis}</p>`;
-        
+        textContent.innerHTML = `<pre>${work.text}</pre>`;
+        analysisContent.innerHTML = `<p>${work.analysis}</p>`;
+
+        if (type === 'text') {
+            document.querySelector('.modal-tab[data-tab="text"]').classList.add('active');
+            document.querySelector('.modal-tab[data-tab="analysis"]').classList.remove('active');
+            textContent.style.display = 'block';
+            analysisContent.style.display = 'none';
+        } else {
+            document.querySelector('.modal-tab[data-tab="analysis"]').classList.add('active');
+            document.querySelector('.modal-tab[data-tab="text"]').classList.remove('active');
+            textContent.style.display = 'none';
+            analysisContent.style.display = 'block';
+        }
+
         modal.classList.add('active');
     }
 
-    function switchTab(type) {
-        modalTabs.forEach(tab => tab.classList.remove('active'));
-        
-        if (type === 'work') {
-            document.querySelector('.modal-tab[data-type="work"]').classList.add('active');
-            workContent.style.display = 'block';
-            analysisContent.style.display = 'none';
-        } else {
-            document.querySelector('.modal-tab[data-type="analysis"]').classList.add('active');
-            workContent.style.display = 'none';
-            analysisContent.style.display = 'block';
-        }
-    }
-
-    document.querySelectorAll('.work-btn').forEach(btn => {
+    document.querySelectorAll('.show-text').forEach(btn => {
         btn.addEventListener('click', function() {
             const workId = this.dataset.work;
-            showWorkModal(workId);
-            switchTab('work');
+            showModal(workId, 'text');
         });
     });
 
-    document.querySelectorAll('.analysis-btn').forEach(btn => {
+    document.querySelectorAll('.show-analysis').forEach(btn => {
         btn.addEventListener('click', function() {
             const workId = this.dataset.work;
-            showWorkModal(workId);
-            switchTab('analysis');
+            showModal(workId, 'analysis');
         });
     });
 
-    modalTabs.forEach(tab => {
+    tabs.forEach(tab => {
         tab.addEventListener('click', function() {
-            const type = this.dataset.type;
-            switchTab(type);
+            const tabType = this.dataset.tab;
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            if (tabType === 'text') {
+                textContent.style.display = 'block';
+                analysisContent.style.display = 'none';
+            } else {
+                textContent.style.display = 'none';
+                analysisContent.style.display = 'block';
+            }
         });
     });
 
@@ -110,109 +334,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-            const worksData = {
-                // Добри Чинтулов
-                chintulov1p1: {
-                    title: "Стани, стани, юнак балкански - Част 1",
-                    text: `[Текст на Стани, стани, юнак балкански - Част 1...]`,
-                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 1...]`
-                },
-                chintulov1p2: {
-                    title: "Стани, стани, юнак балкански - Част 2",
-                    text: `[Текст на Стани, стани, юнак балкански - Част 2...]`,
-                    analysis: `[Анализ на Стани, стани, юнак балкански - Част 2...]`
-                },
-                chintulov2: {
-                    title: "Вятър ечи, Балкан стене",
-                    text: `[Текст на Вятър ечи, Балкан стене...]`,
-                    analysis: `[Анализ на Вятър ечи, Балкан стене...]`
-                },
-                
-                // Христо Ботев
-                botev1p1: {
-                    title: "На прощаване в 1868 г. - Част 1",
-                    text: `[Текст на На прощаване в 1868 г. - Част 1...]`,
-                    analysis: `[Анализ на На прощаване в 1868 г. - Част 1...]`
-                },
-                botev1p2: {
-                    title: "На прощаване в 1868 г. - Част 2",
-                    text: `[Текст на На прощаване в 1868 г. - Част 2...]`,
-                    analysis: `[Анализ на На прощаване в 1868 г. - Част 2...]`
-                },
-                
-                // Добавете всички останали произведения по същия модел
-            };
-
-            const modal = document.getElementById('text-modal');
-            const modalTitle = document.getElementById('modal-work-title');
-            const textContent = document.getElementById('text-content');
-            const analysisContent = document.getElementById('analysis-content');
-            const closeModal = document.querySelector('.close-modal');
-            const tabs = document.querySelectorAll('.modal-tab');
-
-            function showModal(workId, type) {
-                const work = worksData[workId];
-                if (!work) return;
-
-                modalTitle.textContent = work.title;
-                textContent.innerHTML = `<h3>Текст на произведението</h3><p>${work.text}</p>`;
-                analysisContent.innerHTML = `<h3>Литературен анализ</h3><p>${work.analysis}</p>`;
-
-                if (type === 'text') {
-                    document.querySelector('.modal-tab[data-tab="text"]').classList.add('active');
-                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.remove('active');
-                    textContent.style.display = 'block';
-                    analysisContent.style.display = 'none';
-                } else {
-                    document.querySelector('.modal-tab[data-tab="analysis"]').classList.add('active');
-                    document.querySelector('.modal-tab[data-tab="text"]').classList.remove('active');
-                    textContent.style.display = 'none';
-                    analysisContent.style.display = 'block';
-                }
-
-                modal.classList.add('active');
-            }
-
-            document.querySelectorAll('.show-text').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const workId = this.dataset.work;
-                    showModal(workId, 'text');
-                });
-            });
-
-            document.querySelectorAll('.show-analysis').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const workId = this.dataset.work;
-                    showModal(workId, 'analysis');
-                });
-            });
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabType = this.dataset.tab;
-                    
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    if (tabType === 'text') {
-                        textContent.style.display = 'block';
-                        analysisContent.style.display = 'none';
-                    } else {
-                        textContent.style.display = 'none';
-                        analysisContent.style.display = 'block';
-                    }
-                });
-            });
-
-            closeModal.addEventListener('click', function() {
-                modal.classList.remove('active');
-            });
-
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.classList.remove('active');
-                }
-            });
-        });

@@ -27,15 +27,10 @@
     border-bottom: 1px solid #eee;
 }
 
-.section-icon {
-    font-size: 20px;
-    color: #58cc02;
-}
-
 .section-title {
     font-size: 18px;
     font-weight: 700;
-    color: #333;
+    color: #999;
     margin: 0;
 }
 
@@ -68,7 +63,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    color: #58cc02;
+    color: #4caf50;
     font-size: 18px;
     flex-shrink: 0;
 }
@@ -107,7 +102,7 @@
 
 .work-icon {
     font-size: 18px;
-    color: #58cc02;
+    color: #4caf50;
 }
 
 .work-title {
@@ -156,7 +151,7 @@
 
 .bonus-item:before {
     content: "•";
-    color: #58cc02;
+    color: #4caf50;
     font-size: 20px;
 }
 
@@ -224,7 +219,7 @@
     border: none;
     border-radius: 20px;
     padding: 8px 16px;
-    color: #58cc02;
+    color: #4caf50;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -232,7 +227,7 @@
 }
 
 .modal-tab.active {
-    background: #58cc02;
+    background: #4caf50;
     color: white;
 }
 
@@ -250,22 +245,22 @@
 
  .btn-outline {
             background-color: transparent !important;
-            color: #58cc02 !important;
-            border: 2px solid #58cc02 !important;
+            color: #4caf50 !important;
+            border: 2px solid #4caf50 !important;
         }
         
         .btn-outline:hover {
             background-color: rgba(88, 204, 2, 0.1) !important;
         }
         
-        .work-parts {
+        .work-parts-1 {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             margin-top: 10px;
         }
         
-        .work-part {
+        .work-part-1 {
             flex: 1;
             min-width: 200px;
             padding: 12px;
@@ -277,7 +272,7 @@
         
         .work-part:hover {
             background-color: #e8f5e9;
-            border-color: #58cc02;
+            border-color: #4caf50;
         }
         
         .part-title {
@@ -311,10 +306,6 @@
             transition: all 0.3s;
             padding: 10px;
             border-radius: 8px;
-        }
-        
-        .author-header:hover {
-            background-color: rgba(88, 204, 2, 0.1);
         }
 
 @media (max-width: 768px) {
