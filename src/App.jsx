@@ -3,8 +3,6 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import './app.css';
 
-const decoded = jwtDecode(token);
-
 function App() {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState("Not signed in");
@@ -19,7 +17,7 @@ function App() {
 
   const handleLoginSuccess = (credentialResponse) => {
     try {
-      const decoded = jwt_decode(credentialResponse.credential);
+      const decoded = jwtDecode(credentialResponse.credential);
       console.log("Login success:", decoded);
       setUser(decoded);
     } catch (err) {
