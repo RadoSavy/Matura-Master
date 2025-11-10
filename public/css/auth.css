@@ -70,7 +70,7 @@ h2 {
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
   margin-bottom: 20px;
 }
 
@@ -93,6 +93,7 @@ input {
   border-radius: 8px;
   font-size: 15px;
   transition: all 0.3s ease;
+  margin-bottom: 5px;
 }
 
 input:focus {
@@ -115,6 +116,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-top: 15px;
 }
 
 button:hover {
