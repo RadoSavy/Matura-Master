@@ -12,13 +12,26 @@
 };
 
 const literatureLessons = [
-    { 
-        id: 1, 
-        title: "Приказки за животни", 
-        xp: 10, 
-        crown: true, 
+    {
+        id: 1,
+        title: "Приказки за животни",
+        xp: 10,
+        crown: true,
         description: "Научете основните характеристики на приказките за животни в българския фолклор",
         icon: "🦊",
+        content: `
+            <div class="lesson-content">
+                <h3>Приказки за животни</h3>
+                <p>Приказките за животни са един от най-старите и най-разпространени видове народни приказки в българския фолклор. Те се отличават с няколко основни характеристики:</p>
+                <ul>
+                    <li><strong>Антропоморфизъм:</strong> Животните в тези приказки се държат като хора - говорят, мислят, работят и живеят в общество.</li>
+                    <li><strong>Морални поуки:</strong> Всяка приказка завършва с ясно изразена морална поука, която учи на добродетели като трудолюбие, честност и взаимопомощ.</li>
+                    <li><strong>Прости сюжети:</strong> Сюжетите са лесни за разбиране, с ясно начало, развитие и край.</li>
+                    <li><strong>Типични герои:</strong> Често срещани персонажи са лисицата (хитра), вълкът (глупав), мечката (силна, но тромава), заекът (плашлив).</li>
+                </ul>
+                <p>Тези приказки не само забавляват, но и възпитават младото поколение, предавайки ценности от поколение на поколение.</p>
+            </div>
+        `,
         questions: [
             {
                 question: "Коя от следните характеристики НЕ е типична за приказките за животни?",
@@ -42,12 +55,33 @@ const literatureLessons = [
             }
         ]
     },
-    { 
-        id: 2, 
-        title: "Вълшебни приказки", 
-        xp: 10, 
+    {
+        id: 2,
+        title: "Вълшебни приказки",
+        xp: 10,
         description: "Разберете структурата и особеностите на вълшебните приказки",
         icon: "🧙",
+        content: `
+            <div class="lesson-content">
+                <h3>Вълшебни приказки</h3>
+                <p>Вълшебните приказки са сред най-популярните жанрове в българския фолклор. Те се характеризират с присъствието на свръхестествени елементи и магически сили, които помагат на героите да преодолеят препятствията.</p>
+                <h4>Основни елементи:</h4>
+                <ul>
+                    <li><strong>Магически предмети:</strong> Вълшебна пръчка, огледало, меч, невидим плащ, летящ килим и др.</li>
+                    <li><strong>Свръхестествени същества:</strong> Вълшебници, магьосници, дракони, феи, джуджета.</li>
+                    <li><strong>Чудеса:</strong> Преобразяване на хора в животни, омагьосване, летене, невидимост.</li>
+                    <li><strong>Изпитания:</strong> Героят трябва да премине през серия от трудни задачи.</li>
+                </ul>
+                <h4>Структура:</h4>
+                <ol>
+                    <li><strong>Въведение:</strong> Представяне на героя и началната ситуация.</li>
+                    <li><strong>Развитие:</strong> Героят среща трудности и получава помощ от магически сили.</li>
+                    <li><strong>Кулминация:</strong> Най-тежкото изпитание и борба със злото.</li>
+                    <li><strong>Развръзка:</strong> Героят побеждава и получава награда.</li>
+                </ol>
+                <p>Вълшебните приказки винаги завършват с победа на доброто над злото и щастлив край.</p>
+            </div>
+        `,
         questions: [
             {
                 question: "Кой от следните елементи е типичен за вълшебните приказки?",
@@ -226,14 +260,45 @@ function showLessonPreview(lesson) {
 function startLesson(lessonId) {
     const lesson = literatureLessons.find(l => l.id === lessonId);
     if (!lesson) return;
-    
+
     currentLessonId = lessonId;
     currentQuestionIndex = 0;
     currentQuestions = [...lesson.questions];
     correctAnswersCount = 0;
-    
-    showQuestion();
+
+    showLessonContent();
     lessonModal.classList.add('active');
+}
+
+function showLessonContent() {
+    const lesson = literatureLessons.find(l => l.id === currentLessonId);
+    if (!lesson || !lesson.content) {
+        showQuestion();
+        return;
+    }
+
+    lessonModal.innerHTML = `
+        <div class="modal-content lesson-modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <div class="lesson-header">
+                <div class="lesson-icon">${lesson.icon || lesson.id}</div>
+                <h2>${lesson.title}</h2>
+            </div>
+            <div class="lesson-body">
+                ${lesson.content}
+            </div>
+            <div class="lesson-footer">
+                <button class="btn" id="startQuestionsBtn">
+                    <i class="fas fa-question-circle"></i> Започни въпросите
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('closeModal').addEventListener('click', closeLesson);
+    document.getElementById('startQuestionsBtn').addEventListener('click', () => {
+        showQuestion();
+    });
 }
 
 function showQuestion() {
@@ -241,25 +306,53 @@ function showQuestion() {
         completeLesson();
         return;
     }
-    
+
+    lessonModal.innerHTML = `
+        <div class="modal-content lesson-modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <div class="lesson-header">
+                <div class="lesson-icon">${literatureLessons.find(l => l.id === currentLessonId).icon || currentLessonId}</div>
+                <h2>Въпрос ${currentQuestionIndex + 1} от ${currentQuestions.length}</h2>
+            </div>
+            <div class="lesson-body">
+                <div class="question-container">
+                    <h3 id="lessonQuestion">${currentQuestions[currentQuestionIndex].question}</h3>
+                    <div class="options-container" id="optionsContainer"></div>
+                </div>
+            </div>
+            <div class="lesson-footer">
+                <button class="btn" id="nextQuestionBtn" style="display: none;">
+                    <i class="fas fa-arrow-right"></i> Следващ въпрос
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('closeModal').addEventListener('click', closeLesson);
+
     const question = currentQuestions[currentQuestionIndex];
+    const lessonQuestion = document.getElementById('lessonQuestion');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+
     lessonQuestion.textContent = question.question;
-    
+
     optionsContainer.innerHTML = '';
     question.options.forEach((option, index) => {
         const optionBtn = document.createElement('button');
         optionBtn.className = 'option-btn';
         optionBtn.textContent = option.text;
         optionBtn.dataset.correct = option.correct;
-        
-        optionBtn.addEventListener('click', () => selectAnswer(optionBtn, option.correct, question.explanation));
+
+        optionBtn.addEventListener('click', () => selectAnswer(optionBtn, option.correct, question.explanation, nextQuestionBtn, optionsContainer));
         optionsContainer.appendChild(optionBtn);
     });
-    
+
     nextQuestionBtn.style.display = 'none';
+    nextQuestionBtn.addEventListener('click', nextQuestion);
 }
 
-function selectAnswer(btn, isCorrect, explanation) {
+function selectAnswer(btn, isCorrect, explanation, nextQuestionBtn, optionsContainer) {
     document.querySelectorAll('.option-btn').forEach(opt => {
         opt.disabled = true;
         if (opt.dataset.correct === 'true') {
@@ -272,8 +365,10 @@ function selectAnswer(btn, isCorrect, explanation) {
         correctAnswersCount++;
 
         const xpBadge = document.querySelector('.xp-badge');
-        xpBadge.innerHTML = `<i class="fas fa-check"></i> Верен отговор!`;
-        xpBadge.style.backgroundColor = 'var(--primary-color)';
+        if (xpBadge) {
+            xpBadge.innerHTML = `<i class="fas fa-check"></i> Верен отговор!`;
+            xpBadge.style.backgroundColor = 'var(--primary-color)';
+        }
     } else {
         btn.classList.add('incorrect');
 
@@ -296,9 +391,11 @@ function nextQuestion() {
     currentQuestionIndex++;
 
     const xpBadge = document.querySelector('.xp-badge');
-    xpBadge.innerHTML = `<i class="fas fa-star"></i> +10 XP`;
-    xpBadge.style.backgroundColor = 'var(--primary-color)';
-    
+    if (xpBadge) {
+        xpBadge.innerHTML = `<i class="fas fa-star"></i> +10 XP`;
+        xpBadge.style.backgroundColor = 'var(--primary-color)';
+    }
+
     showQuestion();
 }
 

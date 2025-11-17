@@ -1465,7 +1465,6 @@ vazov1p24: {
         },
     };
 
-    // Функционалност за модалния прозорец
     const modal = document.getElementById('text-modal');
     const closeModalBtn = document.querySelector('.close-modal');
     const modalTitle = document.getElementById('modal-work-title');
@@ -1473,28 +1472,24 @@ vazov1p24: {
     const analysisContent = document.getElementById('analysis-content');
     const tabs = document.querySelectorAll('.modal-tab');
 
-    // Затваряне на модалния прозорец
     function closeModal() {
         modal.classList.remove('active');
     }
 
     closeModalBtn.addEventListener('click', closeModal);
 
-    // Затваряне при клик извън модалното съдържание
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // Затваряне с клавиша ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
             closeModal();
         }
     });
 
-    // Превключване между табове
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
@@ -1510,7 +1505,6 @@ vazov1p24: {
         });
     });
 
-    // Отваряне на модален прозорец при клик на бутон "Текст"
     document.querySelectorAll('.show-text').forEach(button => {
         button.addEventListener('click', () => {
             const workId = button.dataset.work;
@@ -1521,7 +1515,6 @@ vazov1p24: {
                 textContent.innerHTML = `<pre>${work.text}</pre>`;
                 analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
                 
-                // Активиране текстов таб
                 tabs[0].classList.add('active');
                 tabs[1].classList.remove('active');
                 textContent.style.display = 'block';
@@ -1532,7 +1525,6 @@ vazov1p24: {
         });
     });
 
-    // Отваряне на модален прозорец при клик на бутон "Анализ"
     document.querySelectorAll('.show-analysis').forEach(button => {
         button.addEventListener('click', () => {
             const workId = button.dataset.work;
@@ -1543,7 +1535,6 @@ vazov1p24: {
                 textContent.innerHTML = `<pre>${work.text}</pre>`;
                 analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
                 
-                // Активиране на анализа таб
                 tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
                 textContent.style.display = 'none';

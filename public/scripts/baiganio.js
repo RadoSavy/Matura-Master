@@ -214,18 +214,19 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
 
   function renderMessages() {
+      if (!chat) return;
       chat.innerHTML = '';
       messages.forEach(msg => {
           const div = document.createElement('div');
           div.classList.add('message', msg.sender);
-          
+
           if (msg.sender === 'ai' && msg.formatted) {
               div.classList.add('formatted-message');
               div.innerHTML = msg.text;
           } else {
               div.textContent = msg.text;
           }
-          
+
           chat.appendChild(div);
       });
       chat.scrollTop = chat.scrollHeight;
@@ -830,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function () {
               "Като видя латиница и ми пресъхва ракията! Пиши както баба ти те е учила!",
               "Това да не ти е чат с Макдоналдс?! Тука кирилицата е задължителна, момко!",
               "На мен ми дай 'ъ', 'щ', 'ш'... другото го прати на някой Гугъл Транслейт!",
-              "Момко, ако не видя една 'а' и една '' в изречението, нема повече да ти отговарям!"
+              "Момко, ако не видя една 'а' и една 'ъ' в изречението, нема повече да ти отговарям!"
           ];
           const randomGanioMsg = ganioPhrases[Math.floor(Math.random() * ganioPhrases.length)];
           messages.push({ sender: 'user', text: userText });

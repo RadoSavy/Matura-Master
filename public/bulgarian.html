@@ -104,7 +104,7 @@
             <div class="lesson-grid" id="lessonGrid">
                 <div class="lesson-card active" onclick="openLessonModal()">
                     <div class="lesson-icon">1</div>
-                    <h3 class="lesson-title">Именни части на речта</h3>
+                    <h3 class="lesson-title">Информационна бележка</h3>
                     <p class="lesson-xp">+10 XP</p>
                 </div>
                 <div class="lesson-card" onclick="openLessonModal()">
@@ -114,23 +114,23 @@
                 </div>
                 <div class="lesson-card locked">
                     <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Правопис</h3>
+                    <h3 class="lesson-title">Именни части на речта</h3>
                     <p class="lesson-xp">+10 XP</p>
                 </div>
                 <div class="lesson-card locked">
                     <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Синтаксис</h3>
-                    <p class="lesson-xp">+10 XP</p>
+                    <h3 class="lesson-title">Медиен текст</h3>
+                    <p class="lesson-xp">+15 XP</p>
                 </div>
                 <div class="lesson-card locked">
                     <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Пунктуация</h3>
-                    <p class="lesson-xp">+10 XP</p>
+                    <h3 class="lesson-title">Новинарска статия</h3>
+                    <p class="lesson-xp">+15 XP</p>
                 </div>
                 <div class="lesson-card locked">
                     <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Стилистика</h3>
-                    <p class="lesson-xp">+10 XP</p>
+                    <h3 class="lesson-title">Публицистичен текст</h3>
+                    <p class="lesson-xp">+20 XP</p>
                 </div>
             </div>
         </div>
@@ -155,21 +155,21 @@
         </a>
     </nav>
 
-    <div class="modal-1" id="lessonModal">
-        <div class="modal-content-1">
-            <button class="close-modal-1" id="closeModal">&times;</button>
+    <div class="modal" id="lessonModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
             <div class="lesson-header">
                 <div class="lesson-type">Изберете верния отговор</div>
-                <div class="lesson-question" id="lessonQuestion">Кое от следните НЕ е характеристика на информационната бележка?</div>
+                <div class="lesson-question" id="lessonQuestion">Коя от следните характеристики НЕ е типична за информационната бележка?</div>
             </div>
-            
+
             <div class="options-container" id="optionsContainer">
-                <button class="option-btn" onclick="checkAnswer(this, false)">Краткост и точност</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Краткост и яснота</button>
                 <button class="option-btn" onclick="checkAnswer(this, false)">Обективност</button>
-                <button class="option-btn" onclick="checkAnswer(this, true)">Емоционална натовареност</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">Емоционална оценка</button>
                 <button class="option-btn" onclick="checkAnswer(this, false)">Фактологичност</button>
             </div>
-            
+
             <div class="lesson-footer">
                 <div class="xp-badge">+10 XP</div>
                 <button class="btn btn-sm" id="nextQuestionBtn">Следващ въпрос</button>
@@ -177,6 +177,6 @@
         </div>
     </div>
 
-    <script src="scripts\bulgarian.js"></script>
+    <script src="/scripts/bulgarian.js"></script>
 </body>
 </html>
