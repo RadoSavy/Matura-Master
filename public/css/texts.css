@@ -275,8 +275,6 @@
       font-size: 14px;
     }
 
-    /* ===== TEXTS PAGE SPECIFIC STYLES ===== */
-
     .author-section {
       margin-bottom: 30px;
       padding-bottom: 20px;
@@ -421,7 +419,6 @@
       border-bottom: none;
     }
 
-    /* Fixed Modal styles */
     .modal {
       position: fixed;
       top: 0;
@@ -605,7 +602,6 @@
       white-space: normal;
     }
 
-    /* Responsive adjustments */
     @media (min-width: 768px) {
       .mobile-nav {
         display: none;
