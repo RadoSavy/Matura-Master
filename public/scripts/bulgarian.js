@@ -334,21 +334,47 @@
               completeLesson();
               return;
           }
-          
+
+          // Recreate the modal content for questions
+          lessonModal.innerHTML = `
+              <div class="modal-content">
+                  <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+                  <div class="lesson-header">
+                      <div class="lesson-type">Изберете верния отговор</div>
+                      <div class="lesson-question" id="lessonQuestion"></div>
+                  </div>
+                  <div class="options-container" id="optionsContainer"></div>
+                  <div class="lesson-footer">
+                      <div class="xp-badge"><i class="fas fa-star"></i> +10 XP</div>
+                      <button class="btn btn-sm" id="nextQuestionBtn">Следващ въпрос</button>
+                  </div>
+              </div>
+          `;
+
+          // Reassign DOM elements
+          const lessonQuestion = document.getElementById('lessonQuestion');
+          const optionsContainer = document.getElementById('optionsContainer');
+          const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+          const closeModal = document.getElementById('closeModal');
+
+          // Re-add event listeners
+          closeModal.addEventListener('click', closeLesson);
+          nextQuestionBtn.addEventListener('click', nextQuestion);
+
           const question = currentQuestions[currentQuestionIndex];
           lessonQuestion.textContent = question.question;
-          
+
           optionsContainer.innerHTML = '';
           question.options.forEach((option, index) => {
               const optionBtn = document.createElement('button');
               optionBtn.className = 'option-btn';
               optionBtn.textContent = option.text;
               optionBtn.dataset.correct = option.correct;
-              
+
               optionBtn.addEventListener('click', () => selectAnswer(optionBtn, option.correct, question.explanation));
               optionsContainer.appendChild(optionBtn);
           });
-          
+
           nextQuestionBtn.style.display = 'none';
       }
 
