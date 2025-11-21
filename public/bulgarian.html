@@ -60,19 +60,13 @@
     <main>
         <div class="content-area">
             <div class="section-header">
-                <div class="section-title">Раздел 1, Урок 1</div>
-                <h1 class="unit-title">Граматика и правопис</h1>
+                <h1 class="unit-title">Български Език</h1>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">Ръководство</h2>
-                <p class="card-text">Научете основните граматични правила и правописни принципи</p>
-                <button class="btn" id="guidebookBtn">Започни</button>
-            </div>
 
             <div class="card">
-                <h2 class="card-title">Отключване на класацията!</h2>
-                <p class="card-text">Завършете още 3 урока, за да започнете да се състезавате</p>
+                <h2 class="card-title">Дневни задачи</h2>
+                <p class="card-text">Завършете 3 урока</p>
                 <div class="progress-container">
                     <div class="progress-text">
                         <span>Прогрес</span>
@@ -81,22 +75,6 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="leaderboardProgress" style="width: 0%"></div>
                     </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2 class="card-title">Дневни задачи</h2>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">Прегледай всички</div>
-                </div>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">Спечели 20 XP</div>
-                </div>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">0/3 уроци</div>
                 </div>
             </div>
 
@@ -140,15 +118,15 @@
         <div class="modal-content">
             <button class="close-modal" id="closeModal">&times;</button>
             <div class="lesson-header">
-                <div class="lesson-type">Изберете верния отговор</div>
-                <div class="lesson-question" id="lessonQuestion">Коя от следните характеристики НЕ е типична за информационната бележка?</div>
+                <div class="lesson-type">Име на Урока</div>
+                <div class="lesson-question" id="lessonQuestion">Въпрос</div>
             </div>
 
             <div class="options-container" id="optionsContainer">
-                <button class="option-btn" onclick="checkAnswer(this, false)">Краткост и яснота</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">Обективност</button>
-                <button class="option-btn" onclick="checkAnswer(this, true)">Емоционална оценка</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">Фактологичност</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 1</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 2</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">Отговор 3</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 4</button>
             </div>
 
             <div class="lesson-footer">
@@ -158,6 +136,6 @@
         </div>
     </div>
 
-    <script src="/scripts/bulgarian.js"></script>
+    <script src="\scripts\bulgarian.js"></script>
 </body>
 </html>

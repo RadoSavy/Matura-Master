@@ -623,7 +623,6 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
     
-    // Текстови типове
     if (lower.includes('описан') || lower.includes('описвам')) {
         return {
             text: formatAnswer(
