@@ -462,103 +462,261 @@ main {
   margin-top: 25px;
 }
 
+/* Mobile lesson card styles - properly placed at the top */
 .lesson-card {
   background-color: #fff;
-  border-radius: 16px;
-  padding: 18px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  cursor: pointer;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
   position: relative;
   overflow: hidden;
-  border: 2px solid transparent;
 }
 
 .lesson-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border-color: #4CAF50;
 }
 
 .lesson-card.active {
   border-color: #4CAF50;
-  animation: pulse 2s infinite;
-}
-
-.literature .lesson-card.active {
-  border-color: #58cc02;
-}
-
-.lesson-card.locked {
-  opacity: 0.7;
-  cursor: not-allowed;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+  transform: translateY(-2px);
 }
 
 .lesson-card.completed {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
   border-color: #4CAF50;
 }
 
-.literature .lesson-card.completed {
-  border-color: #58cc02;
+.lesson-card.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+.lesson-card.locked:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-color: transparent;
 }
 
 .lesson-icon {
-  width: 70px;
-  height: 70px;
-  background-color: #4CAF50;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 12px;
-  color: white;
-  font-size: 26px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-.literature .lesson-icon {
-  background-color: #58cc02;
-}
-
-.lesson-card.completed .lesson-icon {
-  background-color: #3d8b40;
-}
-
-.literature .lesson-card.completed .lesson-icon {
-  background-color: #46a302;
-}
-
-.lesson-card.locked .lesson-icon {
-  background-color: #999;
+  font-size: 24px;
+  margin-bottom: 8px;
+  display: block;
+  text-align: center;
 }
 
 .lesson-title {
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 6px;
-  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .lesson-xp {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
-  font-weight: 600;
+  text-align: center;
+  font-weight: 500;
 }
 
 .crown-icon {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 28px;
-  height: 28px;
-  background-color: #FFC107;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: #333;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  top: 8px;
+  right: 8px;
+  color: #FFD700;
+  font-size: 16px;
+}
+
+.lesson-card.completed .lesson-icon,
+.lesson-card.active .lesson-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Desktop styles - inside media query */
+@media (min-width: 768px) {
+  .mobile-nav {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: block;
+  }
+
+  .content-area {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    padding: 30px 40px;
+  }
+
+  main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .lesson-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Desktop-specific lesson card styles */
+  .lesson-card {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    margin-bottom: 0;
+  }
+
+  .lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+
+  .lesson-card.active {
+    border-color: #4CAF50;
+    animation: pulse 2s infinite;
+  }
+
+  .literature .lesson-card.active {
+    border-color: #58cc02;
+  }
+
+  .lesson-card.locked {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .lesson-card.completed {
+    border-color: #4CAF50;
+  }
+
+  .literature .lesson-card.completed {
+    border-color: #58cc02;
+  }
+
+  .lesson-icon {
+    width: 70px;
+    height: 70px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .literature .lesson-icon {
+    background-color: #58cc02;
+  }
+
+  .lesson-card.completed .lesson-icon {
+    background-color: #3d8b40;
+  }
+
+  .literature .lesson-card.completed .lesson-icon {
+    background-color: #46a302;
+  }
+
+  .lesson-card.locked .lesson-icon {
+    background-color: #999;
+  }
+
+  .lesson-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 16px;
+  }
+
+  .lesson-xp {
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+  }
+
+  .crown-icon {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 28px;
+    height: 28px;
+    background-color: #FFC107;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  .lesson-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .unit-title {
+    font-size: 22px;
+  }
+  
+  .card {
+    padding: 18px;
+  }
+
+  .course-list {
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 20px;
+    padding: 0 15px;
+  }
+  
+  .course-card {
+    width: calc(50% - 15px);
+    padding: 15px;
+    margin-left: 0;
+  }
+
+  .course-card img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .course-card span {
+    font-size: 16px;
+  }
+  
+  .course-card p {
+    font-size: 13px;
+  }
 }
 
 .modal {
@@ -717,16 +875,6 @@ main {
 
 .literature .xp-badge {
   background-color: #58cc02;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
-}
-
-.pulse {
-  animation: pulse 2s infinite;
 }
 
 @keyframes bounce {
@@ -966,33 +1114,8 @@ h1 {
   margin-left: 30px; 
 }
 
-@media (min-width: 768px) {
-  .mobile-nav {
-    display: none;
-  }
-
-  .desktop-nav {
-    display: block;
-  }
-
-  .content-area {
-    width: calc(100% - 240px);
-    margin-left: 240px;
-    padding: 30px 40px;
-  }
-
-  main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    max-width: none;
-    margin-bottom: 0;
-  }
-
-  .lesson-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-  }
-  .character-card {
+/* Additional styles for various components */
+.character-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 20px;
@@ -3397,14 +3520,6 @@ h1 {
   margin: 25px 0;
 }
 
-.element-input {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  margin: 8px 0;
-}
-
 .media-game {
   background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
   color: white;
@@ -3697,6 +3812,7 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .conditional-cards,
   .speech-cards,
@@ -3803,134 +3919,9 @@ h1 {
   outline: 3px solid #4CAF50;
   outline-offset: 2px;
 }
-}
 
 @media (max-width: 767px) {
   .content-area {
     padding-bottom: 80px;
   }
-}
-
-@media (max-width: 480px) {
-  .lesson-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  
-  .unit-title {
-    font-size: 22px;
-  }
-  
-  .card {
-    padding: 18px;
-  }
-
-  .course-list {
-    justify-content: center;
-    flex-direction: row;
-    margin-top: 20px;
-    padding: 0 15px;
-  }
-  
-  .course-card {
-    width: calc(50% - 15px);
-    padding: 15px;
-    margin-left: 0;
-  }
-
-  .course-card img {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .course-card span {
-    font-size: 16px;
-  }
-  
-  .course-card p {
-    font-size: 13px;
-  }
-  .lesson-card {
-      background-color: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-     cursor: pointer;
-      border: 2px solid transparent; 
-      position: relative;
-      overflow: hidden;
-    }
-
-    .lesson-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      border-color: #4CAF50;
-    }
-
-    .lesson-card.active {
-      border-color: #4CAF50;
-      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
-      transform: translateY(-2px);
-    }
-
-    .lesson-card.completed {
-      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
-      border-color: #4CAF50;
-    }
-
-    .lesson-card.locked {
-      opacity: 0.6;
-      cursor: not-allowed;
-      background-color: #f5f5f5;
-    }
-
-    .lesson-card.locked:hover {
-      transform: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-color: transparent;
-    }
-
-    .lesson-icon {
-      font-size: 24px;
-      margin-bottom: 8px;
-      display: block;
-      text-align: center;
-    }
-
-    .lesson-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 8px;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .lesson-xp {
-      font-size: 12px;
-      color: #666;
-      text-align: center;
-      font-weight: 500;
-    }
-
-    .crown-icon {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      color: #FFD700;
-      font-size: 16px;
-    }
-    
-
-    .lesson-card.completed .lesson-icon,
-    .lesson-card.active .lesson-icon {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-     50% { transform: scale(1.1); }
-     100% { transform: scale(1); }
-   }
-
 }

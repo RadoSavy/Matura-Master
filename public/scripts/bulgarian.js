@@ -3832,4 +3832,4 @@ let correctAnswersCount = 0;
           });
       }
 
-      document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('DOMContentLoaded', initApp);
