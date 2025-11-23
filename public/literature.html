@@ -47,10 +47,6 @@
             <i class="fas fa-book-reader desktop-nav-icon"></i>
             <span>Произведения</span>
         </a>
-        <a href="profile.html" class="desktop-nav-item">
-            <i class="fas fa-user desktop-nav-icon"></i>
-            <span>Профил</span>
-        </a>
         <a href="login.html" class="desktop-nav-item">
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
@@ -64,14 +60,8 @@
             </div>
 
             <div class="card">
-                <h2 class="card-title">Ръководство</h2>
-                <p class="card-text">Научете основните характеристики на българската народна приказка и нейните разновидности</p>
-                <button class="btn" id="guidebookBtn">Започни</button>
-            </div>
-
-            <div class="card">
-                <h2 class="card-title">Отключване на класацията!</h2>
-                <p class="card-text">Завършете още 3 урока, за да започнете да се състезавате</p>
+                <h2 class="card-title">Дневни задачи</h2>
+                <p class="card-text">Завършете 3 урока</p>
                 <div class="progress-container">
                     <div class="progress-text">
                         <span>Прогрес</span>
@@ -83,55 +73,10 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">Дневни задачи</h2>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">Прегледай всички</div>
-                </div>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">Спечели 20 XP</div>
-                </div>
-                <div class="quest-item">
-                    <div class="quest-checkbox"></div>
-                    <div class="quest-text">0/3 уроци</div>
-                </div>
-            </div>
-
-            <h2 class="card-title" style="margin-bottom: 15px;">Уроци</h2>
-            <div class="lesson-grid" id="lessonGrid">
-                <div class="lesson-card active" onclick="openLessonModal()">
-                    <div class="lesson-icon">1</div>
-                    <h3 class="lesson-title">Приказки за животни</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-                <div class="lesson-card" onclick="openLessonModal()">
-                    <div class="lesson-icon">2</div>
-                    <h3 class="lesson-title">Вълшебни приказки</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-                <div class="lesson-card locked">
-                    <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Битови приказки</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-                <div class="lesson-card locked">
-                    <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Хитър Петър</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-                <div class="lesson-card locked">
-                    <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Приказки за баба Яга</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-                <div class="lesson-card locked">
-                    <div class="lesson-icon">🔒</div>
-                    <h3 class="lesson-title">Алегорични приказки</h3>
-                    <p class="lesson-xp">+10 XP</p>
-                </div>
-            </div>
+            <h2 class="card-title" style="margin-bottom: 15px;">Раздел 1: Българинът във възрожденския свят</h2>
+            <div class="lesson-grid" id="lessonGrid1"></div>
+            <h2 class="card-title" style="margin-bottom: 15px;">Раздел 2: Човекът в обществото - норми, ценности и конфликти</h2>
+            <div class="lesson-grid" id="lessonGrid2"></div>
         </div>
     </main>
 
@@ -148,9 +93,9 @@
             <i class="fas fa-book-reader nav-icon"></i>
             <span>Текстове</span>
         </a>
-        <a href="profile.html" class="nav-item">
-            <i class="fas fa-user nav-icon"></i>
-            <span>Профил</span>
+        <a href="login.html" class="nav-item">
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+            <span>Изход</span>
         </a>
     </nav>
 

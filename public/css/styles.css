@@ -1,4 +1,3 @@
-/* Основни стилове */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,7 +15,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Header стилове */
 header {
   background-color: #fff;
   height: 60px;
@@ -128,7 +126,6 @@ header {
   transform: scale(1.05);
 }
 
-/* Main content */
 main {
   flex: 1;
   margin-top: 60px;
@@ -140,7 +137,6 @@ main {
   margin-right: auto;
 }
 
-/* Navigation */
 .mobile-nav {
   position: fixed;
   bottom: 0;
@@ -245,7 +241,6 @@ main {
   text-align: center;
 }
 
-/* Content area */
 .content-area {
   width: 100%;
   padding: 20px;
@@ -258,7 +253,6 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Section headers */
 .section-header {
   margin-bottom: 25px;
 }
@@ -279,7 +273,6 @@ main {
   line-height: 1.3;
 }
 
-/* Cards */
 .card {
   background-color: #fff;
   border-radius: 16px;
@@ -319,7 +312,6 @@ main {
   line-height: 1.5;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -390,7 +382,6 @@ main {
   width: 100%;
 }
 
-/* Progress bars */
 .progress-container {
   margin: 18px 0;
 }
@@ -423,7 +414,6 @@ main {
   background: linear-gradient(90deg, #58cc02, #7ce048);
 }
 
-/* Quest items */
 .quest-item {
   display: flex;
   align-items: center;
@@ -465,7 +455,6 @@ main {
   font-weight: 500;
 }
 
-/* Lesson grid */
 .lesson-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -557,7 +546,6 @@ main {
   100% { transform: scale(1); }
 }
 
-/* Modal styles */
 .modal {
   position: fixed;
   top: 0;
@@ -621,7 +609,6 @@ main {
   color: #333;
 }
 
-/* Lesson content styles */
 .lesson-header {
   text-align: center;
   margin-bottom: 25px;
@@ -717,7 +704,6 @@ main {
   background-color: #58cc02;
 }
 
-/* Animations */
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
@@ -727,7 +713,6 @@ main {
   animation: bounce 1.5s infinite;
 }
 
-/* Tooltip */
 .tooltip {
   position: relative;
   display: inline-block;
@@ -767,7 +752,6 @@ main {
   opacity: 1;
 }
 
-/* Streak counter */
 .streak-counter {
   display: flex;
   align-items: center;
@@ -784,7 +768,6 @@ main {
   color: #FFC107;
 }
 
-/* Empty state */
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -807,7 +790,6 @@ main {
   margin-bottom: 20px;
 }
 
-/* Hero card */
 .hero-card {
   background-color: #4CAF50;
   color: white;
@@ -848,7 +830,6 @@ main {
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-/* Features grid */
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -888,7 +869,6 @@ main {
   line-height: 1.5;
 }
 
-/* Login button */
 .login-btn {
   background-color: #4CAF50;
   color: white;
@@ -906,7 +886,6 @@ main {
   transform: translateY(-2px);
 }
 
-/* Course list */
 .course-list {
   display: flex;
   justify-content: center;
@@ -958,12 +937,10 @@ main {
   margin-top: 8px;
 }
 
-/* Heading styles */
 h1 {
   margin-left: 30px; 
 }
 
-/* Character card */
 .character-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -986,7 +963,6 @@ h1 {
   justify-content: center;
 }
 
-/* Media example */
 .media-example {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1019,7 +995,6 @@ h1 {
   margin: 5px 5px 0 0;
 }
 
-/* Interactive activity */
 .interactive-activity {
   background: #e3f2fd;
   padding: 25px;
@@ -1056,7 +1031,6 @@ h1 {
   border-color: #4CAF50;
 }
 
-/* Formula box */
 .formula-box {
   background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
   padding: 25px;
@@ -1088,7 +1062,6 @@ h1 {
   font-weight: bold;
 }
 
-/* Before-after comparison */
 .before-after {
   display: flex;
   align-items: center;
@@ -1096,7 +1069,13 @@ h1 {
   margin: 20px 0;
 }
 
-.before, .after {
+.before {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.after {
   flex: 1;
   padding: 20px;
   border-radius: 10px;
@@ -1112,7 +1091,6 @@ h1 {
   border: 2px solid #4CAF50;
 }
 
-/* Newsroom simulation */
 .newsroom-simulation {
   background: #2c3e50;
   color: white;
@@ -1154,7 +1132,6 @@ h1 {
   border: 2px solid #e0e0e0;
 }
 
-/* Detective theme */
 .detective-theme {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
@@ -1177,7 +1154,6 @@ h1 {
   border: 2px solid #e0e0e0;
 }
 
-/* Fact-opinion quiz */
 .fact-opinion-quiz {
   background: #e8f5e8;
   padding: 20px;
@@ -1199,7 +1175,6 @@ h1 {
   color: white;
 }
 
-/* Creative workshop */
 .creative-workshop {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -1243,7 +1218,6 @@ h1 {
   border: 2px solid #e0e0e0;
 }
 
-/* Word power */
 .word-power {
   background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
   color: white;
@@ -1294,7 +1268,6 @@ h1 {
   border-color: #4CAF50;
 }
 
-/* Dictionary quest */
 .dictionary-quest {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -1303,14 +1276,28 @@ h1 {
   margin: 20px 0;
 }
 
-.origin-types, .usage-examples {
+.origin-types {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
   margin: 20px 0;
 }
 
-.origin-card, .usage-card {
+.usage-examples {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.origin-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+}
+
+.usage-card {
   background: white;
   padding: 15px;
   border-radius: 10px;
@@ -1357,7 +1344,6 @@ h1 {
   border-color: #4CAF50;
 }
 
-/* Sound adventure */
 .sound-adventure {
   background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
   color: white;
@@ -1426,7 +1412,6 @@ h1 {
   border-color: #4CAF50;
 }
 
-/* Review challenge */
 .review-challenge {
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
@@ -1502,7 +1487,6 @@ h1 {
   margin: 20px 0;
 }
 
-/* Mood mastery */
 .mood-mastery {
   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
@@ -1553,7 +1537,6 @@ h1 {
   margin-top: 10px;
 }
 
-/* Exam war room */
 .exam-war-room {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
@@ -1622,7 +1605,6 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
-/* Imagination lab */
 .imagination-lab {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -1713,7 +1695,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Storytelling workshop */
 .storytelling-workshop {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -1780,7 +1761,6 @@ h1 {
   font-style: italic;
 }
 
-/* Time mastery */
 .time-mastery {
   background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
   color: white;
@@ -1881,7 +1861,6 @@ h1 {
   margin-top: 8px;
 }
 
-/* Combination lab */
 .combination-lab {
   background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
   color: white;
@@ -1979,7 +1958,6 @@ h1 {
   margin-top: 8px;
 }
 
-/* Transformation studio */
 .transformation-studio {
   background: linear-gradient(135deg, #FF5722 0%, #D84315 100%);
   color: white;
@@ -2071,7 +2049,6 @@ h1 {
   color: #795548;
 }
 
-/* Morphology gym */
 .morphology-gym {
   background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
   color: white;
@@ -2181,7 +2158,6 @@ h1 {
   resize: vertical;
 }
 
-/* Predicate lab */
 .predicate-lab {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -2284,7 +2260,6 @@ h1 {
   color: #2196F3;
 }
 
-/* Definition detective */
 .definition-detective {
   background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
   color: white;
@@ -2373,7 +2348,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Circumstance explorer */
 .circumstance-explorer {
   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
   color: white;
@@ -2437,7 +2411,6 @@ h1 {
   margin: 25px 0;
 }
 
-/* Sentence architect */
 .sentence-architect {
   background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
   color: white;
@@ -2515,7 +2488,6 @@ h1 {
   cursor: move;
 }
 
-/* Word order master */
 .word-order-master {
   background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
   color: white;
@@ -2594,7 +2566,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Mixed sentence expert */
 .mixed-sentence-expert {
   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
   color: white;
@@ -2652,7 +2623,6 @@ h1 {
   margin: 15px 0;
 }
 
-/* Speech transformer */
 .speech-transformer {
   background: linear-gradient(135deg, #FF5722 0%, #D84315 100%);
   color: white;
@@ -2725,7 +2695,6 @@ h1 {
   color: #607D8B;
 }
 
-/* Quoting expert */
 .quoting-expert {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -2775,7 +2744,6 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
-/* Syntax master */
 .syntax-master {
   background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
   color: white;
@@ -2845,7 +2813,6 @@ h1 {
   margin: 25px 0;
 }
 
-/* Discussion master */
 .discussion-master {
   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
   color: white;
@@ -2931,7 +2898,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Editing expert */
 .editing-expert {
   background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
   color: white;
@@ -3004,7 +2970,6 @@ h1 {
   color: #FF5722;
 }
 
-/* Moral guide */
 .moral-guide {
   background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
   color: white;
@@ -3082,7 +3047,6 @@ h1 {
   color: #2196F3;
 }
 
-/* Moral architect */
 .moral-architect {
   background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
   color: white;
@@ -3167,7 +3131,6 @@ h1 {
   margin-top: 15px;
 }
 
-/* Moral practicum */
 .moral-practicum {
   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
   color: white;
@@ -3231,7 +3194,6 @@ h1 {
   resize: vertical;
 }
 
-/* Annotation expert */
 .annotation-expert {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -3290,7 +3252,6 @@ h1 {
   margin: 8px 0;
 }
 
-/* Retelling master */
 .retelling-master {
   background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
   color: white;
@@ -3371,7 +3332,6 @@ h1 {
   margin-top: 15px;
 }
 
-/* Media analyst */
 .media-analyst {
   background: linear-gradient(135deg, #FF5722 0%, #D84315 100%);
   color: black;
@@ -3423,7 +3383,6 @@ h1 {
   resize: vertical;
 }
 
-/* Table master */
 .table-master {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
@@ -3520,7 +3479,6 @@ h1 {
   margin: 8px 0;
 }
 
-/* Dictionary master */
 .dictionary-master {
   background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
   color: white;
@@ -3562,14 +3520,27 @@ h1 {
   margin: 20px 0;
 }
 
-.term-column,
+.term-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .definition-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.term-item,
+.term-item {
+  padding: 15px;
+  border: 2px solid #FF9800;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
 .definition-item {
   padding: 15px;
   border: 2px solid #FF9800;
@@ -3579,7 +3550,11 @@ h1 {
   background: white;
 }
 
-.term-item:hover,
+.term-item:hover {
+  background: #FF9800;
+  color: white;
+}
+
 .definition-item:hover {
   background: #FF9800;
   color: white;
@@ -3615,7 +3590,6 @@ h1 {
   color: #9C27B0;
 }
 
-/* Exam war room */
 .exam-war-room {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
@@ -3701,7 +3675,6 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
-/* Lesson content specific styles */
 .lesson-content {
   line-height: 1.6;
 }
@@ -3728,7 +3701,12 @@ h1 {
   margin-bottom: 15px;
 }
 
-.lesson-content ul, .lesson-content ol {
+.lesson-content ul {
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.lesson-content ol {
   margin-bottom: 15px;
   padding-left: 20px;
 }
@@ -3747,7 +3725,6 @@ h1 {
   font-style: italic;
 }
 
-/* Responsive design */
 @media (min-width: 768px) {
   .mobile-nav {
     display: none;
@@ -3877,19 +3854,58 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .conditional-cards,
-  .speech-cards,
-  .combo-cards,
-  .technique-cards,
-  .exercise-cards,
-  .predicate-cards,
-  .definition-cards,
-  .circumstance-cards,
-  .complex-cards,
-  .mixed-cards,
-  .element-cards,
-  .scenario-cards,
-  .type-cards,
+  .conditional-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .speech-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .combo-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .technique-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .exercise-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .predicate-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .definition-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .circumstance-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .complex-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .mixed-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .element-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .scenario-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .type-cards {
+    grid-template-columns: 1fr;
+  }
+  
   .category-cards {
     grid-template-columns: 1fr;
   }
@@ -3902,18 +3918,42 @@ h1 {
     grid-template-columns: 1fr;
   }
   
-  .tense-options,
-  .analysis-options,
-  .circumstance-options,
-  .complex-options,
-  .identification-options,
-  .error-options,
-  .step-options,
+  .tense-options {
+    flex-direction: column;
+  }
+  
+  .analysis-options {
+    flex-direction: column;
+  }
+  
+  .circumstance-options {
+    flex-direction: column;
+  }
+  
+  .complex-options {
+    flex-direction: column;
+  }
+  
+  .identification-options {
+    flex-direction: column;
+  }
+  
+  .error-options {
+    flex-direction: column;
+  }
+  
+  .step-options {
+    flex-direction: column;
+  }
+  
   .chain-options {
     flex-direction: column;
   }
   
-  .practice-sections,
+  .practice-sections {
+    grid-template-columns: 1fr;
+  }
+  
   .review-game {
     grid-template-columns: 1fr;
   }
@@ -3966,7 +4006,6 @@ h1 {
   }
 }
 
-/* Utility classes */
 .text-center {
   text-align: center;
 }
@@ -3991,7 +4030,6 @@ h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -4000,25 +4038,71 @@ h1 {
   }
 }
 
-/* Focus styles for better accessibility */
-.btn:focus,
-.conditional-btn:focus,
-.tense-btn:focus,
-.combo-btn:focus,
-.analysis-btn:focus,
-.circumstance-btn:focus,
-.complex-btn:focus,
-.identification-btn:focus,
-.error-btn:focus,
-.compass-btn:focus,
-.step-btn:focus,
-.chain-btn:focus,
+.btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.conditional-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.tense-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.combo-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.analysis-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.circumstance-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.complex-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.identification-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.error-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.compass-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.step-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.chain-btn:focus {
+  outline: 3px solid #4CAF50;
+  outline-offset: 2px;
+}
+
 .quiz-option:focus {
   outline: 3px solid #4CAF50;
   outline-offset: 2px;
 }
 
-/* Additional animations */
 @keyframes slideIn {
   from {
     opacity: 0;
