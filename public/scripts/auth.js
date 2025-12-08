@@ -84,8 +84,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
       const user = userCredential.user;
       console.log("Registration successful:", user);
-      localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
-      window.location.href = 'courses.html';
+      const userData = { uid: user.uid, email: user.email, displayName: user.displayName };
+      // Encrypt the user data before storing
+      encryptUserData(userData, password).then(encrypted => {
+        localStorage.setItem("user", encrypted);
+        window.location.href = 'courses.html';
+      }).catch(err => {
+        console.error("Failed to encrypt user data:", err);
+        showError("Грешка при защита на user данните. Моля, опитайте отново.");
+      });
     } catch (error) {
       console.error("Registration failed:", error);
       let errorMessage = "Грешка при регистрацията.";
@@ -147,4 +154,42 @@ document.addEventListener('DOMContentLoaded', function() {
       showError("Грешка при регистрацията с Google: " + error.code);
     }
   });
+/**
+ * Encrypt user data (object) using password-derived AES-GCM key.
+ * Returns base64 encoded ciphertext.
+ */
+async function encryptUserData(userData, password) {
+  const enc = new TextEncoder();
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
+  // Derive key with PBKDF2
+  const keyMaterial = await window.crypto.subtle.importKey(
+    "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
+  );
+  const key = await window.crypto.subtle.deriveKey(
+    {
+      "name": "PBKDF2",
+      salt: salt,
+      "iterations": 100000,
+      "hash": "SHA-256"
+    },
+    keyMaterial,
+    { "name": "AES-GCM", "length": 256 },
+    false,
+    ["encrypt"]
+  );
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const data = enc.encode(JSON.stringify(userData));
+  const ciphertext = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, data);
+
+  // Concatenate salt + iv + ciphertext as ArrayBuffer
+  // Format: [salt|iv|ciphertext]
+  const concatenated = new Uint8Array(salt.length + iv.length + ciphertext.byteLength);
+  concatenated.set(salt, 0);
+  concatenated.set(iv, salt.length);
+  concatenated.set(new Uint8Array(ciphertext), salt.length + iv.length);
+
+  // Return as base64 string
+  return btoa(String.fromCharCode.apply(null, concatenated));
+}
+
 });
