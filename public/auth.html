@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="robots" content="NOODP">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Matura Master">
+  <meta name="google" content="notranslate">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Вход / Регистрация - Matura Master</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="css/auth.css"> 
-  <script src="https://accounts.google.com/gsi/client" onload="initGoogleLogin()"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+    import { getAuth, signInWithCredential, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { firebaseConfig } from './scripts/firebase-config.js';
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.firebaseAuth = auth;
+    window.signInWithCredential = signInWithCredential;
+    window.GoogleAuthProvider = GoogleAuthProvider;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithPopup = signInWithPopup;
+  </script>
 </head>
 <body>
   <div class="auth-container">
@@ -27,7 +48,7 @@
     <form id="login-form" class="auth-form active">
       <div class="input-group">
         <i class="fas fa-user"></i>
-        <input type="text" id="login-username" placeholder="Потребителско име" required />
+        <input type="email" id="login-username" placeholder="Имейл адрес" required />
       </div>
       
       <div class="input-group">
@@ -41,7 +62,9 @@
 
       <div class="divider"><span>или</span></div>
 
-      <div id="google-login-btn" class="google-btn"></div>
+      <button id="google-login-btn" class="btn-main">
+        <i class="fab fa-google"></i> Вход с Google
+      </button>
 
       <p class="auth-footer">Нямаш акаунт? <a href="#" id="show-register">Регистрирай се</a></p>
     </form>
@@ -68,7 +91,9 @@
 
       <div class="divider"><span>или</span></div>
 
-      <div id="google-register-btn" class="google-btn"></div>
+      <button id="google-register-btn" class="btn-main">
+        <i class="fab fa-google"></i> Регистрация с Google
+      </button>
 
       <p class="auth-footer">Вече имаш акаунт? <a href="#" id="show-login">Влез</a></p>
     </form>
@@ -78,7 +103,7 @@
   <script>
     function initGoogleLogin() {
       google.accounts.id.initialize({
-        client_id: "562285484934-sbe73anaak500lghj135hqv2pfev8rld.apps.googleusercontent.com",
+        client_id: "885582348243-71a58kokeupfi05qov29oo38tn7k6mfk.apps.googleusercontent.com",
         callback: handleGoogleResponse
       });
 
@@ -93,13 +118,23 @@
       );
     }
 
-    function handleGoogleResponse(response) {
-      const token = response.credential;
-      const user = jwt_decode(token);
-      console.log("Google вход успешен:", user);
+    async function handleGoogleResponse(response) {
+      try {
+        const token = response.credential;
+        const credential = window.GoogleAuthProvider.credential(null, token);
+        const result = await window.signInWithCredential(window.firebaseAuth, credential);
+        const user = result.user;
 
-      localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = 'courses.html';
+        console.log("Google вход успешен:", user);
+
+        // Store minimal user info securely, or use Firebase auth state
+        localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
+        window.location.href = 'courses.html';
+      } catch (error) {
+        console.error("Google login failed:", error);
+        document.getElementById('error').textContent = "Грешка при входа с Google.";
+        document.getElementById('error').style.display = 'block';
+      }
     }
   </script>
 </body>
