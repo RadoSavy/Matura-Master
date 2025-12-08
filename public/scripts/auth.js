@@ -7,6 +7,53 @@ document.addEventListener('DOMContentLoaded', function() {
   const showLoginLink = document.getElementById('show-login');
   const errorDiv = document.getElementById('error');
 
+  // =============================
+  // Encryption utilities
+  // =============================
+  // Keep session AES key in-memory, accessible through closure.
+  let sessionAesKey = null;
+
+  // Utility: Generate session AES key
+  async function getSessionAesKey() {
+    if (sessionAesKey) return sessionAesKey;
+    sessionAesKey = await window.crypto.subtle.generateKey(
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt", "decrypt"]
+    );
+    return sessionAesKey;
+  }
+
+  // Utility: Encrypt string
+  async function encryptUserData(plainText) {
+    const enc = new TextEncoder();
+    const iv = window.crypto.getRandomValues(new Uint8Array(12)); // AES-GCM
+    const key = await getSessionAesKey();
+    const encrypted = await window.crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      key,
+      enc.encode(plainText)
+    );
+    // Store IV and ciphertext together (base64 for storage)
+    const ivStr = btoa(String.fromCharCode(...iv));
+    const ctStr = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    return ivStr + ':' + ctStr;
+  }
+
+  // NOTE: To read user data, need decryptUserData()
+  async function decryptUserData(data) {
+    const [ivStr, ctStr] = data.split(':');
+    const iv = new Uint8Array(atob(ivStr).split("").map(c => c.charCodeAt(0)));
+    const ciphertext = new Uint8Array(atob(ctStr).split("").map(c => c.charCodeAt(0)));
+    const key = await getSessionAesKey();
+    const decrypted = await window.crypto.subtle.decrypt(
+      { name: "AES-GCM", iv },
+      key,
+      ciphertext
+    );
+    return new TextDecoder().decode(decrypted);
+  }
+
   function showLogin() {
     loginTab.classList.add('active');
     registerTab.classList.remove('active');
@@ -51,7 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const userCredential = await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
       const user = userCredential.user;
       console.log("Login successful:", user);
-      localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
+      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
+      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
+      localStorage.setItem("user", encryptedUserInfo);
       window.location.href = 'courses.html';
     } catch (error) {
       console.error("Login failed:", error);
@@ -132,7 +181,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const result = await window.signInWithPopup(window.firebaseAuth, provider);
       const user = result.user;
       console.log("Google login successful:", user);
-      localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
+      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
+      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
+      localStorage.setItem("user", encryptedUserInfo);
       window.location.href = 'courses.html';
     } catch (error) {
       console.error("Google login failed:", error);
@@ -147,7 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const result = await window.signInWithPopup(window.firebaseAuth, provider);
       const user = result.user;
       console.log("Google register successful:", user);
-      localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
+      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
+      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
+      localStorage.setItem("user", encryptedUserInfo);
       window.location.href = 'courses.html';
     } catch (error) {
       console.error("Google register failed:", error);
