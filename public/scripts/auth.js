@@ -1,3 +1,54 @@
+// Helper functions for encryption/decryption using Web Crypto API
+async function getKeyFromPassword(password) {
+  // derive an AES key from the user's password (using PBKDF2)
+  const enc = new TextEncoder();
+  const salt = window.crypto.getRandomValues(new Uint8Array(16)); // change: for stable key, may use username/email as salt!
+  const keyMaterial = await window.crypto.subtle.importKey(
+    "raw",
+    enc.encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+  const key = await window.crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 100000,
+      hash: "SHA-256"
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"]
+  );
+  return {key, salt: Array.from(salt)};
+}
+
+async function encryptUserInfo(userInfo, password) {
+  const {key, salt} = await getKeyFromPassword(password);
+  const iv = window.crypto.getRandomValues(new Uint8Array(12)); // 96 bits
+  const enc = new TextEncoder();
+  const data = enc.encode(JSON.stringify(userInfo));
+  const encrypted = await window.crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv: iv
+    },
+    key,
+    data
+  );
+  // Store salt and iv with ciphertext for later decryption (Base64 encode)
+  return JSON.stringify({
+    salt: btoa(String.fromCharCode.apply(null,salt)),
+    iv: btoa(String.fromCharCode.apply(null,iv)),
+    data: btoa(String.fromCharCode.apply(null,new Uint8Array(encrypted)))
+  });
+}
+
+// ...Later, to decrypt:
+// async function decryptUserInfo(encryptedObj, password) { ... }
+
 document.addEventListener('DOMContentLoaded', function () {
   console.log("Auth page loaded");
   
@@ -166,9 +217,19 @@ document.addEventListener('DOMContentLoaded', function () {
         displayName: username
       };
       
-      localStorage.setItem("user", JSON.stringify(userInfo));
-      console.log("Redirecting to courses page...");
-      window.location.href = 'courses.html';
+      // Encrypt user info before storing
+      encryptUserInfo(userInfo, password)
+        .then(encryptedData => {
+          localStorage.setItem("user", encryptedData);
+          console.log("Redirecting to courses page...");
+          window.location.href = 'courses.html';
+        })
+        .catch(e => {
+          console.error("Encryption failed:", e);
+          showError("Възникна грешка при запазване на данните.");
+        });
+      // Don't redirect here; will happen in promise above
+      return;
       
     } catch (error) {
       console.error('Registration failed:', error);
