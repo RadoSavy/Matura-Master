@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import './app.css';
 
 function App() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [status, setStatus] = useState("Not signed in");
+  const [status, setStatus] = useState('Not signed in');
   const [redirectCountdown, setRedirectCountdown] = useState(null);
 
   useEffect(() => {
     if (user) {
-      setStatus("Signed in as " + user.name);
+      setStatus('Signed in as ' + user.name);
       startRedirectCountdown();
     }
   }, [user]);
@@ -18,17 +20,17 @@ function App() {
   const handleLoginSuccess = (credentialResponse) => {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
-      console.log("Login success:", decoded);
+      console.log('Login success:', decoded);
       setUser(decoded);
     } catch (err) {
-      console.error("JWT decode error:", err);
-      setStatus("Failed to decode token.");
+      console.error('JWT decode error:', err);
+      setStatus('Failed to decode token.');
     }
   };
 
   const handleLoginFailure = () => {
-    console.warn("Login failed");
-    setStatus("Login failed");
+    console.warn('Login failed');
+    setStatus('Login failed');
   };
 
   const startRedirectCountdown = () => {
@@ -40,7 +42,7 @@ function App() {
       setRedirectCountdown(seconds);
       if (seconds === 0) {
         clearInterval(interval);
-        window.location.href = "/courses.html";
+        window.location.href = '/courses.html';
       }
     }, 1000);
   };
@@ -48,7 +50,7 @@ function App() {
   const handleLogout = () => {
     googleLogout();
     setUser(null);
-    setStatus("Logged out");
+    setStatus('Logged out');
     setRedirectCountdown(null);
   };
 
@@ -69,7 +71,11 @@ function App() {
 
       {user && (
         <div>
-          <img src={user.picture} alt="Profile" style={{ borderRadius: '50%', width: '100px' }} />
+          <img
+            src={user.picture}
+            alt="Profile"
+            style={{ borderRadius: '50%', width: '100px' }}
+          />
           <h2>Welcome, {user.name}</h2>
           <p>Email: {user.email}</p>
           <button onClick={handleLogout}>Logout</button>
@@ -79,7 +85,7 @@ function App() {
       {redirectCountdown !== null && (
         <p>Redirecting in {redirectCountdown} seconds...</p>
       )}
-
-    </div>);
+    </div>
+  );
 }
 export default App;

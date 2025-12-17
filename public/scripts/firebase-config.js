@@ -1,4 +1,3 @@
-// Firebase configuration - Using actual values from .env.local
 const firebaseConfig = {
   apiKey: "AIzaSyAUEF24NtGtaoQ-f-KmTTOcdX5jCAjhqkY",
   authDomain: "matura-master-9fac8.firebaseapp.com",

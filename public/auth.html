@@ -13,22 +13,109 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="css/auth.css"> 
-  <script src="https://accounts.google.com/gsi/client"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
   <script type="module">
+    // Import Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-    import { getAuth, signInWithCredential, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import {
+      getAuth,
+      signInWithCredential,
+      GoogleAuthProvider,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
     import { firebaseConfig } from './scripts/firebase-config.js';
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Make auth functions available globally
     window.firebaseAuth = auth;
-    window.signInWithCredential = signInWithCredential;
-    window.GoogleAuthProvider = GoogleAuthProvider;
     window.signInWithEmailAndPassword = signInWithEmailAndPassword;
     window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-    window.signInWithPopup = signInWithPopup;
+    window.signInWithCredential = signInWithCredential;
+    window.GoogleAuthProvider = GoogleAuthProvider;
+
+    // Check if user is already logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is already logged in:", user.email);
+        // User is signed in, you could redirect here if needed
+      } else {
+        console.log("No user is signed in");
+      }
+    });
+  </script>
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    function handleCredentialResponse(response) {
+      console.log("Google Sign-In successful");
+
+      // Use the credential with Firebase
+      const credential = window.GoogleAuthProvider.credential(response.credential);
+      window.signInWithCredential(window.firebaseAuth, credential)
+        .then((result) => {
+          const user = result.user;
+          console.log("Firebase sign-in successful:", user);
+
+          // Store user info in localStorage
+          const userInfo = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+          };
+
+          localStorage.setItem("user", JSON.stringify(userInfo));
+          window.location.href = 'courses.html';
+        })
+        .catch((error) => {
+          console.error("Firebase sign-in failed:", error);
+          const errorDiv = document.getElementById('error');
+          if (errorDiv) {
+            errorDiv.textContent = "Грешка при входа с Firebase: " + error.message;
+            errorDiv.style.display = 'block';
+          }
+        });
+    }
+
+    function initializeGoogleSignIn() {
+      google.accounts.id.initialize({
+        client_id: '562285484934-sbe73anaak500lghj135hqv2pfev8rld.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        {
+          theme: 'outline',
+          size: 'large',
+          text: 'continue_with',
+          shape: 'rectangular'
+        }
+      );
+
+      google.accounts.id.renderButton(
+        document.getElementById('google-signin-button-register'),
+        {
+          theme: 'outline',
+          size: 'large',
+          text: 'continue_with',
+          shape: 'rectangular'
+        }
+      );
+    }
+
+    window.addEventListener('load', function() {
+      if (typeof google !== 'undefined' && google.accounts) {
+        initializeGoogleSignIn();
+      } else {
+        setTimeout(initializeGoogleSignIn, 1000);
+      }
+    });
   </script>
 </head>
 <body>
@@ -62,9 +149,7 @@
 
       <div class="divider"><span>или</span></div>
 
-      <button id="google-login-btn" class="btn-main">
-        <i class="fab fa-google"></i> Вход с Google
-      </button>
+      <div id="google-signin-button" class="google-signin-container"></div>
 
       <p class="auth-footer">Нямаш акаунт? <a href="#" id="show-register">Регистрирай се</a></p>
     </form>
@@ -91,51 +176,12 @@
 
       <div class="divider"><span>или</span></div>
 
-      <button id="google-register-btn" class="btn-main">
-        <i class="fab fa-google"></i> Регистрация с Google
-      </button>
+      <div id="google-signin-button-register" class="google-signin-container"></div>
 
       <p class="auth-footer">Вече имаш акаунт? <a href="#" id="show-login">Влез</a></p>
     </form>
   </div>
 
   <script src="scripts/auth.js"></script>
-  <script>
-    function initGoogleLogin() {
-      google.accounts.id.initialize({
-        client_id: "885582348243-71a58kokeupfi05qov29oo38tn7k6mfk.apps.googleusercontent.com",
-        callback: handleGoogleResponse
-      });
-
-      google.accounts.id.renderButton(
-        document.getElementById("google-login-btn"),
-        { theme: "outline", size: "large", width: "100%", text: "continue_with", shape: "pill" }
-      );
-
-      google.accounts.id.renderButton(
-        document.getElementById("google-register-btn"),
-        { theme: "outline", size: "large", width: "100%", text: "continue_with", shape: "pill" }
-      );
-    }
-
-    async function handleGoogleResponse(response) {
-      try {
-        const token = response.credential;
-        const credential = window.GoogleAuthProvider.credential(null, token);
-        const result = await window.signInWithCredential(window.firebaseAuth, credential);
-        const user = result.user;
-
-        console.log("Google вход успешен:", user);
-
-        // Store minimal user info securely, or use Firebase auth state
-        localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
-        window.location.href = 'courses.html';
-      } catch (error) {
-        console.error("Google login failed:", error);
-        document.getElementById('error').textContent = "Грешка при входа с Google.";
-        document.getElementById('error').style.display = 'block';
-      }
-    }
-  </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+  console.log("Auth page loaded");
+  
   const loginTab = document.getElementById('login-tab');
   const registerTab = document.getElementById('register-tab');
   const loginForm = document.getElementById('login-form');
@@ -7,120 +9,48 @@ document.addEventListener('DOMContentLoaded', function() {
   const showLoginLink = document.getElementById('show-login');
   const errorDiv = document.getElementById('error');
 
-  // =============================
-  // Encryption utilities
-  // =============================
-  // Keep session AES key in-memory, accessible through closure.
-  let sessionAesKey = null;
-
-  // Utility: Generate session AES key
-  async function getSessionAesKey() {
-    if (sessionAesKey) return sessionAesKey;
-    sessionAesKey = await window.crypto.subtle.generateKey(
-      { name: "AES-GCM", length: 256 },
-      false,
-      ["encrypt", "decrypt"]
-    );
-    return sessionAesKey;
-  }
-
-  // Utility: Encrypt string
-  async function encryptUserData(plainText) {
-    const enc = new TextEncoder();
-    const iv = window.crypto.getRandomValues(new Uint8Array(12)); // AES-GCM
-    const key = await getSessionAesKey();
-    const encrypted = await window.crypto.subtle.encrypt(
-      { name: "AES-GCM", iv },
-      key,
-      enc.encode(plainText)
-    );
-    // Store IV and ciphertext together (base64 for storage)
-    const ivStr = btoa(String.fromCharCode(...iv));
-    const ctStr = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
-    return ivStr + ':' + ctStr;
-  }
-
-  // NOTE: To read user data, need decryptUserData()
-  async function decryptUserData(data) {
-    const [ivStr, ctStr] = data.split(':');
-    const iv = new Uint8Array(atob(ivStr).split("").map(c => c.charCodeAt(0)));
-    const ciphertext = new Uint8Array(atob(ctStr).split("").map(c => c.charCodeAt(0)));
-    const key = await getSessionAesKey();
-    const decrypted = await window.crypto.subtle.decrypt(
-      { name: "AES-GCM", iv },
-      key,
-      ciphertext
-    );
-    return new TextDecoder().decode(decrypted);
-  }
-
+  // Tab switching functions
   function showLogin() {
+    console.log("Showing login form");
     loginTab.classList.add('active');
     registerTab.classList.remove('active');
     loginForm.classList.add('active');
     registerForm.classList.remove('active');
+    hideError();
   }
 
   function showRegister() {
+    console.log("Showing register form");
     registerTab.classList.add('active');
     loginTab.classList.remove('active');
     registerForm.classList.add('active');
     loginForm.classList.remove('active');
+    hideError();
   }
 
+  // Event listeners for tab switching
   loginTab.addEventListener('click', showLogin);
   registerTab.addEventListener('click', showRegister);
-  showRegisterLink.addEventListener('click', function(e) {
+  showRegisterLink.addEventListener('click', function (e) {
     e.preventDefault();
     showRegister();
   });
-  showLoginLink.addEventListener('click', function(e) {
+  showLoginLink.addEventListener('click', function (e) {
     e.preventDefault();
     showLogin();
   });
 
-  loginForm.addEventListener('submit', async function(e) {
+  // Email/Password login
+  loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const email = document.getElementById('login-username').value.trim(); // Assuming username is email
+    console.log("Login form submitted");
+    
+    const email = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value.trim();
 
+    // Basic validation
     if (!email || !password) {
       showError('Моля, попълнете всички полета.');
-      return;
-    }
-
-    if (email.length < 3 || password.length < 6) {
-      showError('Минимална дължина: име (3), парола (6)');
-      return;
-    }
-
-    try {
-      const userCredential = await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
-      const user = userCredential.user;
-      console.log("Login successful:", user);
-      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
-      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
-      localStorage.setItem("user", encryptedUserInfo);
-      window.location.href = 'courses.html';
-    } catch (error) {
-      console.error("Login failed:", error);
-      showError("Грешка при входа. Проверете имейла и паролата.");
-    }
-  });
-
-  registerForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const username = document.getElementById('register-username').value.trim();
-    const email = document.getElementById('register-email').value.trim();
-    const password = document.getElementById('register-password').value.trim();
-
-    if (!username || !email || !password) {
-      showError('Моля, попълнете всички полета.');
-      return;
-    }
-
-    if (username.length < 3 || password.length < 6) {
-      showError('Минимална дължина: име (3), парола (6)');
       return;
     }
 
@@ -129,38 +59,145 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    if (password.length < 6) {
+      showError('Паролата трябва да е поне 6 символа.');
+      return;
+    }
+
     try {
-      const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
-      const user = userCredential.user;
-      console.log("Registration successful:", user);
-      const userData = { uid: user.uid, email: user.email, displayName: user.displayName };
-      // Encrypt the user data before storing
-      encryptUserData(userData, password).then(encrypted => {
-        localStorage.setItem("user", encrypted);
-        window.location.href = 'courses.html';
-      }).catch(err => {
-        console.error("Failed to encrypt user data:", err);
-        showError("Грешка при защита на user данните. Моля, опитайте отново.");
-      });
-    } catch (error) {
-      console.error("Registration failed:", error);
-      let errorMessage = "Грешка при регистрацията.";
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage += " Имейлът вече е използван.";
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage += " Паролата е твърде слаба.";
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage += " Невалиден имейл адрес.";
-      } else {
-        errorMessage += " Моля, опитайте отново.";
+      console.log("Attempting Firebase login...");
+      
+      // Check if Firebase auth is available
+      if (!window.firebaseAuth || !window.signInWithEmailAndPassword) {
+        throw new Error("Firebase authentication not initialized");
       }
+
+      const userCredential = await window.signInWithEmailAndPassword(
+        window.firebaseAuth,
+        email,
+        password
+      );
+      
+      const user = userCredential.user;
+      console.log('Login successful:', user.email);
+      
+      // Store user info
+      const userInfo = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || email.split('@')[0]
+      };
+      
+      localStorage.setItem("user", JSON.stringify(userInfo));
+      console.log("Redirecting to courses page...");
+      window.location.href = 'courses.html';
+      
+    } catch (error) {
+      console.error('Login failed:', error);
+      let errorMessage = 'Грешка при входа.';
+      
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = 'Потребител с този имейл не е намерен.';
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Грешна парола. Моля, опитайте отново.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Невалиден имейл адрес.';
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = 'Твърде много опити за вход. Моля, опитайте по-късно.';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Мрежова грешка. Моля, проверете връзката с интернет.';
+      }
+      
       showError(errorMessage);
     }
   });
 
+  // Email/Password registration
+  registerForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    console.log("Register form submitted");
+    
+    const username = document.getElementById('register-username').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const password = document.getElementById('register-password').value.trim();
+
+    // Basic validation
+    if (!username || !email || !password) {
+      showError('Моля, попълнете всички полета.');
+      return;
+    }
+
+    if (username.length < 3) {
+      showError('Потребителското име трябва да е поне 3 символа.');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showError('Моля, въведете валиден имейл адрес.');
+      return;
+    }
+
+    if (password.length < 6) {
+      showError('Паролата трябва да е поне 6 символа.');
+      return;
+    }
+
+    try {
+      console.log("Attempting Firebase registration...");
+      
+      // Check if Firebase auth is available
+      if (!window.firebaseAuth || !window.createUserWithEmailAndPassword) {
+        throw new Error("Firebase authentication not initialized");
+      }
+
+      const userCredential = await window.createUserWithEmailAndPassword(
+        window.firebaseAuth,
+        email,
+        password
+      );
+      
+      const user = userCredential.user;
+      console.log('Registration successful:', user.email);
+      
+      // Store user info with username
+      const userInfo = {
+        uid: user.uid,
+        email: user.email,
+        displayName: username
+      };
+      
+      localStorage.setItem("user", JSON.stringify(userInfo));
+      console.log("Redirecting to courses page...");
+      window.location.href = 'courses.html';
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      let errorMessage = 'Грешка при регистрацията.';
+      
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'Имейлът вече се използва от друг акаунт.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'Паролата е твърде слаба. Използвайте поне 6 символа.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Невалиден имейл адрес.';
+      } else if (error.code === 'auth/operation-not-allowed') {
+        errorMessage = 'Регистрацията с имейл е забранена в момента.';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Мрежова грешка. Моля, проверете връзката с интернет.';
+      }
+      
+      showError(errorMessage);
+    }
+  });
+
+  // Helper functions
   function showError(message) {
+    console.log("Showing error:", message);
     errorDiv.textContent = message;
     errorDiv.style.display = 'block';
+    
+    // Auto-hide error after 5 seconds
+    setTimeout(hideError, 5000);
   }
 
   function hideError() {
@@ -172,77 +209,35 @@ document.addEventListener('DOMContentLoaded', function() {
     return re.test(email);
   }
 
+  // Test Firebase connection
+  function testFirebaseConnection() {
+    console.log("Testing Firebase connection...");
+    console.log("firebaseAuth available:", !!window.firebaseAuth);
+    console.log("signInWithEmailAndPassword available:", !!window.signInWithEmailAndPassword);
+    console.log("createUserWithEmailAndPassword available:", !!window.createUserWithEmailAndPassword);
+    console.log("signInWithPopup available:", !!window.signInWithPopup);
+    console.log("googleProvider available:", !!window.googleProvider);
+  }
 
+  // Run test
+  setTimeout(testFirebaseConnection, 1000);
 
-  document.getElementById('google-login-btn').addEventListener('click', async function(e) {
-    e.preventDefault();
-    try {
-      const provider = new window.GoogleAuthProvider();
-      const result = await window.signInWithPopup(window.firebaseAuth, provider);
-      const user = result.user;
-      console.log("Google login successful:", user);
-      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
-      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
-      localStorage.setItem("user", encryptedUserInfo);
-      window.location.href = 'courses.html';
-    } catch (error) {
-      console.error("Google login failed:", error);
-      showError("Грешка при входа с Google: " + error.code);
+  // Check if user is already logged in
+  function checkExistingSession() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        if (userData.uid && userData.email) {
+          console.log('User already logged in from localStorage');
+        }
+      } catch (e) {
+        console.log('Invalid user data in localStorage');
+        localStorage.removeItem('user');
+      }
     }
-  });
+  }
 
-  document.getElementById('google-register-btn').addEventListener('click', async function(e) {
-    e.preventDefault();
-    try {
-      const provider = new window.GoogleAuthProvider();
-      const result = await window.signInWithPopup(window.firebaseAuth, provider);
-      const user = result.user;
-      console.log("Google register successful:", user);
-      const userInfo = { uid: user.uid, email: user.email, displayName: user.displayName };
-      const encryptedUserInfo = await encryptUserData(JSON.stringify(userInfo));
-      localStorage.setItem("user", encryptedUserInfo);
-      window.location.href = 'courses.html';
-    } catch (error) {
-      console.error("Google register failed:", error);
-      showError("Грешка при регистрацията с Google: " + error.code);
-    }
-  });
-/**
- * Encrypt user data (object) using password-derived AES-GCM key.
- * Returns base64 encoded ciphertext.
- */
-async function encryptUserData(userData, password) {
-  const enc = new TextEncoder();
-  const salt = window.crypto.getRandomValues(new Uint8Array(16));
-  // Derive key with PBKDF2
-  const keyMaterial = await window.crypto.subtle.importKey(
-    "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
-  );
-  const key = await window.crypto.subtle.deriveKey(
-    {
-      "name": "PBKDF2",
-      salt: salt,
-      "iterations": 100000,
-      "hash": "SHA-256"
-    },
-    keyMaterial,
-    { "name": "AES-GCM", "length": 256 },
-    false,
-    ["encrypt"]
-  );
-  const iv = window.crypto.getRandomValues(new Uint8Array(12));
-  const data = enc.encode(JSON.stringify(userData));
-  const ciphertext = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, data);
-
-  // Concatenate salt + iv + ciphertext as ArrayBuffer
-  // Format: [salt|iv|ciphertext]
-  const concatenated = new Uint8Array(salt.length + iv.length + ciphertext.byteLength);
-  concatenated.set(salt, 0);
-  concatenated.set(iv, salt.length);
-  concatenated.set(new Uint8Array(ciphertext), salt.length + iv.length);
-
-  // Return as base64 string
-  return btoa(String.fromCharCode.apply(null, concatenated));
-}
-
+  // Check for existing session
+  checkExistingSession();
 });
