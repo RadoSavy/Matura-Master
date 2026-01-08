@@ -132,14 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const user = userCredential.user;
       console.log('Login successful:', user.email);
       
-      // Store user info
+      // User info is available via Firebase Auth (firebaseAuth.currentUser).
+      // Avoid storing authentication-related data in localStorage as clear text.
       const userInfo = {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || email.split('@')[0]
       };
       
-      localStorage.setItem("user", JSON.stringify(userInfo));
       console.log("Redirecting to courses page...");
       window.location.href = 'courses.html';
       
