@@ -1,37 +1,20 @@
 {
   "name": "matura-master",
-  "version": "0.2.1",
-  "private": true,
-  "dependencies": {
-    "@react-oauth/google": "^0.12.2",
-    "firebase": "^11.10.0",
-    "jwt-decode": "^4.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^7.12.0",
-    "react-scripts": "^5.0.1"
-  },
+  "version": "2.0.0",
+  "description": "Bulgarian language learning platform with Firebase",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsc --watch",
+    "serve": "npx http-server public -p 8080 -c-1",
+    "dev:all": "npm run watch & npm run serve",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf public/dist"
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
-    "eslint": "^8.57.1",
-    "prettier": "^3.7.4"
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "firebase": "^10.7.1"
   }
 }
