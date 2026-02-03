@@ -13,7 +13,9 @@ const appData = {
   streak: parseInt(localStorage.getItem('literatureStreak')) || 0,
 };
 
-const literatureLessons = [
+let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratureLessons.length)
+  ? window.remoteLiteratureLessons
+  : [
   {
     id: 1,
     title: 'Добри Чинтулов',

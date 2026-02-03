@@ -49,11 +49,46 @@
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
         </a>
-    </nav>
+    </div>
+            </div>
+    
+    </div>
+            <script type="module">
+                import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+                import {
+                    getFirestore,
+                    collection,
+                    getDocs,
+                    query,
+                    orderBy,
+                } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+                import { firebaseConfig } from './scripts/firebase-config.js';
 
-    <main>
-        <div class="content-area">
-            <div class="section-header">
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+
+                async function loadRemoteWorks() {
+                    try {
+                        const q = query(collection(db, 'literaryWorks'), orderBy('title'));
+                        const snap = await getDocs(q);
+                        const map = {};
+                        snap.docs.forEach((d) => {
+                            const data = { id: d.id, ...d.data() };
+                            const key = data.key || data.slug || d.id;
+                            map[key] = data;
+                        });
+                        window.remoteWorksData = map;
+                        console.log('Loaded remote works:', Object.keys(map).length);
+                    } catch (e) {
+                        console.warn('Could not load remote works', e);
+                        window.remoteWorksData = {};
+                    }
+                }
+
+                await loadRemoteWorks();
+            </script>
+
+            <script src="scripts\texts.js"></script>
             <div class="section-title">Литература за 7-ми клас</div>
             <h1 class="unit-title">Текстове и анализи</h1>
             </div>

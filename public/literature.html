@@ -122,5 +122,33 @@
     </div>
 
     <script src="/scripts/literature.js"></script>
+        <script type="module">
+            import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+            import {
+                getFirestore,
+                collection,
+                getDocs,
+                query,
+                orderBy,
+            } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+            import { firebaseConfig } from './scripts/firebase-config.js';
+
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            async function loadRemoteLessons() {
+                try {
+                    const q = query(collection(db, 'literatureLessons'), orderBy('id'));
+                    const snap = await getDocs(q);
+                    window.remoteLiteratureLessons = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+                    console.log('Loaded remote literature lessons:', window.remoteLiteratureLessons.length);
+                } catch (e) {
+                    console.warn('Could not load remote literature lessons', e);
+                    window.remoteLiteratureLessons = [];
+                }
+            }
+
+            await loadRemoteLessons();
+        </script>
 </body>
 </html>

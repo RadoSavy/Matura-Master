@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const worksData = {
+  const worksData = (window.remoteWorksData && Object.keys(window.remoteWorksData).length)
+    ? window.remoteWorksData
+    : {
     chintulov1p1: {
       title: 'Стани, стани, юнак балкански',
       text: `Стани, стани юнак балкански
