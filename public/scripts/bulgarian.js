@@ -12,6 +12,13 @@ const appData = {
   streak: parseInt(localStorage.getItem('streak')) || 0,
 };
 
+// Function to escape HTML characters to prevent XSS
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 const lessons = [
   {
     id: 1,
@@ -2233,7 +2240,7 @@ function renderLessons() {
         lessonCard.innerHTML = `
                           ${lesson.crown ? '<div class="crown-icon"><i class="fas fa-crown"></i></div>' : ''}
                           <div class="lesson-icon">${lesson.icon || lesson.id}</div>
-                          <div class="lesson-title">${lesson.title}</div>
+                          <div class="lesson-title">${escapeHtml(lesson.title)}</div>
                           <div class="lesson-xp">${lesson.xp} XP</div>
                       `;
       }
