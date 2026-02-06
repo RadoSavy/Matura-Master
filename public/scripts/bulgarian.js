@@ -2261,7 +2261,7 @@ function showLessonPreview(lesson) {
               <div class="modal-content" style="text-align: center;">
                   <button class="close-modal" id="closePreviewModal"><i class="fas fa-times"></i></button>
                   <div class="lesson-icon" style="margin: 0 auto 20px; font-size: 40px; width: 80px; height: 80px;">${lesson.icon || lesson.id}</div>
-                  <h2 style="margin-bottom: 10px;">${lesson.title}</h2>
+                  <h2 style="margin-bottom: 10px;">${escapeHtml(lesson.title)}</h2>
                   <p style="color: var(--text-light); margin-bottom: 25px;">${lesson.description}</p>
                   <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
                       <div style="background: rgba(76, 175, 80, 0.1); padding: 10px; border-radius: 10px; width: 48%;">
