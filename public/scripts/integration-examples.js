@@ -59,7 +59,7 @@ async function uploadTextWithMetadata() {
     const result = await uploader.addDocument('texts', textData);
     console.log('Text uploaded with ID:', result.id);
   } catch (error) {
-    console.error('Upload failed:', error);
+    console.error('Upload failed:', error.message);
   }
 }
 
@@ -87,7 +87,7 @@ async function displayAllCourses() {
       `)
       .join('');
   } catch (error) {
-    console.error('Error loading courses:', error);
+    console.error('Error loading courses:', error.message);
   }
 }
 
@@ -109,7 +109,7 @@ async function updateCourse(courseId, updates) {
     });
     console.log('Course updated:', result);
   } catch (error) {
-    console.error('Error updating course:', error);
+    console.error('Error updating course:', error.message);
   }
 }
 
@@ -135,7 +135,7 @@ async function deleteCourse(courseId) {
     const result = await uploader.deleteDocument('courses', courseId);
     console.log('Course deleted:', result);
   } catch (error) {
-    console.error('Error deleting course:', error);
+    console.error('Error deleting course:', error.message);
   }
 }
 
@@ -175,7 +175,7 @@ async function uploadMultipleTexts() {
     console.log(`${result.count} documents uploaded!`);
     console.log('Document IDs:', result.ids);
   } catch (error) {
-    console.error('Batch upload failed:', error);
+    console.error('Batch upload failed:', error.message);
   }
 }
 
@@ -197,7 +197,7 @@ async function findCoursesByCategory(category) {
     });
     return results;
   } catch (error) {
-    console.error('Search failed:', error);
+    console.error('Search failed:', error.message);
   }
 }
 
@@ -219,7 +219,7 @@ async function getCourseDetails(courseId) {
     console.log('Course details:', course);
     return course;
   } catch (error) {
-    console.error('Error fetching course:', error);
+    console.error('Error fetching course:', error.message);
   }
 }
 
@@ -295,7 +295,7 @@ function setupAutoRefresh(collectionName, containerId) {
         .map(doc => `<div class="item">${doc.title || doc.name}</div>`)
         .join('');
     } catch (error) {
-      console.error('Refresh failed:', error);
+      console.error('Refresh failed:', error.message);
     }
   }
 

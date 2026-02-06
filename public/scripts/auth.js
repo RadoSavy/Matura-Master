@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = 'courses.html';
       
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Login failed:', error.message);
       let errorMessage = 'Грешка при входа.';
       
       if (error.code === 'auth/user-not-found') {
@@ -225,14 +225,14 @@ document.addEventListener('DOMContentLoaded', function () {
           window.location.href = 'courses.html';
         })
         .catch(e => {
-          console.error("Encryption failed:", e);
+          console.error("Encryption failed:", e.message);
           showError("Възникна грешка при запазване на данните.");
         });
       // Don't redirect here; will happen in promise above
       return;
       
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error('Registration failed:', error.message);
       let errorMessage = 'Грешка при регистрацията.';
       
       if (error.code === 'auth/email-already-in-use') {

@@ -28,7 +28,7 @@ export const addFirestoreDocument = async (collectionName, data) => {
     });
     return docRef.id;
   } catch (error) {
-    console.error(`Error adding document to ${collectionName}:`, error);
+    console.error(`Error adding document to ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -46,7 +46,7 @@ export const updateFirestoreDocument = async (collectionName, docId, data) => {
       updatedAt: new Date(),
     });
   } catch (error) {
-    console.error(`Error updating document in ${collectionName}:`, error);
+    console.error(`Error updating document in ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -60,7 +60,7 @@ export const deleteFirestoreDocument = async (collectionName, docId) => {
   try {
     await deleteDoc(doc(db, collectionName, docId));
   } catch (error) {
-    console.error(`Error deleting document from ${collectionName}:`, error);
+    console.error(`Error deleting document from ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -78,7 +78,7 @@ export const getAllFirestoreDocuments = async (collectionName) => {
       ...doc.data(),
     }));
   } catch (error) {
-    console.error(`Error fetching documents from ${collectionName}:`, error);
+    console.error(`Error fetching documents from ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -97,7 +97,7 @@ export const getFirestoreDocument = async (collectionName, docId) => {
     }
     return null;
   } catch (error) {
-    console.error(`Error fetching document from ${collectionName}:`, error);
+    console.error(`Error fetching document from ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -125,7 +125,7 @@ export const queryFirestoreDocuments = async (
       ...doc.data(),
     }));
   } catch (error) {
-    console.error(`Error querying documents from ${collectionName}:`, error);
+    console.error(`Error querying documents from ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -156,7 +156,7 @@ export const batchUploadFirestoreDocuments = async (
     await batch.commit();
     return docRefs;
   } catch (error) {
-    console.error(`Error batch uploading documents to ${collectionName}:`, error);
+    console.error(`Error batch uploading documents to ${collectionName}: ${error.message}`);
     throw error;
   }
 };
@@ -176,7 +176,7 @@ export const deleteFirestoreCollection = async (collectionName) => {
 
     await batch.commit();
   } catch (error) {
-    console.error(`Error deleting collection ${collectionName}:`, error);
+    console.error(`Error deleting collection ${collectionName}: ${error.message}`);
     throw error;
   }
 };

@@ -53,7 +53,7 @@ app.post('/api/documents/:collectionName', async (req, res) => {
       id: docRef.id,
     });
   } catch (error) {
-    console.error('Error adding document:', error);
+    console.error('Error adding document:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -78,7 +78,7 @@ app.get('/api/documents/:collectionName', async (req, res) => {
 
     res.json(documents);
   } catch (error) {
-    console.error('Error fetching documents:', error);
+    console.error('Error fetching documents:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -102,7 +102,7 @@ app.get('/api/documents/:collectionName/:docId', async (req, res) => {
       ...doc.data(),
     });
   } catch (error) {
-    console.error('Error fetching document:', error);
+    console.error('Error fetching document:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -126,7 +126,7 @@ app.put('/api/documents/:collectionName/:docId', async (req, res) => {
       id: docId,
     });
   } catch (error) {
-    console.error('Error updating document:', error);
+    console.error('Error updating document:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -146,7 +146,7 @@ app.delete('/api/documents/:collectionName/:docId', async (req, res) => {
       id: docId,
     });
   } catch (error) {
-    console.error('Error deleting document:', error);
+    console.error('Error deleting document:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -185,7 +185,7 @@ app.post('/api/batch/:collectionName', async (req, res) => {
       ids: docIds,
     });
   } catch (error) {
-    console.error('Error batch uploading documents:', error);
+    console.error('Error batch uploading documents:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -218,14 +218,14 @@ app.get('/api/query/:collectionName', async (req, res) => {
 
     res.json(documents);
   } catch (error) {
-    console.error('Error querying documents:', error);
+    console.error('Error querying documents:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
 // Error handling middleware
 app.use((error, req, res, next) => {
-  console.error('Unhandled error:', error);
+  console.error('Unhandled error:', error.message);
   res.status(500).json({
     error: error.message || 'Internal server error',
   });
