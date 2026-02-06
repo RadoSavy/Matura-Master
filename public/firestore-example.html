@@ -331,7 +331,11 @@
      */
     async function loadDocuments(collectionName) {
       if (!collectionName) {
-        documentsList.innerHTML = '<p style="color: #999;">Select a collection to view documents</p>';
+        documentsList.innerHTML = '';
+        const p = document.createElement('p');
+        p.style.color = '#999';
+        p.textContent = 'Select a collection to view documents';
+        documentsList.appendChild(p);
         return;
       }
 
@@ -339,30 +343,65 @@
         const documents = await uploader.getDocuments(collectionName);
 
         if (documents.length === 0) {
-          documentsList.innerHTML = '<p style="color: #999;">No documents yet. Upload one to get started!</p>';
+          documentsList.innerHTML = '';
+          const p = document.createElement('p');
+          p.style.color = '#999';
+          p.textContent = 'No documents yet. Upload one to get started!';
+          documentsList.appendChild(p);
           return;
         }
 
-        documentsList.innerHTML = documents
+        // Clear existing list
+        documentsList.innerHTML = '';
+
+        documents
           .slice(0, 5) // Show only last 5
-          .map(
-            (doc) => `
-          <div class="document-item">
-            <div class="document-info">
-              <div class="document-title">${doc.title || 'Untitled'}</div>
-              <div class="document-desc">${(doc.description || '').substring(0, 80)}...</div>
-              ${doc.author ? `<div class="document-desc">By: ${doc.author}</div>` : ''}
-            </div>
-            <button type="button" class="delete-btn" onclick="deleteDocument('${collectionName}', '${doc.id}')">
-              Delete
-            </button>
-          </div>
-        `
-          )
-          .join('');
+          .forEach((doc) => {
+            const item = document.createElement('div');
+            item.className = 'document-item';
+
+            const info = document.createElement('div');
+            info.className = 'document-info';
+
+            const titleEl = document.createElement('div');
+            titleEl.className = 'document-title';
+            titleEl.textContent = doc.title || 'Untitled';
+
+            const descEl = document.createElement('div');
+            descEl.className = 'document-desc';
+            const description = (doc.description || '').substring(0, 80) + '...';
+            descEl.textContent = description;
+
+            info.appendChild(titleEl);
+            info.appendChild(descEl);
+
+            if (doc.author) {
+              const authorEl = document.createElement('div');
+              authorEl.className = 'document-desc';
+              authorEl.textContent = 'By: ' + doc.author;
+              info.appendChild(authorEl);
+            }
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', () => {
+              deleteDocument(collectionName, doc.id);
+            });
+
+            item.appendChild(info);
+            item.appendChild(deleteBtn);
+
+            documentsList.appendChild(item);
+          });
       } catch (error) {
         console.error('Error loading documents:', error);
-        documentsList.innerHTML = `<p style="color: #e74c3c;">Error loading documents: ${error.message}</p>`;
+        documentsList.innerHTML = '';
+        const p = document.createElement('p');
+        p.style.color = '#e74c3c';
+        p.textContent = 'Error loading documents: ' + (error.message || '');
+        documentsList.appendChild(p);
       }
     }
 
