@@ -1,12 +1,19 @@
+/**
+ * Enhanced Backend Server with Firestore and AI Integration
+ * Includes Firestore CRUD operations and AI service integration
+ */
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import admin from 'firebase-admin';
+import axios from 'axios';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5001/api';
 
 // Middleware
 app.use(cors());
@@ -35,12 +42,19 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// Health check endpoint
+// ==================== Health Checks ====================
+
 app.get('/health', (req, res) => {
-  res.json({ status: 'Backend is running' });
+  res.json({ 
+    status: 'Backend is running',
+    services: {
+      firestore: 'Connected',
+      ai_service: 'Ready'
+    }
+  });
 });
 
-// ===== Firestore CRUD Operations =====
+// ==================== Firestore CRUD Operations ====================
 
 /**
  * ADD - Create a new document
@@ -236,6 +250,109 @@ app.get('/api/query/:collectionName', async (req, res) => {
   }
 });
 
+// ==================== AI Service Proxy Endpoints ====================
+
+/**
+ * Proxy requests to the Python AI service
+ * This allows the frontend to communicate with AI through the Node backend
+ */
+
+app.post('/api/ai/ask', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/ask`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/generate-exercise', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/generate-exercise`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/grade-submission', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/grade-submission`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/recommendation', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/recommendation`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.get('/api/ai/search', async (req, res) => {
+  try {
+    const response = await axios.get(`${AI_SERVICE_URL}/ai/search`, { params: req.query });
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/create-study-plan', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/create-study-plan`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/next-lesson', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/next-lesson`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
+app.post('/api/ai/assessment', async (req, res) => {
+  try {
+    const response = await axios.post(`${AI_SERVICE_URL}/ai/assessment`, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error calling AI service:', error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: error.message || 'AI service error' 
+    });
+  }
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error.message);
@@ -248,4 +365,13 @@ app.use((error, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Backend server is running on http://localhost:${PORT}`);
   console.log(`📊 Firestore database connected to project: ${process.env.FIREBASE_PROJECT_ID}`);
+  console.log(`🚀 AI service proxy configured: ${AI_SERVICE_URL}`);
+  console.log('\n📚 Available Collections:');
+  console.log('   - courses');
+  console.log('   - texts');
+  console.log('   - literature');
+  console.log('   - bulgarian');
+  console.log('   - exercises');
+  console.log('   - users');
+  console.log('   - userProgress');
 });

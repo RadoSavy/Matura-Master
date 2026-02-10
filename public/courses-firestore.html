@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="robots" content="NOODP">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Matura Master">
+  <meta name="google" content="notranslate">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Предмети - Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .loading { opacity: 0.6; pointer-events: none; }
+    .error-message { background: #fee; color: #c33; padding: 1rem; border-radius: 4px; margin: 1rem 0; }
+    .success-message { background: #efe; color: #3c3; padding: 1rem; border-radius: 4px; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-icon">MM</div>
+      <span>Matura Master</span>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge">3</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-gem"></i>
+      </button>
+      <button class="profile-btn">И</button>
+    </div>
+  </header>
+
+  <nav class="desktop-nav">
+    <a href="courses.html" class="desktop-nav-item active">
+      <i class="fas fa-book desktop-nav-icon"></i>
+      <span>Предмети</span>
+    </a>
+    <a href="baiganio.html" class="desktop-nav-item">
+      <i class="fas fa-robot desktop-nav-icon"></i>
+      <span>BAI Ганьо</span>
+    </a>
+    <a href="texts.html" class="desktop-nav-item">
+      <i class="fas fa-book-reader desktop-nav-icon"></i>
+      <span>Произведения</span>
+    </a>
+    <a href="profile.html" class="desktop-nav-item">
+      <i class="fas fa-user desktop-nav-icon"></i>
+      <span>Профил</span>
+    </a>
+    <a href="login.html" class="desktop-nav-item">
+      <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
+      <span>Изход</span>
+    </a>
+  </nav>
+
+  <main>
+    <div id="message-container"></div>
+    
+    <section class="courses-section">
+      <h1>📚 Предмети</h1>
+      <p>Избери предмет за подготовка на национално външно оценяване</p>
+      
+      <div id="course-list" class="course-list loading">
+        <p>Зареждане на предметите...</p>
+      </div>
+    </section>
+
+    <section style="margin-top: 3rem; padding: 2rem; background: #f9f9f9; border-radius: 8px;">
+      <h2>✨ AI Асистент (BAI Ганьо)</h2>
+      <p>Задай въпрос на нашия AI асистент за помощ в учението</p>
+      
+      <div style="margin-top: 1rem;">
+        <input 
+          type="text" 
+          id="ai-question" 
+          placeholder="Например: 'Какво е прилагателно?'"
+          style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 4px;"
+        >
+        <button 
+          id="ask-ai-btn" 
+          style="margin-top: 0.5rem; padding: 0.75rem 1.5rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;"
+        >
+          Задай въпрос
+        </button>
+      </div>
+      
+      <div id="ai-response" style="margin-top: 1rem; display: none; background: white; padding: 1rem; border-left: 4px solid #007bff; border-radius: 4px;">
+        <strong id="ai-answer-title">Отговор:</strong>
+        <p id="ai-answer-text"></p>
+        <div id="ai-explanation" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav">
+    <a href="courses.html" class="nav-item active">
+      <i class="fas fa-book nav-icon"></i>
+      <span>Предмети</span>
+    </a>
+    <a href="baiganio.html" class="nav-item">
+      <i class="fas fa-robot nav-icon"></i>
+      <span>BAI Ганьо</span>
+    </a>
+    <a href="texts.html" class="nav-item">
+      <i class="fas fa-book-reader nav-icon"></i>
+      <span>Текстове</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user nav-icon"></i>
+      <span>Профил</span>
+    </a>
+  </nav>
+
+  <!-- Load Firestore Integration Module -->
+  <script src="/scripts/firestore-integration.js"></script>
+  
+  <script src="/scripts/bulgarian.js"></script>
+  <script src="/scripts/literature.js"></script>
+  <script>
+    // Initialize Firestore Integration
+    const fs = new FirestoreIntegration('http://localhost:5000/api');
+
+    // Load courses from original JavaScript data
+    async function loadCourses() {
+      const courseList = document.getElementById('course-list');
+      try {
+        courseList.classList.add('loading');
+        
+        // Get lessons from the original JS files
+        let allLessons = [];
+        
+        // Load Bulgarian lessons
+        if (typeof lessons !== 'undefined' && lessons.length > 0) {
+          allLessons = allLessons.concat(lessons.slice(0, 3));
+        }
+        
+        // Load Literature lessons if available
+        if (typeof literatureLessons !== 'undefined' && literatureLessons.length > 0) {
+          allLessons = allLessons.concat(literatureLessons.slice(0, 2));
+        }
+        
+        // If we have lessons from JS files, use them
+        if (allLessons.length > 0) {
+          displayCourses(allLessons);
+          showMessage('Предметите са заредени от местни данни', 'success');
+        } else {
+          // Fallback to Firestore if no JS data
+          const courses = await fs.loadDocuments('courses');
+          displayCourses(courses);
+          showMessage('Предметите са заредени от базата данни', 'success');
+        }
+      } catch (error) {
+        console.error('Error loading courses:', error);
+        courseList.innerHTML = '<p>Грешка при зареждането на предметите</p>';
+        showMessage('Грешка при зареждането на предметите', 'error');
+      } finally {
+        courseList.classList.remove('loading');
+      }
+    }
+
+    // Display courses in the UI
+    function displayCourses(courses) {
+      const courseList = document.getElementById('course-list');
+      
+      if (!courses || courses.length === 0) {
+        courseList.innerHTML = '<p>Няма налични предмети</p>';
+        return;
+      }
+
+      courseList.innerHTML = courses.map(course => `
+        <div class="course-card" data-course-id="${course.id}">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">${course.icon || '📚'}</div>
+          <h3>${course.title || 'Без заглавие'}</h3>
+          <p>${course.description || course.content ? (course.content ? course.content.substring(0, 100) + '...' : course.description) : 'Няма описание'}</p>
+          ${course.instructor ? `<div style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">
+            <strong>Преподавател:</strong> ${course.instructor}
+          </div>` : ''}
+          ${course.xp ? `<div style="font-size: 0.9rem; color: #667eea; margin: 0.5rem 0;">
+            <strong>XP:</strong> +${course.xp}
+          </div>` : ''}
+          ${course.level ? `<div style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">
+            <strong>Ниво:</strong> ${course.level}
+          </div>` : ''}
+          <button class="course-btn" onclick="enterCourse('${course.id}', '${course.title.replace(/'/g, "\\'")}')">
+            Вход →
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // Enter course (can be extended with course materials)
+    function enterCourse(courseId, courseTitle) {
+      showMessage(`Влизаш в курс: ${courseTitle}`, 'success');
+      // Can be extended to load course materials, exercises, etc.
+    }
+
+    // AI Question Handler
+    document.getElementById('ask-ai-btn').addEventListener('click', askAI);
+    document.getElementById('ai-question').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') askAI();
+    });
+
+    async function askAI() {
+      const question = document.getElementById('ai-question').value.trim();
+      const responseDiv = document.getElementById('ai-response');
+
+      if (!question) {
+        showMessage('Моля, задай въпрос', 'error');
+        return;
+      }
+
+      try {
+        const response = await fs.askAI(question);
+        
+        if (response.status === 'success' || response.status === 'partial') {
+          document.getElementById('ai-answer-text').textContent = response.answer || response.message;
+          
+          let explanationHTML = '';
+          if (response.source) {
+            explanationHTML += `<p><strong>Източник:</strong> ${response.source}</p>`;
+          }
+          if (response.confidence) {
+            explanationHTML += `<p><strong>Точност:</strong> ${Math.round(response.confidence * 100)}%</p>`;
+          }
+          if (response.suggestion) {
+            explanationHTML += `<p><em>💡 ${response.suggestion}</em></p>`;
+          }
+          
+          document.getElementById('ai-explanation').innerHTML = explanationHTML || '';
+          responseDiv.style.display = 'block';
+          showMessage('AI асистентът е отговорил', 'success');
+        } else {
+          showMessage(response.message || 'AI услугата не е налична', 'error');
+        }
+      } catch (error) {
+        console.error('Error asking AI:', error);
+        showMessage('Грешка при общуване с AI. Възможно е AI услугата да се обучава.', 'error');
+      }
+    }
+
+    // Message display function
+    function showMessage(message, type = 'info') {
+      const container = document.getElementById('message-container');
+      const messageClass = type === 'error' ? 'error-message' : (type === 'success' ? 'success-message' : 'info-message');
+      container.innerHTML = `<div class="${messageClass}">${message}</div>`;
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        container.innerHTML = '';
+      }, 5000);
+    }
+
+    // Load courses when page loads
+    document.addEventListener('DOMContentLoaded', loadCourses);
+  </script>
+</body>
+</html>
