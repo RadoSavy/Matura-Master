@@ -72,7 +72,7 @@
       btn.type = 'button';
       btn.className = 'google-signin-btn';
       btn.innerHTML = '<span class="g-icon" aria-hidden></span><span>Вход с Google</span>';
-      btn.addEventListener('click', async () => {
+btn.addEventListener('click', async () => {
         try {
           const provider = new GoogleAuthProvider();
           const result = await signInWithPopup(window.firebaseAuth, provider);
@@ -85,17 +85,8 @@
           };
           localStorage.setItem('user', JSON.stringify(userInfo));
 
-          // populate profile card instead of redirecting
-          const profile = document.getElementById('google-profile');
-          const avatar = document.getElementById('profile-avatar');
-          const nameEl = document.getElementById('profile-name');
-          const emailEl = document.getElementById('profile-email');
-          if (avatar && nameEl && emailEl && profile) {
-            avatar.src = userInfo.photoURL || '';
-            nameEl.textContent = userInfo.displayName || '';
-            emailEl.textContent = userInfo.email || '';
-            profile.style.display = 'block';
-          }
+          // Redirect to courses page after successful login
+          window.location.href = 'courses.html';
         } catch (error) {
           console.error('Firebase sign-in failed:', error);
           const errorDiv = document.getElementById('error');

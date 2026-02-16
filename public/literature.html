@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <script src="/scripts/auth-check.js"></script>
     <header>
         <div class="logo">
             <div class="logo-icon">MM</div>
@@ -47,7 +48,7 @@
             <i class="fas fa-book-reader desktop-nav-icon"></i>
             <span>Произведения</span>
         </a>
-        <a href="login.html" class="desktop-nav-item">
+        <a href="#" class="desktop-nav-item" onclick="logout(); return false;">
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
         </a>

@@ -110,7 +110,7 @@
       transform: scale(1.05);
     }
 
-    main {
+main {
       flex: 1;
       margin-top: 60px;
       margin-bottom: 70px;
@@ -119,6 +119,8 @@
       width: 100%;
       margin-left: auto;
       margin-right: auto;
+      min-height: calc(100vh - 130px);
+      overflow-y: auto;
     }
 
     .mobile-nav {

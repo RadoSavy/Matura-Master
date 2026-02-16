@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/texts.css">
 </head>
 <body class="literature">
+    <script src="scripts/auth-check.js"></script>
     <header>
         <div class="logo">
             <div class="logo-icon">MM</div>
@@ -49,67 +50,48 @@
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
         </a>
-    </div>
-            </div>
-    
-    </div>
-            <script type="module">
-                import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-                import {
-                    getFirestore,
-                    collection,
-                    getDocs,
-                    query,
-                    orderBy,
-                } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
-                import { firebaseConfig } from './scripts/firebase-config.js';
+    </nav>
 
-                const app = initializeApp(firebaseConfig);
-                const db = getFirestore(app);
+    <main>
+        <script type="module">
+            import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+            import {
+                getFirestore,
+                collection,
+                getDocs,
+                query,
+                orderBy,
+            } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+            import { firebaseConfig } from './scripts/firebase-config.js';
 
-                async function loadRemoteWorks() {
-                    try {
-                        const q = query(collection(db, 'literaryWorks'), orderBy('title'));
-                        const snap = await getDocs(q);
-                        const map = {};
-                        snap.docs.forEach((d) => {
-                            const data = { id: d.id, ...d.data() };
-                            const key = data.key || data.slug || d.id;
-                            map[key] = data;
-                        });
-                        window.remoteWorksData = map;
-                        console.log('Loaded remote works:', Object.keys(map).length);
-                    } catch (e) {
-                        console.warn('Could not load remote works', e);
-                        window.remoteWorksData = {};
-                    }
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            async function loadRemoteWorks() {
+                try {
+                    const q = query(collection(db, 'literaryWorks'), orderBy('title'));
+                    const snap = await getDocs(q);
+                    const map = {};
+                    snap.docs.forEach((d) => {
+                        const data = { id: d.id, ...d.data() };
+                        const key = data.key || data.slug || d.id;
+                        map[key] = data;
+                    });
+                    window.remoteWorksData = map;
+                    console.log('Loaded remote works:', Object.keys(map).length);
+                } catch (e) {
+                    console.warn('Could not load remote works', e);
+                    window.remoteWorksData = {};
                 }
+            }
 
-                await loadRemoteWorks();
-            </script>
+            await loadRemoteWorks();
+        </script>
 
-            <script src="scripts\texts.js"></script>
-            <div class="section-title">Литература за 7-ми клас</div>
-            <h1 class="unit-title">Текстове и анализи</h1>
+        <script src="scripts\texts.js"></script>
+        <div class="section-title">Литература за 7-ми клас</div>
+        <h1 class="unit-title">Текстове и анализи</h1>
 
-            <!-- Form to add new text -->
-            <form id="addTextForm" style="max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-              <h3>Add New Text</h3>
-              <input type="text" name="title" placeholder="Text Title" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
-              <input type="text" name="author" placeholder="Author" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
-              <input type="text" name="category" placeholder="Category (e.g., Poetry, Prose)" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
-              <textarea name="content" placeholder="Text Content" required style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; min-height: 150px;"></textarea>
-              <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Add Text</button>
-            </form>
-
-            <!-- Messages -->
-            <div id="messages" style="max-width: 600px; margin: 0 auto;"></div>
-
-            <!-- Dynamic texts container -->
-            <div id="textsContainer">
-              <!-- Dynamic content will be loaded here -->
-            </div>
-            </div>
 
             <div class="card">
                 <div class="card-title">

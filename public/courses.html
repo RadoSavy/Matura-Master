@@ -16,6 +16,21 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Authentication check - redirect to auth.html if not logged in -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+    import { firebaseConfig } from './scripts/firebase-config.js';
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = 'auth.html';
+      }
+    });
+  </script>
   <header>
     <div class="logo">
       <div class="logo-icon">MM</div>
