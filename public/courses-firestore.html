@@ -188,11 +188,24 @@
           ${course.level ? `<div style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">
             <strong>Ниво:</strong> ${course.level}
           </div>` : ''}
-          <button class="course-btn" onclick="enterCourse('${course.id}', '${course.title.replace(/'/g, "\\'")}')">
+          <button
+            class="course-btn"
+            data-course-id="${course.id}"
+            data-course-title="${(course.title || 'Без заглавие').replace(/"/g, '&quot;')}">
             Вход →
           </button>
         </div>
       `).join('');
+
+      // Attach click handlers to course buttons without using inline JavaScript
+      const buttons = courseList.querySelectorAll('.course-btn');
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          const courseId = button.getAttribute('data-course-id');
+          const courseTitle = button.getAttribute('data-course-title');
+          enterCourse(courseId, courseTitle);
+        });
+      });
     }
 
     // Enter course (can be extended with course materials)
