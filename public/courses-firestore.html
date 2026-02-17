@@ -259,10 +259,20 @@
     }
 
     // Message display function
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/\//g, '&#x2F;');
+    }
+
     function showMessage(message, type = 'info') {
       const container = document.getElementById('message-container');
       const messageClass = type === 'error' ? 'error-message' : (type === 'success' ? 'success-message' : 'info-message');
-      container.innerHTML = `<div class="${messageClass}">${message}</div>`;
+      container.innerHTML = `<div class="${messageClass}">${escapeHtml(message)}</div>`;
       
       // Auto-hide after 5 seconds
       setTimeout(() => {
