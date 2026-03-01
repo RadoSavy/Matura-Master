@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const worksData = (window.remoteWorksData && Object.keys(window.remoteWorksData).length)
+  // start with whatever remote data might already be present; will be overwritten when API load completes
+  let worksData = (window.remoteWorksData && Object.keys(window.remoteWorksData).length)
     ? window.remoteWorksData
-    : {
+    : {};
+
+  /*
+  // Hardcoded fallback data commented out (keep here for reference)
     chintulov1p1: {
       title: 'Стани, стани, юнак балкански',
       text: `Стани, стани юнак балкански
@@ -1954,7 +1958,89 @@ document.addEventListener('DOMContentLoaded', function () {
 5. Послание и интерпретация
 Разказът показва колко силна е човешката вяра и надежда пред трудностите, както и ценността на състраданието и съпричастността. Чудото – бялата лястовичка – символизира надеждата, че животът и добротата могат да преодолеят страданието. Йовков подчертава, че дори в суровия селски живот, човешките чувства, грижа и вяра имат голяма стойност.`,
     },
-  };
+  }*/
+
+  // helper that recomputes worksData whenever remote data appears
+  function updateWorksData() {
+    if (window.remoteWorksData && Object.keys(window.remoteWorksData).length) {
+      worksData = window.remoteWorksData;
+    }
+  }
+
+  // remove any static markup left behind and create container for dynamically generated works
+  function renderWorks() {
+    updateWorksData();
+
+    const main = document.querySelector('main');
+    // clear any old generated container
+    let container = document.getElementById('works-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'works-container';
+      // try to insert right after the unit title so it's in place of the old static cards
+      const titleEl = main.querySelector('.unit-title');
+      if (titleEl && titleEl.nextSibling) {
+        main.insertBefore(container, titleEl.nextSibling);
+      } else {
+        main.appendChild(container);
+      }
+    }
+    container.innerHTML = ''; // wipe previous contents
+
+    // drop leftover static cards/sections once
+    main.querySelectorAll('.card, .author-section').forEach(el => el.remove());
+
+    if (!worksData || Object.keys(worksData).length === 0) {
+      container.textContent = 'Няма налични произведения.';
+      return;
+    }
+
+    // group texts by author
+    const authors = {};
+    Object.values(worksData).forEach(text => {
+      const auth = text.author || text.creator || 'Без автор';
+      if (!authors[auth]) authors[auth] = [];
+      authors[auth].push(text);
+    });
+
+    Object.entries(authors).forEach(([author, texts]) => {
+      const section = document.createElement('div');
+      section.className = 'author-section';
+      section.innerHTML = `<div class="author-header"><h3>${author}</h3></div>`;
+
+      texts.forEach(t => {
+        const item = document.createElement('div');
+        item.className = 'work-item';
+        // include author name on each card for clarity
+        const authorName = t.author || t.creator || '';
+        item.innerHTML = `
+          <div class="work-info">
+            <i class="fas fa-file-alt work-icon"></i>
+            <span class="work-title">${t.title || t.name || ''}</span>
+          </div>
+          ${authorName ? `<p class="work-author">${authorName}</p>` : ''}
+          <div class="work-parts">
+            <div class="work-part">
+              <div class="part-actions">
+                <button class="btn btn-sm show-text" data-work="${t.id}">Текст</button>
+                <button class="btn btn-sm btn-outline show-analysis" data-work="${t.id}">Анализ</button>
+              </div>
+            </div>
+          </div>`;
+        section.appendChild(item);
+      });
+
+      container.appendChild(section);
+    });
+  }
+
+  // initial render in case remote data was already available
+  renderWorks();
+
+  // listen for event dispatched by api-loader when data arrives
+  document.addEventListener('remoteWorksDataLoaded', () => {
+    renderWorks();
+  });
 
   const modal = document.getElementById('text-modal');
   const closeModalBtn = document.querySelector('.close-modal');
@@ -1996,25 +2082,57 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  document.querySelectorAll('.show-text').forEach((button) => {
-    button.addEventListener('click', () => {
-      const workId = button.dataset.work;
-      const work = worksData[workId];
+  // helper to open modal for a given work id and optionally show analysis tab
+  function openModalForWork(workId, showAnalysis) {
+    const work = worksData[workId];
+    if (!work) return;
+    modalTitle.textContent = work.title;
+    // add author line under title
+    const authorLine = work.author || work.creator || '';
+    if (authorLine) {
+      const existing = modalTitle.nextElementSibling;
+      if (!existing || !existing.classList.contains('modal-work-author')) {
+        const p = document.createElement('p');
+        p.className = 'modal-work-author';
+        p.textContent = authorLine;
+        modalTitle.insertAdjacentElement('afterend', p);
+      } else {
+        existing.textContent = authorLine;
+      }
+    }
 
-      if (work) {
-        modalTitle.textContent = work.title;
-        textContent.innerHTML = `<pre>${work.text}</pre>`;
-        analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
+    textContent.innerHTML = `<pre>${work.text}</pre>`;
+    analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
 
-        tabs[0].classList.add('active');
-        tabs[1].classList.remove('active');
-        textContent.style.display = 'block';
-        analysisContent.style.display = 'none';
+    if (showAnalysis) {
+      tabs[0].classList.remove('active');
+      tabs[1].classList.add('active');
+      textContent.style.display = 'none';
+      analysisContent.style.display = 'block';
+    } else {
+      tabs[0].classList.add('active');
+      tabs[1].classList.remove('active');
+      textContent.style.display = 'block';
+      analysisContent.style.display = 'none';
+    }
 
-        modal.classList.add('active');
+    modal.classList.add('active');
+  }
+
+  // delegate clicks from the main container so newly generated buttons are handled too
+  const main = document.querySelector('main');
+  if (main) {
+    main.addEventListener('click', (e) => {
+      const textBtn = e.target.closest('.show-text');
+      if (textBtn) {
+        openModalForWork(textBtn.dataset.work, false);
+      }
+      const analysisBtn = e.target.closest('.show-analysis');
+      if (analysisBtn) {
+        openModalForWork(analysisBtn.dataset.work, true);
       }
     });
-  });
+  }
 
   document.querySelectorAll('.show-analysis').forEach((button) => {
     button.addEventListener('click', () => {

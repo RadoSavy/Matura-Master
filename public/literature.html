@@ -16,8 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="auth-checking">
-    <script type="module" src="/scripts/auth-check.js"></script>
+<body class="auth-checking">    <script src="scripts/api-loader.js"></script>    <script type="module" src="/scripts/auth-check.js"></script>
     <header>
         <div class="logo">
             <div class="logo-icon">MM</div>
@@ -94,7 +93,7 @@
             <i class="fas fa-book-reader nav-icon"></i>
             <span>Текстове</span>
         </a>
-        <a href="login.html" class="nav-item">
+        <a href="auth.html" class="nav-item" onclick="logout(); return false;">
             <i class="fas fa-sign-out-alt nav-icon"></i>
             <span>Изход</span>
         </a>
@@ -123,33 +122,5 @@
     </div>
 
     <script src="/scripts/literature.js"></script>
-        <script type="module">
-            import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-            import {
-                getFirestore,
-                collection,
-                getDocs,
-                query,
-                orderBy,
-            } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
-            import { firebaseConfig } from './scripts/firebase-config.js';
-
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-
-            async function loadRemoteLessons() {
-                try {
-                    const q = query(collection(db, 'literatureLessons'), orderBy('id'));
-                    const snap = await getDocs(q);
-                    window.remoteLiteratureLessons = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-                    console.log('Loaded remote literature lessons:', window.remoteLiteratureLessons.length);
-                } catch (e) {
-                    console.warn('Could not load remote literature lessons', e);
-                    window.remoteLiteratureLessons = [];
-                }
-            }
-
-            await loadRemoteLessons();
-        </script>
 </body>
 </html>

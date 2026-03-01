@@ -1,26 +1,9 @@
-/**
- * Enhanced Firestore Integration Module
- * Provides utilities for HTML files to interact with Firestore via the backend API
- * 
- * Usage in HTML:
- * <script src="/scripts/firestore-integration.js"></script>
- * <script>
- *   const fs = new FirestoreIntegration('http://localhost:5000/api');
- *   fs.loadDocuments('courses').then(courses => { ... });
- * </script>
- */
-
 class FirestoreIntegration {
   constructor(apiBaseUrl = 'http://localhost:5000/api') {
     this.apiBaseUrl = apiBaseUrl;
     this.cache = {};
   }
 
-  // ==================== Document Operations ====================
-
-  /**
-   * Create a new document in Firestore
-   */
   async addDocument(collectionName, data) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}`, {
@@ -37,12 +20,8 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Load all documents from a collection
-   */
   async loadDocuments(collectionName, useCache = true) {
     try {
-      // Check cache first
       if (useCache && this.cache[collectionName]) {
         return this.cache[collectionName];
       }
@@ -58,10 +37,6 @@ class FirestoreIntegration {
       throw error;
     }
   }
-
-  /**
-   * Get a single document by ID
-   */
   async getDocument(collectionName, docId) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`);
@@ -73,9 +48,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Update a document
-   */
   async updateDocument(collectionName, docId, data) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`, {
@@ -92,9 +64,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Delete a document
-   */
   async deleteDocument(collectionName, docId) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`, {
@@ -102,7 +71,6 @@ class FirestoreIntegration {
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      // Invalidate cache
       this.cache[collectionName] = null;
       return await response.json();
     } catch (error) {
@@ -111,9 +79,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Upload multiple documents at once (batch upload)
-   */
   async batchUploadDocuments(collectionName, documents) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/batch/${collectionName}`, {
@@ -123,7 +88,7 @@ class FirestoreIntegration {
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      this.cache[collectionName] = null; // Invalidate cache
+      this.cache[collectionName] = null;
       return await response.json();
     } catch (error) {
       console.error(`Error batch uploading to ${collectionName}:`, error);
@@ -131,9 +96,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Query documents by field value
-   */
   async queryDocuments(collectionName, field, value) {
     try {
       const response = await fetch(
@@ -148,11 +110,6 @@ class FirestoreIntegration {
     }
   }
 
-  // ==================== AI Integration ====================
-
-  /**
-   * Ask a question to the AI service
-   */
   async askAI(question, context = null) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/ask`, {
@@ -169,9 +126,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Generate exercises on a topic
-   */
   async generateExercises(topic, difficulty = 'medium', count = 5) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/generate-exercise`, {
@@ -188,9 +142,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Grade a user submission
-   */
   async gradeSubmission(exerciseId, userAnswer, correctAnswer) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/grade-submission`, {
@@ -207,9 +158,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Get personalized learning recommendation
-   */
   async getRecommendation(userProgress) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/recommendation`, {
@@ -226,9 +174,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Create a study plan
-   */
   async createStudyPlan(userId, topics, durationWeeks = 4) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/create-study-plan`, {
@@ -245,9 +190,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Get next lesson suggestion
-   */
   async getNextLesson(userId, currentProgress) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/next-lesson`, {
@@ -264,9 +206,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Generate an assessment/quiz
-   */
   async generateAssessment(topic, numQuestions = 10) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/assessment`, {
@@ -283,9 +222,6 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Search knowledge base
-   */
   async searchKnowledge(query) {
     try {
       const response = await fetch(`${this.apiBaseUrl}/ai/search?query=${encodeURIComponent(query)}`);
@@ -297,11 +233,6 @@ class FirestoreIntegration {
     }
   }
 
-  // ==================== Utility Methods ====================
-
-  /**
-   * Clear the cache
-   */
   clearCache(collectionName = null) {
     if (collectionName) {
       this.cache[collectionName] = null;
@@ -310,16 +241,12 @@ class FirestoreIntegration {
     }
   }
 
-  /**
-   * Load multiple collections at once
-   */
   async loadMultiple(collectionNames) {
     const promises = collectionNames.map(name => this.loadDocuments(name));
     return Promise.all(promises);
   }
 }
 
-// Export for use
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = FirestoreIntegration;
 }

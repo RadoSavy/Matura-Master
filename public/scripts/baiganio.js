@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   const chatInput = document.getElementById('chat-input');
   const quickQuestions = document.querySelectorAll('.quick-question');
 
-  // Initialize Gemini API
   let API_KEY = null;
   let isInitialized = false;
   let conversationHistory = [];

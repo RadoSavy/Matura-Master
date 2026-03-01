@@ -1,30 +1,15 @@
-/**
- * Dynamic Firestore Schema - Loads from Original JavaScript Files
- * This file extracts and prepares data from the original JS files for Firestore
- */
-
-/**
- * Function to extract lesson data from JavaScript files
- * This runs on the server side to prepare data for Firestore
- */
 export const extractLessonDataFromJS = (jsContent) => {
   const lessons = [];
-  
-  // Parse lesson objects from JS content
+
   const lessonMatches = jsContent.match(/\{\s*id:\s*\d+.*?(?=\n\s*\},|\n\s*\])/gs);
   
   if (lessonMatches) {
     lessonMatches.forEach((match) => {
       try {
-        // Extract id
         const idMatch = match.match(/id:\s*(\d+)/);
-        // Extract title
         const titleMatch = match.match(/title:\s*['\"]([^'"]+)['\"]/);
-        // Extract description
         const descMatch = match.match(/description:\s*['\"]([^'"]+)['\"]/);
-        // Extract xp
         const xpMatch = match.match(/xp:\s*(\d+)/);
-        // Extract icon
         const iconMatch = match.match(/icon:\s*['\"]([^'"]+)['\"]/);
         
         if (idMatch && titleMatch && descMatch) {
@@ -46,9 +31,6 @@ export const extractLessonDataFromJS = (jsContent) => {
   return lessons;
 };
 
-/**
- * Determine lesson category based on content
- */
 const determineCategory = (content) => {
   const lower = content.toLowerCase();
   
@@ -63,21 +45,11 @@ const determineCategory = (content) => {
   return 'general';
 };
 
-/**
- * Prepare Firestore collections from original data
- * This structure matches what will be loaded from JS files
- */
 export const DYNAMIC_FIRESTORE_SCHEMA = {
-  // Lessons collection - will be populated from JS files
   lessons: [],
-  
-  // Topics collection - derived from lessons
   topics: [],
-  
-  // Exercises collection - generated from lessons
   exercises: [],
   
-  // Users collection
   users: [
     {
       email: "demo@example.com",
@@ -92,14 +64,9 @@ export const DYNAMIC_FIRESTORE_SCHEMA = {
       }
     }
   ],
-  
-  // User progress tracking
-  userProgress: []
+    userProgress: []
 };
 
-/**
- * Function to populate collections from loaded lessons
- */
 export const populateCollectionsFromLessons = (lessons) => {
   const collections = {
     lessons: lessons,
@@ -113,7 +80,6 @@ export const populateCollectionsFromLessons = (lessons) => {
     }
   };
   
-  // Count by category
   lessons.forEach(lesson => {
     const cat = lesson.category || 'general';
     collections.trainingData.categories[cat] = 
@@ -123,9 +89,6 @@ export const populateCollectionsFromLessons = (lessons) => {
   return collections;
 };
 
-/**
- * Extract unique topics from lessons
- */
 const extractTopicsFromLessons = (lessons) => {
   const topicMap = new Map();
   
@@ -153,9 +116,6 @@ const extractTopicsFromLessons = (lessons) => {
   return Array.from(topicMap.values());
 };
 
-/**
- * Get icon for category
- */
 const getCategoryIcon = (category) => {
   const icons = {
     grammar: '📖',
@@ -166,9 +126,6 @@ const getCategoryIcon = (category) => {
   return icons[category] || '📚';
 };
 
-/**
- * Generate exercises from lessons
- */
 const generateExercisesFromLessons = (lessons) => {
   const exercises = [];
   
@@ -198,9 +155,6 @@ const generateExercisesFromLessons = (lessons) => {
   return exercises;
 };
 
-/**
- * Schema for AI training data
- */
 export const AI_TRAINING_SCHEMA = {
   trainingData: {
     lessonsCount: 0,

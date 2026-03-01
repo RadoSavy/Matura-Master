@@ -1952,14 +1952,12 @@ vazov1p1: {
     },
   };
 
-// Export helper function to search texts
 export const getTextByAuthor = (author) => {
   return Object.values(LITERATURE_TEXTS).filter(text => 
     text.author.toLowerCase().includes(author.toLowerCase())
   );
 };
 
-// Export helper function to get text by ID
 export const getTextById = (id) => {
   const textKey = Object.keys(LITERATURE_TEXTS).find(key => 
     LITERATURE_TEXTS[key].id === id
@@ -1967,7 +1965,6 @@ export const getTextById = (id) => {
   return textKey ? LITERATURE_TEXTS[textKey] : null;
 };
 
-// Export function to get all authors
 export const getAllAuthors = () => {
   return [...new Set(Object.values(LITERATURE_TEXTS).map(text => text.author))];
 };

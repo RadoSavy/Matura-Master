@@ -1,12 +1,10 @@
-# Matura Master
+Профил за тестване:
 
-## Features
+Username: noituser@gmail.com
+Password: user1234
 
-- Interactive lessons for Bulgarian language and literature
-- Google OAuth authentication
-- Firebase integration for data storage
-- Responsive design with Tailwind CSS
 
-## License
+Стартиране на проекта:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+npm install
+cd server ; npm run dev

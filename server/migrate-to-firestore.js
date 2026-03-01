@@ -1,8 +1,3 @@
-/**
- * Firestore Data Migration & Initialization
- * Populates Firestore with initial data from the application
- */
-
 import admin from 'firebase-admin';
 import { FIRESTORE_SCHEMA } from './firestore-schema.js';
 import { BULGARIAN_LESSONS } from './lessons-data.js';
@@ -12,7 +7,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Firebase Admin
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
@@ -36,9 +30,6 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-/**
- * Clear a specific collection (use with caution!)
- */
 async function clearCollection(collectionName) {
   try {
     const snapshot = await db.collection(collectionName).get();
@@ -55,19 +46,14 @@ async function clearCollection(collectionName) {
   }
 }
 
-/**
- * Initialize a collection with data
- */
 async function initializeCollection(collectionName, data) {
   try {
     if (!Array.isArray(data)) {
-      // Single document
       await db.collection(collectionName).doc(collectionName).set(data);
       console.log(`✓ Initialized ${collectionName} (single document)`);
       return;
     }
     
-    // Multiple documents
     const batch = db.batch();
     data.forEach((item) => {
       const docRef = db.collection(collectionName).doc();
@@ -85,14 +71,9 @@ async function initializeCollection(collectionName, data) {
   }
 }
 
-/**
- * Migrate HTML static data to Firestore
- */
 async function migrateHTMLData() {
   console.log('\n📚 Starting Firestore Data Migration...\n');
-  
-  // Get schema data
-  const collections = Object.entries(FIRESTORE_SCHEMA);
+    const collections = Object.entries(FIRESTORE_SCHEMA);
   
   for (const [collectionName, data] of collections) {
     if (data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0)) {
@@ -100,7 +81,6 @@ async function migrateHTMLData() {
     }
   }
 
-  // Migrate Bulgarian Lessons
   console.log('📖 Migrating Bulgarian lessons...');
   for (const lesson of BULGARIAN_LESSONS) {
     try {
@@ -115,7 +95,6 @@ async function migrateHTMLData() {
   }
   console.log(`✓ Migrated ${BULGARIAN_LESSONS.length} lessons`);
 
-  // Migrate Literature Lessons
   console.log('📚 Migrating literature lessons...');
   for (const lesson of LITERATURE_LESSONS) {
     try {
@@ -130,7 +109,6 @@ async function migrateHTMLData() {
   }
   console.log(`✓ Migrated ${LITERATURE_LESSONS.length} literature lessons`);
 
-  // Migrate Literature Texts
   console.log('📖 Migrating literature texts...');
   try {
     for (const [textKey, textData] of Object.entries(LITERATURE_TEXTS)) {
@@ -149,21 +127,12 @@ async function migrateHTMLData() {
   console.log('\n✅ Migration completed!\n');
 }
 
-/**
- * Create indexes for better query performance
- */
 async function createIndexes() {
   console.log('📑 Setting up Firestore indexes...\n');
-  
-  // Note: Most indexes can be created automatically by Firestore
-  // This function shows where to add custom index creation logic
   
   console.log('✓ Indexes configured\n');
 }
 
-/**
- * Verify migration
- */
 async function verifyMigration() {
   console.log('\n🔍 Verifying migration...\n');
   
@@ -178,9 +147,6 @@ async function verifyMigration() {
   console.log('\n✅ Verification complete!\n');
 }
 
-/**
- * Set up security rules (can be managed in Firebase Console)
- */
 async function setupSecurityRules() {
   console.log('🔒 Security rules setup:\n');
   console.log('Configure the following rules in Firebase Console:\n');
@@ -212,30 +178,20 @@ service cloud.firestore {
   `);
 }
 
-/**
- * Full migration script with error handling
- */
 async function runFullMigration() {
   try {
     console.log('╔═════════════════════════════════════════╗');
-    console.log('║  Matura Master - Firestore Migration   ║');
+    console.log('║  Matura Master - Firestore Migration    ║');
     console.log('╚═════════════════════════════════════════╝\n');
     
-    // Migrate data
     await migrateHTMLData();
-    
-    // Create indexes
     await createIndexes();
-    
-    // Verify
     await verifyMigration();
-    
-    // Show security rules info
     setupSecurityRules();
     
     console.log('╔═════════════════════════════════════════╗');
     console.log('║  ✅ Migration Successful!              ║');
-    console.log('║  Your data is now in Firestore         ║');
+    console.log('║  Your data is now in Firestore          ║');
     console.log('╚═════════════════════════════════════════╝\n');
     
     process.exit(0);
@@ -245,5 +201,4 @@ async function runFullMigration() {
   }
 }
 
-// Run migration
 runFullMigration();

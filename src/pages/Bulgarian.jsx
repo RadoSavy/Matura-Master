@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getBulgarianLessons } from '../services/firebase';
 
 const Bulgarian = () => {
+  const [lessons, setLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
   return (
     <div>
       <header>
@@ -68,6 +71,24 @@ const Bulgarian = () => {
             </div>
           </div>
         </div>
+
+        <section className="lessons-section">
+          <h2>Уроци</h2>
+          {loading ? (
+            <p>Зареждане уроци...</p>
+          ) : lessons.length === 0 ? (
+            <p>Няма налични уроци.</p>
+          ) : (
+            <div className="lessons-grid">
+              {lessons.map((l) => (
+                <article key={l.id} className="lesson-card">
+                  <h3>{l.title}</h3>
+                  <p>{l.description}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
       </main>
 
       <nav className="mobile-nav">

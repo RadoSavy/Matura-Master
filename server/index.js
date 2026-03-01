@@ -8,20 +8,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the public directory
 app.use(express.static(path.resolve(__dirname, '../public')));
 
-// Initialize Firebase Admin using environment variables (optional)
 let db = null;
 try {
   if (process.env.FIREBASE_PRIVATE_KEY) {
@@ -54,12 +53,10 @@ try {
 }
 
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'Backend is running' });
 });
 
-// Get Gemini API Key
 app.get('/api/gemini-key', (req, res) => {
   const apiKey = process.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
@@ -68,12 +65,6 @@ app.get('/api/gemini-key', (req, res) => {
   res.json({ apiKey });
 });
 
-// ===== Lessons API Endpoints =====
-
-/**
- * GET all lessons
- * GET /api/lessons
- */
 app.get('/api/lessons', async (req, res) => {
   try {
     if (!db) {
@@ -97,10 +88,6 @@ app.get('/api/lessons', async (req, res) => {
   }
 });
 
-/**
- * GET single lesson by ID
- * GET /api/lessons/:lessonId
- */
 app.get('/api/lessons/:lessonId', async (req, res) => {
   try {
     const { lessonId } = req.params;
@@ -125,12 +112,6 @@ app.get('/api/lessons/:lessonId', async (req, res) => {
   }
 });
 
-// ===== AI Knowledge Base API Endpoints =====
-
-/**
- * GET quick questions for AI assistant
- * GET /api/knowledge-base/quick-questions
- */
 app.get('/api/knowledge-base/quick-questions', async (req, res) => {
   try {
     if (!db) {
@@ -150,10 +131,6 @@ app.get('/api/knowledge-base/quick-questions', async (req, res) => {
   }
 });
 
-/**
- * GET knowledge base topic
- * GET /api/knowledge-base/topic/:topicName
- */
 app.get('/api/knowledge-base/topic/:topicName', async (req, res) => {
   try {
     const { topicName } = req.params;
@@ -175,10 +152,6 @@ app.get('/api/knowledge-base/topic/:topicName', async (req, res) => {
   }
 });
 
-/**
- * GET all knowledge base topics
- * GET /api/knowledge-base/topics
- */
 app.get('/api/knowledge-base/topics', async (req, res) => {
   try {
     if (!db) {
@@ -202,12 +175,6 @@ app.get('/api/knowledge-base/topics', async (req, res) => {
   }
 });
 
-// ===== Literature Lessons API Endpoints =====
-
-/**
- * GET all literature lessons
- * GET /api/literature/lessons
- */
 app.get('/api/literature/lessons', async (req, res) => {
   try {
     if (!db) {
@@ -231,10 +198,6 @@ app.get('/api/literature/lessons', async (req, res) => {
   }
 });
 
-/**
- * GET single literature lesson by ID
- * GET /api/literature/lessons/:lessonId
- */
 app.get('/api/literature/lessons/:lessonId', async (req, res) => {
   try {
     const { lessonId } = req.params;
@@ -259,12 +222,6 @@ app.get('/api/literature/lessons/:lessonId', async (req, res) => {
   }
 });
 
-// ===== Literature Texts API Endpoints =====
-
-/**
- * GET all literature texts
- * GET /api/literature/texts
- */
 app.get('/api/literature/texts', async (req, res) => {
   try {
     if (!db) {
@@ -288,10 +245,6 @@ app.get('/api/literature/texts', async (req, res) => {
   }
 });
 
-/**
- * GET single literature text by ID
- * GET /api/literature/texts/:textId
- */
 app.get('/api/literature/texts/:textId', async (req, res) => {
   try {
     const { textId } = req.params;
@@ -316,10 +269,6 @@ app.get('/api/literature/texts/:textId', async (req, res) => {
   }
 });
 
-/**
- * GET literature texts by author
- * GET /api/literature/texts/author/:author
- */
 app.get('/api/literature/texts/author/:author', async (req, res) => {
   try {
     const { author } = req.params;
@@ -348,12 +297,6 @@ app.get('/api/literature/texts/author/:author', async (req, res) => {
   }
 });
 
-// ===== Firestore CRUD Operations =====
-
-/**
- * ADD - Create a new document
- * POST /api/documents/:collectionName
- */
 app.post('/api/documents/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -379,10 +322,6 @@ app.post('/api/documents/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * GET - Retrieve all documents from a collection
- * GET /api/documents/:collectionName
- */
 app.get('/api/documents/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -404,10 +343,6 @@ app.get('/api/documents/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * GET - Retrieve a single document by ID
- * GET /api/documents/:collectionName/:docId
- */
 app.get('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -428,10 +363,6 @@ app.get('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * UPDATE - Update an existing document
- * PUT /api/documents/:collectionName/:docId
- */
 app.put('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -452,10 +383,6 @@ app.put('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * DELETE - Delete a document
- * DELETE /api/documents/:collectionName/:docId
- */
 app.delete('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -472,10 +399,6 @@ app.delete('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * BATCH UPLOAD - Upload multiple documents at once
- * POST /api/batch/:collectionName
- */
 app.post('/api/batch/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -511,10 +434,6 @@ app.post('/api/batch/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * QUERY - Search documents by a field
- * GET /api/query/:collectionName?field=fieldName&value=fieldValue
- */
 app.get('/api/query/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -544,7 +463,6 @@ app.get('/api/query/:collectionName', async (req, res) => {
   }
 });
 
-// Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error.message);
   res.status(500).json({
@@ -552,7 +470,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Backend server is running on http://localhost:${PORT}`);
   console.log(`📊 Firestore database connected to project: ${process.env.FIREBASE_PROJECT_ID}`);

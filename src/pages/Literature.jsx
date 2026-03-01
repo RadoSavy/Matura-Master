@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLessons } from '../services/firebase';
+import { getLiteratureLessons } from '../services/firebase';
 
 const Literature = () => {
   return (
@@ -108,7 +108,7 @@ function LessonsList() {
     let mounted = true;
     (async () => {
       try {
-        const data = await getLessons();
+        const data = await getLiteratureLessons();
         if (mounted) setLessons(data);
       } catch (err) {
         console.error('Failed to fetch lessons', err);
@@ -126,8 +126,8 @@ function LessonsList() {
     <div className="lessons-grid">
       {lessons.map((l) => (
         <article key={l.id} className="lesson-card">
-          <h3>{l.title || l.name}</h3>
-          <p>{l.summary || l.description}</p>
+          <h3>{l.title}</h3>
+          <p>{l.description}</p>
         </article>
       ))}
     </div>

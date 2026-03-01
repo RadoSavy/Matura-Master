@@ -1,19 +1,12 @@
-/**
- * Firestore Utility for Static HTML Files
- * This file provides functions to upload data to Firestore from static JavaScript
- * Can be imported in HTML script tags and used with vanilla JavaScript
- */
-
 class FirestoreUploader {
   constructor(apiBaseUrl = 'http://localhost:5000/api') {
     this.apiBaseUrl = apiBaseUrl;
   }
 
   /**
-   * Upload a single document to Firestore
-   * @param {string} collectionName - Firestore collection name
-   * @param {object} data - Data to upload
-   * @returns {Promise<object>} Response with document ID
+   * @param {string} collectionName 
+   * @param {object} data 
+   * @returns {Promise<object>} 
    */
   async addDocument(collectionName, data) {
     try {
@@ -37,9 +30,8 @@ class FirestoreUploader {
   }
 
   /**
-   * Fetch all documents from a collection
-   * @param {string} collectionName - Firestore collection name
-   * @returns {Promise<Array>} Array of documents
+   * @param {string} collectionName
+   * @returns {Promise<Array>}
    */
   async getDocuments(collectionName) {
     try {
@@ -57,10 +49,9 @@ class FirestoreUploader {
   }
 
   /**
-   * Fetch a single document by ID
-   * @param {string} collectionName - Firestore collection name
-   * @param {string} docId - Document ID
-   * @returns {Promise<object>} Document data
+   * @param {string} collectionName 
+   * @param {string} docId 
+   * @returns {Promise<object>} 
    */
   async getDocument(collectionName, docId) {
     try {
@@ -80,11 +71,10 @@ class FirestoreUploader {
   }
 
   /**
-   * Update a document
-   * @param {string} collectionName - Firestore collection name
-   * @param {string} docId - Document ID
-   * @param {object} data - Updated data
-   * @returns {Promise<object>} Response message
+   * @param {string} collectionName
+   * @param {string} docId
+   * @param {object} data
+   * @returns {Promise<object>} 
    */
   async updateDocument(collectionName, docId, data) {
     try {
@@ -111,10 +101,9 @@ class FirestoreUploader {
   }
 
   /**
-   * Delete a document
-   * @param {string} collectionName - Firestore collection name
-   * @param {string} docId - Document ID
-   * @returns {Promise<object>} Response message
+   * @param {string} collectionName 
+   * @param {string} docId 
+   * @returns {Promise<object>} 
    */
   async deleteDocument(collectionName, docId) {
     try {
@@ -137,10 +126,9 @@ class FirestoreUploader {
   }
 
   /**
-   * Batch upload multiple documents
-   * @param {string} collectionName - Firestore collection name
-   * @param {Array<object>} documents - Array of documents to upload
-   * @returns {Promise<object>} Response with document IDs and count
+   * @param {string} collectionName 
+   * @param {Array<object>} documents 
+   * @returns {Promise<object>} 
    */
   async batchUpload(collectionName, documents) {
     try {
@@ -164,11 +152,10 @@ class FirestoreUploader {
   }
 
   /**
-   * Query documents by field value
-   * @param {string} collectionName - Firestore collection name
-   * @param {string} field - Field name to query
-   * @param {*} value - Value to match
-   * @returns {Promise<Array>} Array of matching documents
+   * @param {string} collectionName 
+   * @param {string} field 
+   * @param {*} value 
+   * @returns {Promise<Array>} 
    */
   async queryDocuments(collectionName, field, value) {
     try {
@@ -193,10 +180,9 @@ class FirestoreUploader {
   }
 
   /**
-   * Submit a form to Firestore
-   * @param {string} collectionName - Collection name
-   * @param {HTMLFormElement} form - Form element
-   * @returns {Promise<object>} Response from server
+   * @param {string} collectionName 
+   * @param {HTMLFormElement} form 
+   * @returns {Promise<object>}
    */
   async submitForm(collectionName, form) {
     try {
@@ -211,10 +197,8 @@ class FirestoreUploader {
   }
 }
 
-// Export for module usage
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = FirestoreUploader;
 }
 
-// Make available globally for inline script usage
 window.FirestoreUploader = FirestoreUploader;

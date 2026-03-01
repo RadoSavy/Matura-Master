@@ -1,10 +1,3 @@
-/**
- * Literature Lessons Export Data
- * Complete extraction of all literature lessons from literature.js
- * Ready for Firestore migration
- * Last Updated: March 1, 2026
- */
-
 export const LITERATURE_LESSONS = [
   {
     id: 1,
@@ -942,9 +935,6 @@ export const LITERATURE_LESSONS = [
   },
 ];
 
-/**
- * Alternative export format - if you need CommonJS (server-side)
- */
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { LITERATURE_LESSONS };
 }

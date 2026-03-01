@@ -60,18 +60,43 @@ export const signInWithGooglePopup = async () => {
 
 export { db };
 
-// Firestore helpers
-export const getLiteraryWorks = async () => {
-  const worksCol = collection(db, 'literaryWorks');
-  const q = query(worksCol, orderBy('title'));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+// API-based data fetching (from Firestore via server)
+export const getBulgarianLessons = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/lessons');
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching Bulgarian lessons:', error);
+    return [];
+  }
 };
 
-export const getLessons = async (collectionName = 'literatureLessons') => {
-  const col = collection(db, collectionName);
-  const snapshot = await getDocs(col);
-  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+export const getLiteratureLessons = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/literature/lessons');
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching literature lessons:', error);
+    return [];
+  }
+};
+
+export const getLiteraryWorks = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/literature/texts');
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching literary works:', error);
+    return [];
+  }
+};
+
+// Legacy function for compatibility
+export const getLessons = async () => {
+  return getLiteratureLessons();
 };
 
 export const subscribeToDoc = (collectionName, id, cb) => {

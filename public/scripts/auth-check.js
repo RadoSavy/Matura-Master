@@ -9,7 +9,6 @@ import { firebaseConfig } from './firebase-config.js';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Hide page content while checking auth
 document.body.classList.add('auth-checking');
 
 function checkAuth() {
@@ -18,7 +17,6 @@ function checkAuth() {
       unsubscribe();
       if (user) {
         console.log('User is logged in:', user.email);
-        // Show page content
         document.body.classList.remove('auth-checking');
         resolve(true);
       } else {

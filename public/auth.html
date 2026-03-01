@@ -25,7 +25,6 @@
     .profile-actions button { padding:6px 10px; border-radius:6px; border:1px solid #ddd; cursor:pointer; }
   </style>
   <script type="module">
-    // Import Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
     import {
       getAuth,
@@ -39,11 +38,9 @@
     } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
     import { firebaseConfig } from './scripts/firebase-config.js';
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Make auth functions available globally
     window.firebaseAuth = auth;
     window.signInWithEmailAndPassword = signInWithEmailAndPassword;
     window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
@@ -52,11 +49,9 @@
     window.signInWithPopup = signInWithPopup;
     window.signOut = signOut;
 
-    // Check if user is already logged in
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("User is already logged in:", user.email);
-        // User is signed in, you could redirect here if needed
       } else {
         console.log("No user is signed in");
       }
@@ -64,7 +59,6 @@
   </script>
 
   <script>
-    // Create Google sign-in buttons that use Firebase's signInWithPopup
     function createGoogleButton(containerId) {
       const container = document.getElementById(containerId);
       if (!container) return;
@@ -85,7 +79,6 @@ btn.addEventListener('click', async () => {
           };
           localStorage.setItem('user', JSON.stringify(userInfo));
 
-          // Redirect to courses page after successful login
           window.location.href = 'courses.html';
         } catch (error) {
           console.error('Firebase sign-in failed:', error);
@@ -110,8 +103,6 @@ btn.addEventListener('click', async () => {
             localStorage.removeItem('user');
             const profile = document.getElementById('google-profile');
             if (profile) profile.style.display = 'none';
-            // optionally reload to show forms again
-            // location.reload();
           } catch (e) {
             console.error('Sign out failed', e);
           }

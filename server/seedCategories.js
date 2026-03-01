@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Firebase Admin using environment variables
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
@@ -25,7 +24,6 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// Categories data
 const categories = [
   {
     name: 'Bulgarian Language ',
@@ -45,7 +43,6 @@ const categories = [
   },
 ];
 
-// Function to seed categories
 async function seedCategories() {
   try {
     console.log('🌱 Starting to seed categories...');
@@ -71,5 +68,4 @@ async function seedCategories() {
   }
 }
 
-// Run the seeder
 seedCategories();

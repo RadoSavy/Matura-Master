@@ -1,8 +1,3 @@
-/**
- * Enhanced Backend Server with Firestore and AI Integration
- * Includes Firestore CRUD operations and AI service integration
- */
-
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -15,12 +10,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5001/api';
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Initialize Firebase Admin using environment variables
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
@@ -42,8 +35,6 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// ==================== Health Checks ====================
-
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'Backend is running',
@@ -54,12 +45,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ==================== Firestore CRUD Operations ====================
-
-/**
- * ADD - Create a new document
- * POST /api/documents/:collectionName
- */
 app.post('/api/documents/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -85,10 +70,6 @@ app.post('/api/documents/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * GET - Retrieve all documents from a collection
- * GET /api/documents/:collectionName
- */
 app.get('/api/documents/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -110,10 +91,6 @@ app.get('/api/documents/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * GET - Retrieve a single document by ID
- * GET /api/documents/:collectionName/:docId
- */
 app.get('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -134,10 +111,6 @@ app.get('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * UPDATE - Update an existing document
- * PUT /api/documents/:collectionName/:docId
- */
 app.put('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -158,10 +131,6 @@ app.put('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * DELETE - Delete a document
- * DELETE /api/documents/:collectionName/:docId
- */
 app.delete('/api/documents/:collectionName/:docId', async (req, res) => {
   try {
     const { collectionName, docId } = req.params;
@@ -178,10 +147,6 @@ app.delete('/api/documents/:collectionName/:docId', async (req, res) => {
   }
 });
 
-/**
- * BATCH UPLOAD - Upload multiple documents at once
- * POST /api/batch/:collectionName
- */
 app.post('/api/batch/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -217,10 +182,6 @@ app.post('/api/batch/:collectionName', async (req, res) => {
   }
 });
 
-/**
- * QUERY - Search documents by a field
- * GET /api/query/:collectionName?field=fieldName&value=fieldValue
- */
 app.get('/api/query/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -249,13 +210,6 @@ app.get('/api/query/:collectionName', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-// ==================== AI Service Proxy Endpoints ====================
-
-/**
- * Proxy requests to the Python AI service
- * This allows the frontend to communicate with AI through the Node backend
- */
 
 app.post('/api/ai/ask', async (req, res) => {
   try {
@@ -361,7 +315,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Backend server is running on http://localhost:${PORT}`);
   console.log(`📊 Firestore database connected to project: ${process.env.FIREBASE_PROJECT_ID}`);

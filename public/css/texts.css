@@ -314,6 +314,18 @@ main {
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
+    .work-author {
+      margin: 0 0 10px 40px;
+      font-style: italic;
+      color: #666;
+    }
+
+    .modal-work-author {
+      font-size: 14px;
+      color: #555;
+      margin-top: 4px;
+    }
+
     .work-info {
       display: flex;
       align-items: center;
@@ -613,14 +625,16 @@ main {
         display: block;
       }
 
+      main {
+        margin-left: 240px;
+        margin-bottom: 0;
+        max-width: calc(100% - 240px);
+      }
+
       .content-area {
         width: calc(100% - 240px);
         margin-left: 240px;
         padding: 30px 40px;
-      }
-
-      main {
-        margin-bottom: 0;
       }
     }
 
