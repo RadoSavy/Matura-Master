@@ -5,6 +5,9 @@
 
 import admin from 'firebase-admin';
 import { FIRESTORE_SCHEMA } from './firestore-schema.js';
+import { BULGARIAN_LESSONS } from './lessons-data.js';
+import { LITERATURE_LESSONS } from './literature-data.js';
+import { LITERATURE_TEXTS } from './texts-data.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -95,6 +98,52 @@ async function migrateHTMLData() {
     if (data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0)) {
       await initializeCollection(collectionName, data);
     }
+  }
+
+  // Migrate Bulgarian Lessons
+  console.log('📖 Migrating Bulgarian lessons...');
+  for (const lesson of BULGARIAN_LESSONS) {
+    try {
+      await db.collection('lessons').doc(lesson.id.toString()).set({
+        ...lesson,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    } catch (error) {
+      console.error(`Error migrating lesson ${lesson.id}:`, error);
+    }
+  }
+  console.log(`✓ Migrated ${BULGARIAN_LESSONS.length} lessons`);
+
+  // Migrate Literature Lessons
+  console.log('📚 Migrating literature lessons...');
+  for (const lesson of LITERATURE_LESSONS) {
+    try {
+      await db.collection('literature_lessons').doc(lesson.id.toString()).set({
+        ...lesson,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    } catch (error) {
+      console.error(`Error migrating literature lesson ${lesson.id}:`, error);
+    }
+  }
+  console.log(`✓ Migrated ${LITERATURE_LESSONS.length} literature lessons`);
+
+  // Migrate Literature Texts
+  console.log('📖 Migrating literature texts...');
+  try {
+    for (const [textKey, textData] of Object.entries(LITERATURE_TEXTS)) {
+      await db.collection('literature_texts').doc(textKey).set({
+        ...textData,
+        id: textKey,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+    console.log(`✓ Migrated ${Object.keys(LITERATURE_TEXTS).length} literature texts`);
+  } catch (error) {
+    console.error('Error migrating literature texts:', error);
   }
   
   console.log('\n✅ Migration completed!\n');

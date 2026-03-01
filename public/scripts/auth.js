@@ -1,8 +1,6 @@
-// Helper functions for encryption/decryption using Web Crypto API
 async function getKeyFromPassword(password) {
-  // derive an AES key from the user's password (using PBKDF2)
   const enc = new TextEncoder();
-  const salt = window.crypto.getRandomValues(new Uint8Array(16)); // change: for stable key, may use username/email as salt!
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const keyMaterial = await window.crypto.subtle.importKey(
     "raw",
     enc.encode(password),
@@ -27,7 +25,7 @@ async function getKeyFromPassword(password) {
 
 async function encryptUserInfo(userInfo, password) {
   const {key, salt} = await getKeyFromPassword(password);
-  const iv = window.crypto.getRandomValues(new Uint8Array(12)); // 96 bits
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const enc = new TextEncoder();
   const data = enc.encode(JSON.stringify(userInfo));
   const encrypted = await window.crypto.subtle.encrypt(
@@ -38,16 +36,12 @@ async function encryptUserInfo(userInfo, password) {
     key,
     data
   );
-  // Store salt and iv with ciphertext for later decryption (Base64 encode)
   return JSON.stringify({
     salt: btoa(String.fromCharCode.apply(null,salt)),
     iv: btoa(String.fromCharCode.apply(null,iv)),
     data: btoa(String.fromCharCode.apply(null,new Uint8Array(encrypted)))
   });
 }
-
-// ...Later, to decrypt:
-// async function decryptUserInfo(encryptedObj, password) { ... }
 
 document.addEventListener('DOMContentLoaded', function () {
   console.log("Auth page loaded");
@@ -60,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const showLoginLink = document.getElementById('show-login');
   const errorDiv = document.getElementById('error');
 
-  // Tab switching functions
   function showLogin() {
     console.log("Showing login form");
     loginTab.classList.add('active');
@@ -79,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
     hideError();
   }
 
-  // Event listeners for tab switching
   loginTab.addEventListener('click', showLogin);
   registerTab.addEventListener('click', showRegister);
   showRegisterLink.addEventListener('click', function (e) {
@@ -91,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
     showLogin();
   });
 
-  // Email/Password login
   loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     console.log("Login form submitted");
@@ -99,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const email = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value.trim();
 
-    // Basic validation
     if (!email || !password) {
       showError('Моля, попълнете всички полета.');
       return;
@@ -118,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       console.log("Attempting Firebase login...");
       
-      // Check if Firebase auth is available
       if (!window.firebaseAuth || !window.signInWithEmailAndPassword) {
         throw new Error("Firebase authentication not initialized");
       }
@@ -132,8 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const user = userCredential.user;
       console.log('Login successful:', user.email);
       
-      // User info is available via Firebase Auth (firebaseAuth.currentUser).
-      // Avoid storing authentication-related data in localStorage as clear text.
       const userInfo = {
         uid: user.uid,
         email: user.email,
@@ -163,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Email/Password registration
   registerForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     console.log("Register form submitted");
@@ -172,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const email = document.getElementById('register-email').value.trim();
     const password = document.getElementById('register-password').value.trim();
 
-    // Basic validation
     if (!username || !email || !password) {
       showError('Моля, попълнете всички полета.');
       return;
@@ -196,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       console.log("Attempting Firebase registration...");
       
-      // Check if Firebase auth is available
       if (!window.firebaseAuth || !window.createUserWithEmailAndPassword) {
         throw new Error("Firebase authentication not initialized");
       }
@@ -210,14 +194,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const user = userCredential.user;
       console.log('Registration successful:', user.email);
       
-      // Store user info with username
       const userInfo = {
         uid: user.uid,
         email: user.email,
         displayName: username
       };
       
-      // Encrypt user info before storing
       encryptUserInfo(userInfo, password)
         .then(encryptedData => {
           localStorage.setItem("user", encryptedData);
@@ -228,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function () {
           console.error("Encryption failed:", e.message);
           showError("Възникна грешка при запазване на данните.");
         });
-      // Don't redirect here; will happen in promise above
       return;
       
     } catch (error) {
@@ -251,13 +232,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Helper functions
   function showError(message) {
     console.log("Showing error:", message);
     errorDiv.textContent = message;
     errorDiv.style.display = 'block';
     
-    // Auto-hide error after 5 seconds
     setTimeout(hideError, 5000);
   }
 
@@ -270,7 +249,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return re.test(email);
   }
 
-  // Test Firebase connection
   function testFirebaseConnection() {
     console.log("Testing Firebase connection...");
     console.log("firebaseAuth available:", !!window.firebaseAuth);
@@ -280,10 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("googleProvider available:", !!window.googleProvider);
   }
 
-  // Run test
   setTimeout(testFirebaseConnection, 1000);
 
-  // Check if user is already logged in
   function checkExistingSession() {
     const user = localStorage.getItem('user');
     if (user) {
@@ -299,6 +275,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Check for existing session
   checkExistingSession();
 });

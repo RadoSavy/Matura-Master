@@ -4,6 +4,12 @@
   padding: 0;
 }
 
+/* Hide page content while authenticating */
+body.auth-checking {
+  opacity: 0;
+  pointer-events: none;
+}
+
 body {
   font-family: 'Nunito', sans-serif;
   background-color: #f8f8f8;

@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/texts.css">
 </head>
-<body class="literature">
-    <script src="scripts/auth-check.js"></script>
+<body class="auth-checking literature">
+    <script type="module" src="scripts/auth-check.js"></script>
     <header>
         <div class="logo">
             <div class="logo-icon">MM</div>
@@ -46,7 +46,7 @@
             <i class="fas fa-book-reader desktop-nav-icon"></i>
             <span>Произведения</span>
         </a>
-        <a href="login.html" class="desktop-nav-item">
+        <a href="auth.html" class="desktop-nav-item" onclick="logout(); return false;">
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
         </a>

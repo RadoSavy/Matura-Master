@@ -1,8 +1,27 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   const chat = document.getElementById('chat');
   const chatForm = document.getElementById('chat-form');
   const chatInput = document.getElementById('chat-input');
   const quickQuestions = document.querySelectorAll('.quick-question');
+
+  // Initialize Gemini API
+  let API_KEY = null;
+  let isInitialized = false;
+  let conversationHistory = [];
+
+  try {
+    console.log('Fetching Gemini API key from server...');
+    const response = await fetch('http://localhost:5000/api/gemini-key');
+    if (!response.ok) {
+      throw new Error(`Server responded with status ${response.status}`);
+    }
+    const data = await response.json();
+    API_KEY = data.apiKey;
+    isInitialized = true;
+    console.log('Gemini API key loaded successfully');
+  } catch (error) {
+    console.error('Error initializing Gemini API:', error);
+  }
 
   const knowledgeBase = {
     частици: {
@@ -623,6 +642,14 @@ document.addEventListener('DOMContentLoaded', function () {
       text: 'Здравей! Аз съм BAI Ганьо, твоят AI помощник по български език и литература. Как мога да ти помогна днес?',
     },
   ];
+
+  // Show initialization status
+  if (!isInitialized) {
+    messages.push({
+      sender: 'ai',
+      text: '❌ Error: Could not connect to the Gemini API. Make sure the server is running on http://localhost:5000',
+    });
+  }
 
   function renderMessages() {
     if (!chat) return;
@@ -1456,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', function () {
       };
     }
 
-    if (lower.includes('репортаж') || lower.includes('репортьор')) {
+    if (lower.includes('репортаж') || lower.includes('репортер')) {
       return {
         text: formatAnswer(
           knowledgeBase['репортаж'].answer,
@@ -1584,9 +1611,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  function handleUserInput() {
+  async function handleUserInput() {
     const userText = chatInput.value.trim();
     if (!userText) return;
+
+    if (!isInitialized) {
+      alert('AI Ганьо is still loading. Please wait a moment and try again.');
+      return;
+    }
 
     if (containsEnglish(userText)) {
       const ganioPhrases = [
@@ -1612,17 +1644,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const typingElement = showTypingIndicator();
 
-    setTimeout(() => {
-      hideTypingIndicator(typingElement);
+    try {
+      const systemPrompt = `You are BAI Ганьо, a Bulgarian language and literature tutor with a unique personality. You are knowledgeable about:
+- Bulgarian grammar and spelling
+- Bulgarian literature and famous works
+- Bulgarian language rules and exercises
+- Bulgarian authors and their works
 
-      const aiResponse = findBestAnswer(userText);
+Always respond in Bulgarian. Be helpful, encouraging, and maintain the character of a friendly but strict tutor. If asked about non-Bulgarian topics, politely redirect to Bulgarian language, grammar, or literature topics.`;
+
+      // Build the request with conversation history
+      let contents = [
+        {
+          role: 'user',
+          parts: [{ text: systemPrompt }]
+        },
+        {
+          role: 'model',
+          parts: [{ text: 'Разбрах. Ще съм твоят помощник по български език и литература. Как мога да ти помогна?' }]
+        },
+        ...conversationHistory.map(msg => ({
+          role: msg.role,
+          parts: msg.parts
+        })),
+        {
+          role: 'user',
+          parts: [{ text: userText }]
+        }
+      ];
+
+      const requestBody = {
+        contents: contents
+      };
+
+      console.log('Calling Gemini API...');
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`API error: ${errorData.error?.message || response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      if (!result.candidates || result.candidates.length === 0) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const aiResponseText = result.candidates[0].content.parts[0].text;
+
+      // Add user message to history
+      conversationHistory.push({
+        role: 'user',
+        parts: [{ text: userText }]
+      });
+
+      // Add AI response to history
+      conversationHistory.push({
+        role: 'model',
+        parts: [{ text: aiResponseText }]
+      });
+
+      hideTypingIndicator(typingElement);
       messages.push({
         sender: 'ai',
-        text: aiResponse.text,
-        formatted: aiResponse.formatted,
+        text: aiResponseText,
+        formatted: false,
       });
       renderMessages();
-    }, 1500);
+    } catch (error) {
+      console.error('Error calling Gemini API:', error);
+      hideTypingIndicator(typingElement);
+      messages.push({
+        sender: 'ai',
+        text: `Извини, имам технически проблем: ${error.message}`,
+        formatted: false,
+      });
+      renderMessages();
+    }
   }
 
   quickQuestions.forEach((button) => {

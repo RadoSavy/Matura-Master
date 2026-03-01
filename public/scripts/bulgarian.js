@@ -12,7 +12,6 @@ const appData = {
   streak: parseInt(localStorage.getItem('streak')) || 0,
 };
 
-// Function to escape HTML characters to prevent XSS
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
@@ -48,7 +47,7 @@ const lessons = [
                 <div class="example-card news">
                     <h4>📰 Пример за информационен медиен текст:</h4>
                     <p><strong>„Пак българки, пак златни!“</strong></p>
-                    <p>Новият състав на ансамбъла по художествена гимнастика спечели златния медал в многобоя на Световната купа в Песаро.</p>
+                    <p>Новият състав на ансамбъла по художествена гимнастика направи блестяща победа и спечели златния медал в многобоя на Световната купа в Песаро.</p>
 
                     <div class="example-features">
                         <span class="feature-tag">📊 Факти</span>

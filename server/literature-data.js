@@ -1,27 +1,16 @@
-const appData = {
-  currentLesson: 1,
-  completedLessons:
-    JSON.parse(localStorage.getItem('completedLiteratureLessons')) || [],
-  dailyQuests: [
-    { id: 1, text: 'Прегледай всички материали', completed: false },
-    { id: 2, text: 'Спечели 20 XP', completed: false },
-    { id: 3, text: '0/3 уроци', completed: false, progress: 0, target: 3 },
-  ],
-  xp: parseInt(localStorage.getItem('literatureXp')) || 0,
-  leaderboardProgress:
-    parseInt(localStorage.getItem('literatureLeaderboardProgress')) || 0,
-  streak: parseInt(localStorage.getItem('literatureStreak')) || 0,
-};
+/**
+ * Literature Lessons Export Data
+ * Complete extraction of all literature lessons from literature.js
+ * Ready for Firestore migration
+ * Last Updated: March 1, 2026
+ */
 
-let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratureLessons.length)
-  ? window.remoteLiteratureLessons
-  : [
+export const LITERATURE_LESSONS = [
   {
     id: 1,
     title: 'Добри Чинтулов',
     xp: 20,
-    description:
-      'Живот, творчество и патриотичният заряд в поезията на Добри Чинтулов',
+    description: 'Живот, творчество и патриотичният заряд в поезията на Добри Чинтулов',
     icon: '✍️',
     content: `
         <div class="lesson-content">
@@ -62,15 +51,15 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <h4>📚 Основни творби:</h4>
                 <div class="works-grid">
                     <div class="work-card">
-                        <h5>🎵 „Стани, стани, юнак балкански“</h5>
+                        <h5>🎵 „Стани, стани, юнак балкански"</h5>
                         <p>Емблематична патриотична песен, вдъхновяваща борците за свобода.</p>
                     </div>
                     <div class="work-card">
-                        <h5>📖 „Къде си, вярна ти любов народна“</h5>
+                        <h5>📖 „Къде си, вярна ти любов народна"</h5>
                         <p>Творба, насърчаваща народното пробуждане.</p>
                     </div>
                     <div class="work-card">
-                        <h5>🎭 „Вятър ечи, Балкан стене“</h5>
+                        <h5>🎭 „Вятър ечи, Балкан стене"</h5>
                         <p>Една от най-популярните възрожденски песни.</p>
                     </div>
                 </div>
@@ -87,7 +76,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
             </div>
 
             <div class="interactive-activity">
-                <h4>🎯 Анализ: „Стани, стани, юнак балкански“</h4>
+                <h4>🎯 Анализ: „Стани, стани, юнак балкански"</h4>
 
                 <div class="poem-analysis">
                     <div class="poem-text">
@@ -113,11 +102,9 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
 
         </div>
     `,
-
     questions: [
       {
-        question:
-          'Кое от следните е характерно за творчеството на Добри Чинтулов?',
+        question: 'Кое от следните е характерно за творчеството на Добри Чинтулов?',
         options: [
           { text: 'Патриотичен и революционен заряд', correct: true },
           { text: 'Пейзажна лирика', correct: false },
@@ -128,10 +115,10 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
       {
         question: 'Коя от творбите е написана от Добри Чинтулов?',
         options: [
-          { text: '„Хаджи Димитър“', correct: false },
-          { text: '„Стани, стани, юнак балкански“', correct: true },
-          { text: '„Опълченците на Шипка“', correct: false },
-          { text: '„Моята молитва“', correct: false },
+          { text: '„Хаджи Димитър"', correct: false },
+          { text: '„Стани, стани, юнак балкански"', correct: true },
+          { text: '„Опълченците на Шипка"', correct: false },
+          { text: '„Моята молитва"', correct: false },
         ],
       },
       {
@@ -153,7 +140,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
         ],
       },
       {
-        question: 'Кой жанр най-точно описва „Стани, стани, юнак балкански“?',
+        question: 'Кой жанр най-точно описва „Стани, стани, юнак балкански"?',
         options: [
           { text: 'Епическа поема', correct: false },
           { text: 'Патриотична песен', correct: true },
@@ -167,8 +154,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 2,
     title: 'Христо Ботев',
     xp: 25,
-    description:
-      'Проучи живота и поезията на Христо Ботев - национален герой, поет и революционер',
+    description: 'Проучи живота и поезията на Христо Ботев - национален герой, поет и революционер',
     icon: '⚔️',
     content: `
         <div class="lesson-content">
@@ -196,7 +182,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-year">1876</div>
-                        <div class="timeline-content">Организира чета, превзема “Радецки”, загива във Врачанския Балкан</div>
+                        <div class="timeline-content">Организира чета, превзема "Радецки", загива във Врачанския Балкан</div>
                     </div>
                 </div>
             </div>
@@ -227,16 +213,14 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     `,
     questions: [
       {
-        question:
-          'Кое стихотворение на Ботев започва с думите „Той жив ли е, той мъртъв ли е?“?',
+        question: 'Кое стихотворение на Ботев започва с думите „Той жив ли е, той мъртъв ли е?"?',
         options: [
           { text: 'Моята молитва', correct: false },
           { text: 'Хаджи Димитър', correct: true },
           { text: 'На прощаване', correct: false },
           { text: 'Дялба', correct: false },
         ],
-        explanation:
-          'Началният стих принадлежи на безсмъртното произведение „Хаджи Димитър“.',
+        explanation: 'Началният стих принадлежи на безсмъртното произведение „Хаджи Димитър".',
       },
       {
         question: 'Коя е основната идея в поезията на Христо Ботев?',
@@ -246,8 +230,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
           { text: 'Битови семейни конфликти', correct: false },
           { text: 'Философия на изкуството', correct: false },
         ],
-        explanation:
-          'Ботев е най-яркият поет на свободата в българската литература.',
+        explanation: 'Ботев е най-яркият поет на свободата в българската литература.',
       },
     ],
   },
@@ -255,8 +238,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 3,
     title: 'Иван Вазов',
     xp: 30,
-    description:
-      "Открий ,,патриарха на българската литература'' и изучаваните произведения в 7. клас",
+    description: "Открий ,,патриарха на българската литература'' и изучаваните произведения в 7. клас",
     icon: '📚',
     content: `
         <div class="lesson-content">
@@ -270,8 +252,8 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
             <div class="studied-works">
                 <h4>📘 Изучавани произведения в 7. клас:</h4>
                 <ul class="works-list">
-                    <li>„<strong>Опълченците на Шипка</strong>“ — ода от цикъла „Епопея на забравените“</li>
-                    <li>„<strong>Българският език</strong>“ — възторжена защита на езика</li>
+                    <li>„<strong>Опълченците на Шипка</strong>" — ода от цикъла „Епопея на забравените"</li>
+                    <li>„<strong>Българският език</strong>" — възторжена защита на езика</li>
                 </ul>
             </div>
 
@@ -280,7 +262,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <div class="cards-grid">
 
                     <div class="work-card patriotism">
-                        <h5>🇧🇬 „Отечество любезно“</h5>
+                        <h5>🇧🇬 „Отечество любезно"</h5>
                         <p>Вазов изгражда образ на родината като нещо свято, красиво и неизменно обично.</p>
                         <span class="tag">❤️ Родолюбие</span>
                         <span class="tag">🌄 Български пейзаж</span>
@@ -288,7 +270,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                     </div>
 
                     <div class="work-card heroes">
-                        <h5>⚔️ „Опълченците на Шипка“</h5>
+                        <h5>⚔️ „Опълченците на Шипка"</h5>
                         <p>Ода, която възпява героизма на българските опълченци в защита на Шипченския проход.</p>
                         <span class="tag">🔥 Героизъм</span>
                         <span class="tag">Национална памет</span>
@@ -296,7 +278,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                     </div>
 
                     <div class="work-card language">
-                        <h5>📜 „Българският език“</h5>
+                        <h5>📜 „Българският език"</h5>
                         <p>Силна емоционална реакция срещу хулите към българската реч — езикът като символ на дух.</p>
                         <span class="tag">🎤 Защита на езика</span>
                         <span class="tag">🔥 Емоционална лирика</span>
@@ -329,21 +311,21 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <div class="vazov-quiz">
 
                     <div class="quiz-item">
-                        <p><strong>Кое произведение е ода от „Епопея на забравените“?</strong></p>
+                        <p><strong>Кое произведение е ода от „Епопея на забравените"?</strong></p>
                         <button class="quiz-btn" data-correct="true">Опълченците на Шипка</button>
                         <button class="quiz-btn">Българският език</button>
                         <button class="quiz-btn">Отечество любезно</button>
                     </div>
 
                     <div class="quiz-item">
-                        <p><strong>Какво е основното послание в „Българският език“?</strong></p>
+                        <p><strong>Какво е основното послание в „Българският език"?</strong></p>
                         <button class="quiz-btn">Природните красоти на България</button>
                         <button class="quiz-btn" data-correct="true">Защитата на българския език от хули</button>
                         <button class="quiz-btn">Спомените за детството</button>
                     </div>
 
                     <div class="quiz-item">
-                        <p><strong>Как е представена родината в „Отечество любезно“?</strong></p>
+                        <p><strong>Как е представена родината в „Отечество любезно"?</strong></p>
                         <button class="quiz-btn">Като чужда и далечна земя</button>
                         <button class="quiz-btn" data-correct="true">Като близка, красива и духовно скъпа</button>
                         <button class="quiz-btn">Като страна без герои</button>
@@ -367,20 +349,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
           { text: 'Българският език', correct: true },
           { text: 'При Рилския манастир', correct: false },
         ],
-        explanation:
-          '„Българският език“ е силна емоционална защита на родната реч.',
+        explanation: '„Българският език" е силна емоционална защита на родната реч.',
       },
       {
-        question:
-          'Героите на кое произведение защитават прохода при голямо числено превъзходство на противника?',
+        question: 'Героите на кое произведение защитават прохода при голямо числено превъзходство на противника?',
         options: [
           { text: 'Отечество любезно', correct: false },
           { text: 'Една българка', correct: false },
           { text: 'Опълченците на Шипка', correct: true },
           { text: 'Българският език', correct: false },
         ],
-        explanation:
-          'В „Опълченците на Шипка“ Вазов възпява героичната отбрана на прохода.',
+        explanation: 'В „Опълченците на Шипка" Вазов възпява героичната отбрана на прохода.',
       },
     ],
   },
@@ -388,15 +367,14 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 4,
     title: 'Алеко Константинов',
     xp: 20,
-    description:
-      'Запознай се с автора на Бай Ганьо и майстора на хумористичната проза',
+    description: 'Запознай се с автора на Бай Ганьо и майстора на хумористичната проза',
     icon: '😄',
     content: `
         <div class="lesson-content">
             <div class="humor-master">
                 <h3>Алеко Константинов (1863-1897)</h3>
                 <div class="master-card">
-                    <p><strong>Щастливеца</strong> – блестящ хуморист, сатирик и общественик. Автор на „Бай Ганьо”.</p>
+                    <p><strong>Щастливеца</strong> – блестящ хуморист, сатирик и общественик. Автор на „Бай Ганьо".</p>
                 </div>
             </div>
 
@@ -413,17 +391,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <h4>📖 Творчество (изучавано в 7. клас):</h4>
                 <div class="works-highlight">
                     <div class="masterpiece-spotlight">
-                        <h5>🎪 „Бай Ганьо” (1895)</h5>
+                        <h5>🎪 „Бай Ганьо" (1895)</h5>
                         <p>Цикъл разкази, в които чрез хумор и сатира е представен образът на Бай Ганьо – смес от находчивост и простащина.</p>
                     </div>
 
                     <div class="other-works">
                         <h5>📚 Подбрани текстове за 7. клас:</h5>
                         <ul>
-                            <li><strong>„Бай Ганьо пътува“</strong></li>
-                            <li><strong>„Бай Ганьо в банята“</strong></li>
-                            <li><strong>„Бай Ганьо журналист“</strong></li>
-                            <li><strong>„Разни хора, разни идеали“ (избрани фейлетони)</strong></li>
+                            <li><strong>„Бай Ганьо пътува"</strong></li>
+                            <li><strong>„Бай Ганьо в банята"</strong></li>
+                            <li><strong>„Бай Ганьо журналист"</strong></li>
+                            <li><strong>„Разни хора, разни идеали" (избрани фейлетони)</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -470,11 +448,11 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
             </div>
 
             <div class="interactive-scene">
-                <h4>🎬 Сцена от „Бай Ганьо“</h4>
+                <h4>🎬 Сцена от „Бай Ганьо"</h4>
                 <div class="scene-recreation">
                     <div class="scene-dialogue">
-                        <p><strong>Бай Ганьо:</strong> „Абе, простете, де се плаща тука за банята?“</p>
-                        <p><strong>Разказвач:</strong> „Той се държеше така, сякаш цял свят му е длъжен.“</p>
+                        <p><strong>Бай Ганьо:</strong> „Абе, простете, де се плаща тука за банята?"</p>
+                        <p><strong>Разказвач:</strong> „Той се държеше така, сякаш цял свят му е длъжен."</p>
                     </div>
 
                     <div class="scene-analysis">
@@ -503,8 +481,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
           { text: 'Дядо Йоцо', correct: false },
           { text: 'Иванчо', correct: false },
         ],
-        explanation:
-          'Бай Ганьо е литературният герой, който олицетворява българския национален характер.',
+        explanation: 'Бай Ганьо е литературният герой, който олицетворява българския национален характер.',
       },
       {
         question: 'Кой жанр е основен в творчеството на Алеко Константинов?',
@@ -542,7 +519,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
 
             <div class="accident-block">
                 <h4>❄️ Голямата житейска промяна</h4>
-                <p>През 1884 г. премръзва, докато се пързаля на река Марица. Лечението продължава години и оставя трайни последици – ходи с бастун и говори трудно. По-късно казва, че именно тази злополука го е „направила поет“.</p>
+                <p>През 1884 г. премръзва, докато се пързаля на река Марица. Лечението продължава години и оставя трайни последици – ходи с бастун и говори трудно. По-късно казва, че именно тази злополука го е „направила поет".</p>
             </div>
 
             <div class="education-abroad">
@@ -561,7 +538,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
             </div>
 
             <div class="misal-block">
-                <h4>🧠 Кръг „Мисъл“</h4>
+                <h4>🧠 Кръг „Мисъл"</h4>
                 <p>Един от основателите на кръга заедно с д-р Кръстев и Петко Тодоров, по-късно се присъединява и Яворов. Групата изгражда модернизма и индивидуализма в българската литература.</p>
             </div>
 
@@ -573,17 +550,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     `,
     questions: [
       {
-        question: 'Какъв жанр е произведението „Неразделни“?',
+        question: 'Какъв жанр е произведението „Неразделни"?',
         options: [
           { text: 'Ода', correct: false },
           { text: 'Балада', correct: true },
           { text: 'Елегия', correct: false },
           { text: 'Поема', correct: false },
         ],
-        explanation: '„Неразделни“ е лирическа балада.',
+        explanation: '„Неразделни" е лирическа балада.',
       },
       {
-        question: 'Какъв род е произведението „Неразделни“?',
+        question: 'Какъв род е произведението „Неразделни"?',
         options: [
           { text: 'Епос', correct: false },
           { text: 'Лирика', correct: true },
@@ -593,7 +570,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
         explanation: 'Произведението е част от лириката.',
       },
       {
-        question: 'Кои са главните герои в „Неразделни“?',
+        question: 'Кои са главните герои в „Неразделни"?',
         options: [
           { text: 'Пенчо и Мара', correct: false },
           { text: 'Калина и Иво', correct: true },
@@ -628,7 +605,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 6,
     title: 'Пейо Яворов',
     xp: 25,
-    description: 'Живот и творчество на Яворов + анализ на „Заточеници“',
+    description: 'Живот и творчество на Яворов + анализ на „Заточеници"',
     icon: '💔',
     content: `
         <div class="lesson-content">
@@ -645,10 +622,10 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <h4>🏛️ Кариера и обществена дейност</h4>
                 <ul>
                     <li>Телеграфист и началник на телеграфни станции</li>
-                    <li>Главен редактор на вестник „Дело“</li>
+                    <li>Главен редактор на вестник „Дело"</li>
                     <li>Библиотекар и поддиректор в Народната библиотека</li>
                     <li>Драматург в Народния театър</li>
-                    <li>Редактор на списание „Мисъл“ и член на литературния кръг „Мисъл“</li>
+                    <li>Редактор на списание „Мисъл" и член на литературния кръг „Мисъл"</li>
                     <li>Участник в ВМОРО и борбата за освобождение на Македония</li>
                 </ul>
             </div>
@@ -661,17 +638,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     `,
     questions: [
       {
-        question: 'Какъв жанр е произведението „Заточеници“?',
+        question: 'Какъв жанр е произведението „Заточеници"?',
         options: [
           { text: 'Елегия', correct: true },
           { text: 'Балада', correct: false },
           { text: 'Ода', correct: false },
           { text: 'Поема', correct: false },
         ],
-        explanation: '„Заточеници“ е лирическа елегия.',
+        explanation: '„Заточеници" е лирическа елегия.',
       },
       {
-        question: 'Какъв род е произведението „Заточеници“?',
+        question: 'Какъв род е произведението „Заточеници"?',
         options: [
           { text: 'Лирика', correct: true },
           { text: 'Епос', correct: false },
@@ -681,7 +658,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
         explanation: 'Произведението е част от лириката.',
       },
       {
-        question: 'Колко строфи има „Заточеници“?',
+        question: 'Колко строфи има „Заточеници"?',
         options: [
           { text: '5', correct: true },
           { text: '4', correct: false },
@@ -698,11 +675,10 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
           { text: 'Разказвачът', correct: false },
           { text: 'Индивидуален герой', correct: false },
         ],
-        explanation:
-          'Говорителят е колективният образ на заточениците („ние-изказ“).',
+        explanation: 'Говорителят е колективният образ на заточениците („ние-изказ").',
       },
       {
-        question: 'На кого е посветена творбата „Заточеници“?',
+        question: 'На кого е посветена творбата „Заточеници"?',
         options: [
           { text: 'Тодор Александров', correct: true },
           { text: 'Гоце Делчев', correct: false },
@@ -727,8 +703,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 7,
     title: 'Елин Пелин',
     xp: 20,
-    description:
-      'Живот, творчество на Елин Пелин и анализ на разказа „По жътва“',
+    description: 'Живот, творчество на Елин Пелин и анализ на разказа „По жътва"',
     icon: '🌾',
     content: `
         <div class="lesson-content">
@@ -747,13 +722,13 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                     <li>Учител в родното село</li>
                     <li>Редактор, репортер, служител в Университетската библиотека</li>
                     <li>Военен писател по време на Първата световна война</li>
-                    <li>Уредник на музея „Иван Вазов“ (1926–1944)</li>
+                    <li>Уредник на музея „Иван Вазов" (1926–1944)</li>
                     <li>Член на БАН и председател на Съюза на българските писатели (1940 г.)</li>
                 </ul>
             </div>
 
             <div class="work-section">
-                <h3>🌾 „По жътва“</h3>
+                <h3>🌾 „По жътва"</h3>
 
                 <div class="work-info">
                     <h4>📌 Основна информация</h4>
@@ -774,7 +749,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                     <h4>🧑‍🤝‍🧑 Герои и образи</h4>
                     <ul>
                         <li>Селските хора – олицетворяват трудолюбието, постоянството и нравите на времето</li>
-                        <li>Природата – важен „герой“, която отразява емоциите и атмосферата</li>
+                        <li>Природата – важен „герой", която отразява емоциите и атмосферата</li>
                         <li>Колективният лирически говорител – авторовият поглед върху селската сцена</li>
                     </ul>
                 </div>
@@ -791,11 +766,11 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <div class="expressions">
                     <h4>🎨 Изразни средства</h4>
                     <ul>
-                        <li><strong>Епитети:</strong> „упорити“, „тежък“, „горещ“</li>
-                        <li><strong>Метафори:</strong> „жътвата като ритъм на живота“</li>
-                        <li><strong>Инверсия:</strong> „полето златно“, „жътварите уморени“</li>
+                        <li><strong>Епитети:</strong> „упорити", „тежък", „горещ"</li>
+                        <li><strong>Метафори:</strong> „жътвата като ритъм на живота"</li>
+                        <li><strong>Инверсия:</strong> „полето златно", „жътварите уморени"</li>
                         <li><strong>Лексика:</strong> народни изрази, диалектизми</li>
-                        <li><strong>Реторично обръщение:</strong> „земьо любима“</li>
+                        <li><strong>Реторично обръщение:</strong> „земьо любима"</li>
                     </ul>
                 </div>
             </div>
@@ -803,17 +778,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     `,
     questions: [
       {
-        question: 'Какъв жанр е произведението „По жътва“?',
+        question: 'Какъв жанр е произведението „По жътва"?',
         options: [
           { text: 'Поема', correct: false },
           { text: 'Разказ', correct: true },
           { text: 'Епопея', correct: false },
           { text: 'Балада', correct: false },
         ],
-        explanation: '„По жътва“ е разказ от селската проза на Елин Пелин.',
+        explanation: '„По жътва" е разказ от селската проза на Елин Пелин.',
       },
       {
-        question: 'Какъв род е произведението „По жътва“?',
+        question: 'Какъв род е произведението „По жътва"?',
         options: [
           { text: 'Проза', correct: true },
           { text: 'Лирика', correct: false },
@@ -823,29 +798,24 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
         explanation: 'Творбата принадлежи към род проза.',
       },
       {
-        question: 'Кои са главните герои в „По жътва“?',
+        question: 'Кои са главните герои в „По жътва"?',
         options: [
           { text: 'Градски жители', correct: false },
           { text: 'Селските хора и природата', correct: true },
           { text: 'Учители и ученици', correct: false },
           { text: 'Войници', correct: false },
         ],
-        explanation:
-          'Главните герои са селските хора, показани в процеса на жътвата, и природата около тях.',
+        explanation: 'Главните герои са селските хора, показани в процеса на жътвата, и природата около тях.',
       },
       {
-        question: 'Кои са основните идеи на разказа „По жътва“?',
+        question: 'Кои са основните идеи на разказа „По жътва"?',
         options: [
           { text: 'Градската култура и модернизация', correct: false },
-          {
-            text: 'Трудът, солидарността и хармонията с природата',
-            correct: true,
-          },
+          { text: 'Трудът, солидарността и хармонията с природата', correct: true },
           { text: 'Революционната борба', correct: false },
           { text: 'Любовта между младежи', correct: false },
         ],
-        explanation:
-          'Разказът изтъква значението на труда, сътрудничеството и връзката на човека с природата.',
+        explanation: 'Разказът изтъква значението на труда, сътрудничеството и връзката на човека с природата.',
       },
       {
         question: 'Къде е роден Елин Пелин?',
@@ -863,8 +833,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
     id: 8,
     title: 'Йордан Йовков',
     xp: 30,
-    description:
-      'Анализ на разказа „По жицата“: сюжет, герои, идеи и изразни средства',
+    description: 'Анализ на разказа „По жицата": сюжет, герои, идеи и изразни средства',
     icon: '📜',
     content: `
         <div class="lesson-content">
@@ -874,7 +843,7 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
             </div>
 
             <div class="work-intro">
-                <h4>📖 „По жицата“</h4>
+                <h4>📖 „По жицата"</h4>
                 <p><strong>Род:</strong> Епос</p>
                 <p><strong>Жанр:</strong> Разказ</p>
                 <p><strong>Сюжет и композиция:</strong> Експозиция с представяне на героите и художественото пространство, ретроспекция, отворен финал, кулминация в края на текста.</p>
@@ -904,30 +873,30 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
                 <ul>
                     <li>Символи: змия, бяла и черни лястовици, телеграфни жици, път, ръченик, мазолести ръце</li>
                     <li>Антитези: бяло и черно, живот и смърт, надежда и безнадеждност, светлина и мрак</li>
-                    <li>Метафори: „го гони някаква беда“, „човек планина“, „погледът му, пълен с грижа“, „вехне“</li>
-                    <li>Сравнения: „гледали сме го като очите си“, „изсъхна като вейка“</li>
-                    <li>Епитети: „меки, отпуснати (хора)“, „слабичка, болнава“</li>
-                    <li>Литота: „на мравята път струват“, „изсъхна като вейка“</li>
+                    <li>Метафори: „го гони някаква беда", „човек планина", „погледът му, пълен с грижа", „вехне"</li>
+                    <li>Сравнения: „гледали сме го като очите си", „изсъхна като вейка"</li>
+                    <li>Епитети: „меки, отпуснати (хора)", „слабичка, болнава"</li>
+                    <li>Литота: „на мравята път струват", „изсъхна като вейка"</li>
                     <li>Повторения, реторични възклицания и въпроси</li>
                 </ul>
             </div>
 
             <div class="legacy">
                 <h4>🌟 Значение</h4>
-                <p>„По жицата“ показва човешката доброта, състрадание и надежда дори в тежки ситуации, като комбинира психологизъм, символизъм и дълбок хуманизъм.</p>
+                <p>„По жицата" показва човешката доброта, състрадание и надежда дори в тежки ситуации, като комбинира психологизъм, символизъм и дълбок хуманизъм.</p>
             </div>
         </div>
     `,
     questions: [
       {
-        question: 'Какъв жанр е произведението „По жицата“?',
+        question: 'Какъв жанр е произведението „По жицата"?',
         options: [
           { text: 'Разказ', correct: true },
           { text: 'Повест', correct: false },
           { text: 'Епопея', correct: false },
           { text: 'Стихотворение', correct: false },
         ],
-        explanation: '„По жицата“ е разказ.',
+        explanation: '„По жицата" е разказ.',
       },
       {
         question: 'Какъв род е произведението?',
@@ -947,22 +916,17 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
           { text: 'Ян Бибиян, Дядо Йоцо, Калуша', correct: false },
           { text: 'Бойчо Огнянов, Гунчо, Моканина', correct: false },
         ],
-        explanation:
-          'Главните герои са Моканина, Гунчо, майката на Нонка и Нонка.',
+        explanation: 'Главните герои са Моканина, Гунчо, майката на Нонка и Нонка.',
       },
       {
         question: 'Кои са основните изразни средства в разказа?',
         options: [
-          {
-            text: 'Символи, антитези, метафори, сравнения, епитети, литоти',
-            correct: true,
-          },
+          { text: 'Символи, антитези, метафори, сравнения, епитети, литоти', correct: true },
           { text: 'Сатира и ирония', correct: false },
           { text: 'Фантастични образи и хиперболи', correct: false },
           { text: 'Реализъм и хроника', correct: false },
         ],
-        explanation:
-          'Изразните средства включват символи, антитези, метафори, сравнения, епитети и литоти.',
+        explanation: 'Изразните средства включват символи, антитези, метафори, сравнения, епитети и литоти.',
       },
       {
         question: 'Къде е роден Йордан Йовков?',
@@ -978,481 +942,9 @@ let literatureLessons = (window.remoteLiteratureLessons && window.remoteLiteratu
   },
 ];
 
-const lessonGrid = document.getElementById('lessonGrid');
-const lessonModal = document.getElementById('lessonModal');
-const closeModal = document.getElementById('closeModal');
-const lessonQuestion = document.getElementById('lessonQuestion');
-const optionsContainer = document.getElementById('optionsContainer');
-const nextQuestionBtn = document.getElementById('nextQuestionBtn');
-const guidebookBtn = document.getElementById('guidebookBtn');
-const leaderboardProgress = document.getElementById('leaderboardProgress');
-
-let currentLessonId = null;
-let currentQuestionIndex = 0;
-let currentQuestions = [];
-let correctAnswersCount = 0;
-
-function initApp() {
-  renderLessons();
-  updateProgress();
-  setupEventListeners();
-  checkDailyStreak();
+/**
+ * Alternative export format - if you need CommonJS (server-side)
+ */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { LITERATURE_LESSONS };
 }
-
-function renderLessons() {
-  const sections = [
-    {
-      id: 1,
-      title: 'Раздел 1: Българинът във възрожденския свят',
-      lessons: literatureLessons.slice(0, 3),
-    },
-    {
-      id: 2,
-      title: 'Раздел 2: Човекът в обществото - норми, ценности и конфликти',
-      lessons: literatureLessons.slice(3, 8),
-    },
-  ];
-
-  sections.forEach((section) => {
-    const sectionGrid = document.getElementById(`lessonGrid${section.id}`);
-    if (!sectionGrid) return;
-
-    sectionGrid.innerHTML = '';
-
-    section.lessons.forEach((lesson) => {
-      const isCompleted = appData.completedLessons.includes(lesson.id);
-      const isCurrent = lesson.id === appData.currentLesson;
-      const isLocked = false;
-
-      const lessonCard = document.createElement('div');
-      lessonCard.className = `lesson-card ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''} ${isCurrent ? 'active' : ''}`;
-      lessonCard.dataset.id = lesson.id;
-
-      if (isLocked) {
-        lessonCard.innerHTML = `
-                    <div class="lesson-icon">🔒</div>
-                    <div class="lesson-title">${lesson.title}</div>
-                    <div class="lesson-xp">${lesson.xp} XP</div>
-                `;
-      } else {
-        lessonCard.innerHTML = `
-                    ${lesson.crown ? '<div class="crown-icon"><i class="fas fa-crown"></i></div>' : ''}
-                    <div class="lesson-icon">${lesson.icon || lesson.id}</div>
-                    <div class="lesson-title">${lesson.title}</div>
-                    <div class="lesson-xp">${lesson.xp} XP</div>
-                `;
-      }
-
-      if (!isLocked) {
-        lessonCard.addEventListener('click', () => showLessonPreview(lesson));
-      }
-
-      sectionGrid.appendChild(lessonCard);
-    });
-  });
-}
-
-function showLessonPreview(lesson) {
-  const previewModal = document.createElement('div');
-  previewModal.className = 'modal active';
-  previewModal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <button class="close-modal" id="closePreviewModal"><i class="fas fa-times"></i></button>
-            <div class="lesson-icon" style="margin: 0 auto 20px; font-size: 40px; width: 80px; height: 80px;">${lesson.icon || lesson.id}</div>
-            <h2 style="margin-bottom: 10px;">${lesson.title}</h2>
-            <p style="color: var(--text-light); margin-bottom: 25px;">${lesson.description}</p>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
-                <div style="background: rgba(76, 175, 80, 0.1); padding: 10px; border-radius: 10px; width: 48%;">
-                    <div style="font-size: 12px; color: var(--text-light);">XP</div>
-                    <div style="font-weight: bold; color: var(--primary-color);">${lesson.xp}</div>
-                </div>
-                <div style="background: rgba(255, 193, 7, 0.1); padding: 10px; border-radius: 10px; width: 48%;">
-                    <div style="font-size: 12px; color: var(--text-light);">Въпроси</div>
-                    <div style="font-weight: bold; color: var(--secondary-color);">${lesson.questions ? lesson.questions.length : '3'}</div>
-                </div>
-            </div>
-            <button class="btn" id="startLessonBtn" style="width: 100%;">
-                <i class="fas fa-play"></i> Започни урока
-            </button>
-        </div>
-    `;
-
-  document.body.appendChild(previewModal);
-
-  const closeBtn = document.getElementById('closePreviewModal');
-  const startBtn = document.getElementById('startLessonBtn');
-
-  closeBtn.addEventListener('click', () => {
-    previewModal.classList.remove('active');
-    setTimeout(() => previewModal.remove(), 300);
-  });
-
-  startBtn.addEventListener('click', () => {
-    previewModal.classList.remove('active');
-    setTimeout(() => {
-      previewModal.remove();
-      startLesson(lesson.id);
-    }, 300);
-  });
-
-  previewModal.addEventListener('click', (e) => {
-    if (e.target === previewModal) {
-      previewModal.classList.remove('active');
-      setTimeout(() => previewModal.remove(), 300);
-    }
-  });
-}
-
-function startLesson(lessonId) {
-  const lesson = literatureLessons.find((l) => l.id === lessonId);
-  if (!lesson) return;
-
-  currentLessonId = lessonId;
-  currentQuestionIndex = 0;
-  currentQuestions = [...lesson.questions];
-  correctAnswersCount = 0;
-
-  showContent(lesson);
-  lessonModal.classList.add('active');
-}
-
-function showContent(lesson) {
-  if (lesson.content) {
-    // Create modal content using DOM methods to prevent XSS
-    const modalContent = document.createElement('div');
-    modalContent.className = 'modal-content lesson-modal-content';
-
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'close-modal';
-    closeBtn.id = 'closeModal';
-    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-    modalContent.appendChild(closeBtn);
-
-    const lessonHeader = document.createElement('div');
-    lessonHeader.className = 'lesson-header';
-
-    const lessonIcon = document.createElement('div');
-    lessonIcon.className = 'lesson-icon';
-    lessonIcon.textContent = lesson.icon || lesson.id;
-    lessonHeader.appendChild(lessonIcon);
-
-    const lessonTitle = document.createElement('h2');
-    lessonTitle.textContent = lesson.title;
-    lessonHeader.appendChild(lessonTitle);
-
-    modalContent.appendChild(lessonHeader);
-
-    const lessonBody = document.createElement('div');
-    lessonBody.className = 'lesson-body';
-    lessonBody.innerHTML = lesson.content; // Assuming lesson.content is trusted HTML
-    modalContent.appendChild(lessonBody);
-
-    const lessonFooter = document.createElement('div');
-    lessonFooter.className = 'lesson-footer';
-
-    const startBtn = document.createElement('button');
-    startBtn.className = 'btn';
-    startBtn.id = 'startQuestionsBtn';
-    startBtn.innerHTML = '<i class="fas fa-question-circle"></i> Започни въпросите';
-    lessonFooter.appendChild(startBtn);
-
-    modalContent.appendChild(lessonFooter);
-
-    lessonModal.innerHTML = '';
-    lessonModal.appendChild(modalContent);
-
-    document
-      .getElementById('closeModal')
-      .addEventListener('click', closeLesson);
-    document
-      .getElementById('startQuestionsBtn')
-      .addEventListener('click', () => {
-        showQuestion();
-      });
-  } else {
-    showQuestion();
-  }
-}
-
-function showQuestion() {
-  if (currentQuestionIndex >= currentQuestions.length) {
-    completeLesson();
-    return;
-  }
-
-  lessonModal.innerHTML = `
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
-            <div class="lesson-header">
-                <div class="lesson-type">Изберете верния отговор</div>
-                <div class="lesson-question" id="lessonQuestion"></div>
-            </div>
-            <div class="options-container" id="optionsContainer"></div>
-            <div class="lesson-footer">
-                <div class="xp-badge"><i class="fas fa-star"></i> +10 XP</div>
-                <button class="btn btn-sm" id="nextQuestionBtn">Следващ въпрос</button>
-            </div>
-        </div>
-    `;
-
-  const lessonQuestion = document.getElementById('lessonQuestion');
-  const optionsContainer = document.getElementById('optionsContainer');
-  const nextQuestionBtn = document.getElementById('nextQuestionBtn');
-  const closeModal = document.getElementById('closeModal');
-
-  closeModal.addEventListener('click', closeLesson);
-  nextQuestionBtn.addEventListener('click', nextQuestion);
-
-  const question = currentQuestions[currentQuestionIndex];
-  lessonQuestion.textContent = question.question;
-
-  optionsContainer.innerHTML = '';
-  question.options.forEach((option, index) => {
-    const optionBtn = document.createElement('button');
-    optionBtn.className = 'option-btn';
-    optionBtn.textContent = option.text;
-    optionBtn.dataset.correct = option.correct;
-
-    optionBtn.addEventListener('click', () =>
-      selectAnswer(optionBtn, option.correct, question.explanation)
-    );
-    optionsContainer.appendChild(optionBtn);
-  });
-}
-
-function selectAnswer(btn, isCorrect, explanation) {
-  document.querySelectorAll('.option-btn').forEach((opt) => {
-    opt.disabled = true;
-    if (opt.dataset.correct === 'true') {
-      opt.classList.add('correct');
-    }
-  });
-
-  if (isCorrect) {
-    btn.classList.add('correct');
-    correctAnswersCount++;
-
-    const xpBadge = document.querySelector('.xp-badge');
-    if (xpBadge) {
-      xpBadge.innerHTML = `<i class="fas fa-check"></i> Верен отговор!`;
-      xpBadge.style.backgroundColor = 'var(--primary-color)';
-    }
-  } else {
-    btn.classList.add('incorrect');
-
-    if (explanation) {
-      const explanationDiv = document.createElement('div');
-      explanationDiv.className = 'card-text';
-      explanationDiv.style.marginTop = '15px';
-      explanationDiv.style.fontSize = '14px';
-      explanationDiv.style.color = 'var(--text-light)';
-      explanationDiv.style.fontStyle = 'italic';
-      explanationDiv.innerHTML = `<strong>Обяснение:</strong> ${explanation}`;
-      optionsContainer.appendChild(explanationDiv);
-    }
-  }
-
-  nextQuestionBtn.style.display = 'block';
-}
-
-function nextQuestion() {
-  currentQuestionIndex++;
-
-  const xpBadge = document.querySelector('.xp-badge');
-  if (xpBadge) {
-    xpBadge.innerHTML = `<i class="fas fa-star"></i> +10 XP`;
-    xpBadge.style.backgroundColor = 'var(--primary-color)';
-  }
-
-  showQuestion();
-}
-
-function completeLesson() {
-  if (!appData.completedLessons.includes(currentLessonId)) {
-    appData.completedLessons.push(currentLessonId);
-    localStorage.setItem(
-      'completedLiteratureLessons',
-      JSON.stringify(appData.completedLessons)
-    );
-
-    const lesson = literatureLessons.find((l) => l.id === currentLessonId);
-    const xpEarned = Math.floor(
-      lesson.xp * (correctAnswersCount / currentQuestions.length)
-    );
-    appData.xp += xpEarned;
-    localStorage.setItem('literatureXp', appData.xp);
-
-    appData.leaderboardProgress++;
-    localStorage.setItem(
-      'literatureLeaderboardProgress',
-      appData.leaderboardProgress
-    );
-
-    updateStreak();
-
-    updateProgress();
-
-    const nextLesson = literatureLessons.find(
-      (l) => l.id === currentLessonId + 1
-    );
-    if (nextLesson && !nextLesson.locked) {
-      appData.currentLesson = nextLesson.id;
-    }
-
-    showCompletionModal(xpEarned, correctAnswersCount, currentQuestions.length);
-  } else {
-    closeLesson();
-  }
-}
-
-function showCompletionModal(xpEarned, correctCount, totalQuestions) {
-  const completionModal = document.createElement('div');
-  completionModal.className = 'modal active';
-  completionModal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <div style="margin-bottom: 20px;">
-                <div style="width: 80px; height: 80px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                    <i class="fas fa-check" style="font-size: 36px; color: white;"></i>
-                </div>
-                <h2 style="margin-bottom: 10px;">Урок завършен!</h2>
-                <p style="color: var(--text-light);">Вие отговорихте правилно на ${correctCount} от ${totalQuestions} въпроси</p>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 25px;">
-                <div style="background: rgba(76, 175, 80, 0.1); padding: 15px; border-radius: 10px; min-width: 100px;">
-                    <div style="font-size: 12px; color: var(--text-light);">Спечелени XP</div>
-                    <div style="font-weight: bold; color: var(--primary-color); font-size: 24px;">+${xpEarned}</div>
-                </div>
-            </div>
-            <button class="btn" id="closeCompletionModal" style="width: 100%;">
-                <i class="fas fa-check"></i> Готово
-            </button>
-        </div>
-    `;
-
-  document.body.appendChild(completionModal);
-
-  const closeBtn = document.getElementById('closeCompletionModal');
-
-  closeBtn.addEventListener('click', () => {
-    completionModal.classList.remove('active');
-    setTimeout(() => {
-      completionModal.remove();
-      closeLesson();
-      renderLessons();
-    }, 300);
-  });
-
-  completionModal.addEventListener('click', (e) => {
-    if (e.target === completionModal) {
-      completionModal.classList.remove('active');
-      setTimeout(() => {
-        completionModal.remove();
-        closeLesson();
-        renderLessons();
-      }, 300);
-    }
-  });
-}
-
-function closeLesson() {
-  lessonModal.classList.remove('active');
-}
-
-function updateProgress() {
-  const progressPercent = Math.min(
-    (appData.leaderboardProgress / 3) * 100,
-    100
-  );
-  leaderboardProgress.style.width = `${progressPercent}%`;
-
-  const progressText = document.querySelector('.progress-text span:last-child');
-  if (progressText) {
-    progressText.textContent = `${appData.leaderboardProgress}/3`;
-  }
-
-  const questProgress = document.querySelectorAll('.quest-item')[2];
-  if (questProgress) {
-    questProgress.querySelector('.quest-text').textContent =
-      `${appData.leaderboardProgress}/3 уроци`;
-
-    if (appData.leaderboardProgress >= 3) {
-      questProgress.querySelector('.quest-checkbox').classList.add('completed');
-      questProgress.querySelector('.quest-checkbox').innerHTML =
-        '<i class="fas fa-check"></i>';
-    }
-  }
-}
-
-function updateStreak() {
-  const lastCompletedDate = localStorage.getItem('lastLiteratureCompletedDate');
-  const today = new Date().toDateString();
-
-  if (lastCompletedDate !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    if (lastCompletedDate === yesterday.toDateString()) {
-      appData.streak++;
-    } else {
-      appData.streak = 1;
-    }
-
-    localStorage.setItem('literatureStreak', appData.streak);
-    localStorage.setItem('lastLiteratureCompletedDate', today);
-
-    const streakCounter = document.querySelector('.streak-counter');
-    if (streakCounter) {
-      streakCounter.innerHTML = `<i class="fas fa-fire"></i> ${appData.streak}`;
-
-      streakCounter.classList.add('bounce');
-      setTimeout(() => streakCounter.classList.remove('bounce'), 1000);
-    }
-  }
-}
-
-function checkDailyStreak() {
-  const lastCompletedDate = localStorage.getItem('lastLiteratureCompletedDate');
-  const today = new Date().toDateString();
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  if (
-    lastCompletedDate &&
-    lastCompletedDate !== today &&
-    lastCompletedDate !== yesterday.toDateString()
-  ) {
-    appData.streak = 0;
-    localStorage.setItem('literatureStreak', '0');
-  }
-
-  const streakCounter = document.querySelector('.streak-counter');
-  if (streakCounter) {
-    streakCounter.innerHTML = `<i class="fas fa-fire"></i> ${appData.streak}`;
-  }
-}
-
-function setupEventListeners() {
-  closeModal.addEventListener('click', closeLesson);
-  nextQuestionBtn.addEventListener('click', nextQuestion);
-
-  guidebookBtn.addEventListener('click', () => {
-    const guidebookLesson = literatureLessons.find((l) => l.id === 1);
-    if (guidebookLesson) showLessonPreview(guidebookLesson);
-  });
-
-  lessonModal.addEventListener('click', (e) => {
-    if (e.target === lessonModal) {
-      closeLesson();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (lessonModal.classList.contains('active')) {
-      if (e.key === 'Escape') {
-        closeLesson();
-      }
-    }
-  });
-}
-
-document.addEventListener('DOMContentLoaded', initApp);

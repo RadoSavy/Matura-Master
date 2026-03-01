@@ -2,8 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import admin from 'firebase-admin';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,31 +18,334 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Initialize Firebase Admin using environment variables
-const serviceAccount = {
-  type: process.env.FIREBASE_TYPE,
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-  auth_uri: process.env.FIREBASE_AUTH_URI,
-  token_uri: process.env.FIREBASE_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
-  universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
-};
+// Serve static files from the public directory
+app.use(express.static(path.resolve(__dirname, '../public')));
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  projectId: process.env.FIREBASE_PROJECT_ID,
-});
+// Initialize Firebase Admin using environment variables (optional)
+let db = null;
+try {
+  if (process.env.FIREBASE_PRIVATE_KEY) {
+    const serviceAccount = {
+      type: process.env.FIREBASE_TYPE,
+      project_id: process.env.FIREBASE_PROJECT_ID,
+      private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+      private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      client_email: process.env.FIREBASE_CLIENT_EMAIL,
+      client_id: process.env.FIREBASE_CLIENT_ID,
+      auth_uri: process.env.FIREBASE_AUTH_URI,
+      token_uri: process.env.FIREBASE_TOKEN_URI,
+      auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+      client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+      universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
+    };
 
-const db = admin.firestore();
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      projectId: process.env.FIREBASE_PROJECT_ID,
+    });
+
+    db = admin.firestore();
+    console.log('Firebase Admin SDK initialized');
+  } else {
+    console.warn('Firebase credentials not found. Firebase features will be unavailable.');
+  }
+} catch (error) {
+  console.error('Error initializing Firebase:', error.message);
+}
+
 
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'Backend is running' });
+});
+
+// Get Gemini API Key
+app.get('/api/gemini-key', (req, res) => {
+  const apiKey = process.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Gemini API key not configured' });
+  }
+  res.json({ apiKey });
+});
+
+// ===== Lessons API Endpoints =====
+
+/**
+ * GET all lessons
+ * GET /api/lessons
+ */
+app.get('/api/lessons', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const snapshot = await db.collection('lessons').orderBy('id').get();
+    const lessons = [];
+
+    snapshot.forEach((doc) => {
+      lessons.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(lessons);
+  } catch (error) {
+    console.error('Error fetching lessons:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET single lesson by ID
+ * GET /api/lessons/:lessonId
+ */
+app.get('/api/lessons/:lessonId', async (req, res) => {
+  try {
+    const { lessonId } = req.params;
+
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const doc = await db.collection('lessons').doc(lessonId).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+
+    res.json({
+      id: doc.id,
+      ...doc.data(),
+    });
+  } catch (error) {
+    console.error('Error fetching lesson:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ===== AI Knowledge Base API Endpoints =====
+
+/**
+ * GET quick questions for AI assistant
+ * GET /api/knowledge-base/quick-questions
+ */
+app.get('/api/knowledge-base/quick-questions', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const doc = await db.collection('ai_knowledge_base').doc('quick_questions').get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Quick questions not found' });
+    }
+
+    res.json(doc.data());
+  } catch (error) {
+    console.error('Error fetching quick questions:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET knowledge base topic
+ * GET /api/knowledge-base/topic/:topicName
+ */
+app.get('/api/knowledge-base/topic/:topicName', async (req, res) => {
+  try {
+    const { topicName } = req.params;
+
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const doc = await db.collection('ai_knowledge_base').doc(topicName).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Topic not found' });
+    }
+
+    res.json(doc.data());
+  } catch (error) {
+    console.error('Error fetching knowledge base topic:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET all knowledge base topics
+ * GET /api/knowledge-base/topics
+ */
+app.get('/api/knowledge-base/topics', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const snapshot = await db.collection('ai_knowledge_base').get();
+    const topics = [];
+
+    snapshot.forEach((doc) => {
+      topics.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(topics);
+  } catch (error) {
+    console.error('Error fetching knowledge base topics:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ===== Literature Lessons API Endpoints =====
+
+/**
+ * GET all literature lessons
+ * GET /api/literature/lessons
+ */
+app.get('/api/literature/lessons', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const snapshot = await db.collection('literature_lessons').orderBy('id').get();
+    const lessons = [];
+
+    snapshot.forEach((doc) => {
+      lessons.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(lessons);
+  } catch (error) {
+    console.error('Error fetching literature lessons:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET single literature lesson by ID
+ * GET /api/literature/lessons/:lessonId
+ */
+app.get('/api/literature/lessons/:lessonId', async (req, res) => {
+  try {
+    const { lessonId } = req.params;
+
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const doc = await db.collection('literature_lessons').doc(lessonId).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Literature lesson not found' });
+    }
+
+    res.json({
+      id: doc.id,
+      ...doc.data(),
+    });
+  } catch (error) {
+    console.error('Error fetching literature lesson:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ===== Literature Texts API Endpoints =====
+
+/**
+ * GET all literature texts
+ * GET /api/literature/texts
+ */
+app.get('/api/literature/texts', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const snapshot = await db.collection('literature_texts').get();
+    const texts = [];
+
+    snapshot.forEach((doc) => {
+      texts.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(texts);
+  } catch (error) {
+    console.error('Error fetching literature texts:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET single literature text by ID
+ * GET /api/literature/texts/:textId
+ */
+app.get('/api/literature/texts/:textId', async (req, res) => {
+  try {
+    const { textId } = req.params;
+
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const doc = await db.collection('literature_texts').doc(textId).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Literature text not found' });
+    }
+
+    res.json({
+      id: doc.id,
+      ...doc.data(),
+    });
+  } catch (error) {
+    console.error('Error fetching literature text:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET literature texts by author
+ * GET /api/literature/texts/author/:author
+ */
+app.get('/api/literature/texts/author/:author', async (req, res) => {
+  try {
+    const { author } = req.params;
+
+    if (!db) {
+      return res.status(500).json({ error: 'Firestore not initialized' });
+    }
+
+    const snapshot = await db.collection('literature_texts')
+      .where('author', '==', author)
+      .get();
+    
+    const texts = [];
+
+    snapshot.forEach((doc) => {
+      texts.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(texts);
+  } catch (error) {
+    console.error('Error fetching texts by author:', error.message);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // ===== Firestore CRUD Operations =====

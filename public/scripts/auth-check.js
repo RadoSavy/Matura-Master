@@ -9,16 +9,21 @@ import { firebaseConfig } from './firebase-config.js';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Hide page content while checking auth
+document.body.classList.add('auth-checking');
+
 function checkAuth() {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       unsubscribe();
       if (user) {
         console.log('User is logged in:', user.email);
+        // Show page content
+        document.body.classList.remove('auth-checking');
         resolve(true);
       } else {
-        console.log('User is not logged in, redirecting...');
-        window.location.replace('auth.html');
+        console.log('User is not logged in, redirecting to auth.html...');
+        window.location.replace('/auth.html');
         resolve(false);
       }
     });
@@ -39,7 +44,7 @@ async function logout() {
   } finally {
     localStorage.removeItem('user');
     
-    window.location.replace('auth.html');
+    window.location.replace('/auth.html');
   }
 }
 

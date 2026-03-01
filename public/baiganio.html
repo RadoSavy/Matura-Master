@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/baiganio.css">
 </head>
-<body>
-  <script src="scripts/auth-check.js"></script>
+<body class="auth-checking">
+  <script type="module" src="scripts/auth-check.js"></script>
   <header>
         <div class="logo">
             <div class="logo-icon">MM</div>
@@ -49,7 +49,7 @@
             <i class="fas fa-book-reader desktop-nav-icon"></i>
             <span>Произведения</span>
         </a>
-        <a href="login.html" class="desktop-nav-item">
+        <a href="auth.html" class="desktop-nav-item" onclick="logout(); return false;">
             <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
             <span>Изход</span>
         </a>
@@ -92,9 +92,9 @@
             <i class="fas fa-book-reader nav-icon"></i>
             <span>Текстове</span>
         </a>
-        <a href="profile.html" class="nav-item">
-            <i class="fas fa-user nav-icon"></i>
-            <span>Профил</span>
+        <a href="auth.html" class="nav-item" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+            <span>Изход</span>
         </a>
     </nav>
 
