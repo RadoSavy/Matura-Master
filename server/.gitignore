@@ -23,7 +23,6 @@ Thumbs.db
 *.swo
 
 # Dependencies
-package-lock.json
 yarn.lock
 
 # Build outputs
