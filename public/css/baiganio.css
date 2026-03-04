@@ -237,12 +237,7 @@ main {
   border-radius: 18px;
   font-size: 15px;
   line-height: 1.5;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeIn 0.3s ease forwards;
 }
-
-
 
 @keyframes fadeIn {
   to {
@@ -349,21 +344,49 @@ main {
   30% { opacity: 1; transform: translateY(-4px); }
 }
 
-.formatted-message p {
+/* Formatted message styles */
+.message p {
   margin-bottom: 8px;
 }
 
-.formatted-message strong {
-  color: #4CAF50;
+.message p:last-child {
+  margin-bottom: 0;
 }
 
-.formatted-message ul {
+.message strong {
+  color: #2E7D32;
+  font-weight: 700;
+}
+
+.message em {
+  color: #1565C0;
+  font-style: italic;
+}
+
+.message ul {
   margin-left: 20px;
   margin-bottom: 10px;
+  padding-left: 0;
 }
 
-.formatted-message li {
+.message ul li {
   margin-bottom: 4px;
+  list-style-type: disc;
+}
+
+.message ol {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  padding-left: 0;
+}
+
+.message ol li {
+  margin-bottom: 4px;
+  list-style-type: decimal;
+}
+
+.message br {
+  line-height: 1.5;
 }
 
 .quick-questions-container {

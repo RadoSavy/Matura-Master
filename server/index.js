@@ -58,7 +58,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/api/gemini-key', (req, res) => {
-  const apiKey = process.env.VITE_GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'Gemini API key not configured' });
   }

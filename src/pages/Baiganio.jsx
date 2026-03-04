@@ -8,7 +8,6 @@ const Baiganio = () => {
 
   const handleQuickQuestion = (question) => {
     setMessages([...messages, { text: question, sender: 'user' }]);
-    // Simulate bot response
     setTimeout(() => {
       setMessages(prev => [...prev, { text: 'Това е примерен отговор от BAI Ганьо.', sender: 'bot' }]);
     }, 1000);
@@ -19,7 +18,6 @@ const Baiganio = () => {
     if (input.trim()) {
       setMessages([...messages, { text: input, sender: 'user' }]);
       setInput('');
-      // Simulate bot response
       setTimeout(() => {
         setMessages(prev => [...prev, { text: 'Това е примерен отговор от BAI Ганьо.', sender: 'bot' }]);
       }, 1000);

@@ -14,10 +14,9 @@ import {
 } from 'firebase/firestore';
 
 /**
- * Add a new document to a Firestore collection
- * @param {string} collectionName - Collection name in Firestore
- * @param {object} data - Data to upload
- * @returns {Promise<string>} Document ID
+ * @param {string} collectionName 
+ * @param {object} data 
+ * @returns {Promise<string>}
  */
 export const addFirestoreDocument = async (collectionName, data) => {
   try {
@@ -34,10 +33,9 @@ export const addFirestoreDocument = async (collectionName, data) => {
 };
 
 /**
- * Update an existing Firestore document
- * @param {string} collectionName - Collection name
- * @param {string} docId - Document ID
- * @param {object} data - Data to update
+ * @param {string} collectionName
+ * @param {string} docId
+ * @param {object} data
  */
 export const updateFirestoreDocument = async (collectionName, docId, data) => {
   try {
@@ -52,9 +50,8 @@ export const updateFirestoreDocument = async (collectionName, docId, data) => {
 };
 
 /**
- * Delete a Firestore document
- * @param {string} collectionName - Collection name
- * @param {string} docId - Document ID
+ * @param {string} collectionName 
+ * @param {string} docId 
  */
 export const deleteFirestoreDocument = async (collectionName, docId) => {
   try {
@@ -66,9 +63,8 @@ export const deleteFirestoreDocument = async (collectionName, docId) => {
 };
 
 /**
- * Get all documents from a collection
- * @param {string} collectionName - Collection name
- * @returns {Promise<Array>} Array of documents with IDs
+ * @param {string} collectionName 
+ * @returns {Promise<Array>} 
  */
 export const getAllFirestoreDocuments = async (collectionName) => {
   try {
@@ -84,10 +80,9 @@ export const getAllFirestoreDocuments = async (collectionName) => {
 };
 
 /**
- * Get a single document by ID
- * @param {string} collectionName - Collection name
- * @param {string} docId - Document ID
- * @returns {Promise<object>} Document data
+ * @param {string} collectionName 
+ * @param {string} docId 
+ * @returns {Promise<object>}
  */
 export const getFirestoreDocument = async (collectionName, docId) => {
   try {
@@ -103,11 +98,10 @@ export const getFirestoreDocument = async (collectionName, docId) => {
 };
 
 /**
- * Query documents by a specific field
- * @param {string} collectionName - Collection name
- * @param {string} fieldName - Field to query
- * @param {*} fieldValue - Value to match
- * @returns {Promise<Array>} Matching documents
+ * @param {string} collectionName 
+ * @param {string} fieldName 
+ * @param {*} fieldValue 
+ * @returns {Promise<Array>}
  */
 export const queryFirestoreDocuments = async (
   collectionName,
@@ -131,9 +125,8 @@ export const queryFirestoreDocuments = async (
 };
 
 /**
- * Batch upload multiple documents
- * @param {string} collectionName - Collection name
- * @param {Array<object>} documents - Array of documents to upload
+ * @param {string} collectionName 
+ * @param {Array<object>} documents 
  */
 export const batchUploadFirestoreDocuments = async (
   collectionName,
@@ -162,8 +155,7 @@ export const batchUploadFirestoreDocuments = async (
 };
 
 /**
- * Delete entire collection (use with caution)
- * @param {string} collectionName - Collection name
+ * @param {string} collectionName
  */
 export const deleteFirestoreCollection = async (collectionName) => {
   try {

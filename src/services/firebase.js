@@ -60,7 +60,6 @@ export const signInWithGooglePopup = async () => {
 
 export { db };
 
-// API-based data fetching (from Firestore via server)
 export const getBulgarianLessons = async () => {
   try {
     const response = await fetch('http://localhost:5000/api/lessons');
@@ -94,7 +93,6 @@ export const getLiteraryWorks = async () => {
   }
 };
 
-// Legacy function for compatibility
 export const getLessons = async () => {
   return getLiteratureLessons();
 };

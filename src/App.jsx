@@ -14,11 +14,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes - no authentication required */}
+        {}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         
-        {/* Protected routes - require authentication */}
+        {}
         <Route path="/courses" element={
           <ProtectedRoute>
             <Courses />

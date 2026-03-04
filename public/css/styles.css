@@ -2437,3 +2437,22 @@ h1 {
 .lesson-content > * {
   animation: slideIn 0.5s ease;
 }
+
+.message {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  max-width: 70%;
+}
+
+.message.user {
+  background-color: #4CAF50;
+  color: white;
+  margin-left: auto;
+  text-align: right;
+}
+
+.message.ai {
+  background-color: #f0f0f0;
+  color: #333;
+}

@@ -650,14 +650,110 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  function formatText(text) {
+    if (!text) return '';
+    
+    let formatted = text;
+    
+    // Convert headers ### to <h3>
+    formatted = formatted.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    
+    // Convert headers ## to <h2>
+    formatted = formatted.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    
+    // Convert headers # to <h1>
+    formatted = formatted.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+    
+    // Convert **bold** to <strong>bold</strong>
+    formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert horizontal rule --- to <hr>
+    formatted = formatted.replace(/^---$/gm, '<hr>');
+    
+    // Process lists - handle numbered lists and bullet lists line by line
+    const lines = formatted.split('\n');
+    let inList = false;
+    let inOrderedList = false;
+    let result = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      
+      // Skip if it's a header or horizontal rule
+      if (line.match(/^<h[1-3]>/) || line.match(/^<hr>$/)) {
+        if (inList) {
+          result.push('</ul>');
+          inList = false;
+        }
+        if (inOrderedList) {
+          result.push('</ol>');
+          inOrderedList = false;
+        }
+        result.push(line);
+        continue;
+      }
+      
+      // Check for numbered list (1. 2. etc)
+      const numberedMatch = line.match(/^(\d+)\.\s+(.+)$/);
+      if (numberedMatch) {
+        if (inList) {
+          result.push('</ul>');
+          inList = false;
+        }
+        if (!inOrderedList) {
+          result.push('<ol>');
+          inOrderedList = true;
+        }
+        result.push('<li>' + numberedMatch[2] + '</li>');
+        continue;
+      }
+      
+      // Check for bullet list (- or *)
+      const bulletMatch = line.match(/^[\-\*]\s+(.+)$/);
+      if (bulletMatch) {
+        if (inOrderedList) {
+          result.push('</ol>');
+          inOrderedList = false;
+        }
+        if (!inList) {
+          result.push('<ul>');
+          inList = true;
+        }
+        result.push('<li>' + bulletMatch[1] + '</li>');
+        continue;
+      }
+      
+      // Not a list item
+      if (inList) {
+        result.push('</ul>');
+        inList = false;
+      }
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      result.push(line);
+    }
+    
+    // Close any open lists
+    if (inList) result.push('</ul>');
+    if (inOrderedList) result.push('</ol>');
+    
+    formatted = result.join('<br>');
+    
+    return formatted;
+  }
+
   function renderMessages() {
     if (!chat) return;
     chat.innerHTML = '';
+    console.log('Rendering messages:', messages); 
     messages.forEach((msg) => {
       const div = document.createElement('div');
       div.classList.add('message', msg.sender);
 
-      div.textContent = msg.text;
+      // Use innerHTML to render formatted text
+      div.innerHTML = formatText(msg.text);
 
       chat.appendChild(div);
     });
@@ -1653,36 +1749,47 @@ document.addEventListener('DOMContentLoaded', async function () {
 Always respond in Bulgarian. Be helpful, encouraging, and maintain the character of a friendly but strict tutor. If asked about non-Bulgarian topics, politely redirect to Bulgarian language, grammar, or literature topics.`;
 
       // Build the request with conversation history
-      let contents = [
+      let apiMessages = [
         {
-          role: 'user',
-          parts: [{ text: systemPrompt }]
+          role: 'system',
+          content: systemPrompt
         },
         {
-          role: 'model',
-          parts: [{ text: 'Разбрах. Ще съм твоят помощник по български език и литература. Как мога да ти помогна?' }]
+          role: 'assistant',
+          content: 'Разбрах. Ще съм твоят помощник по български език и литература. Как мога да ти помогна?'
         },
         ...conversationHistory.map(msg => ({
-          role: msg.role,
-          parts: msg.parts
+          role: msg.role === 'model' ? 'assistant' : msg.role,
+          content: msg.parts ? msg.parts[0].text : msg.content
         })),
         {
           role: 'user',
-          parts: [{ text: userText }]
+          content: userText
         }
       ];
 
       const requestBody = {
-        contents: contents
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              {
+                text: userText
+              }
+            ]
+          }
+        ]
       };
+
+      console.log('Request body:', requestBody);  // Debug log
 
       console.log('Calling Gemini API...');
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(requestBody)
         }
@@ -1695,22 +1802,34 @@ Always respond in Bulgarian. Be helpful, encouraging, and maintain the character
 
       const result = await response.json();
       
+      console.log('Gemini API response:', result); 
+
+      if (result.error) {
+        throw new Error(`API error: ${result.error.message}`);
+      }
+      
       if (!result.candidates || result.candidates.length === 0) {
         throw new Error('No response from Gemini API');
       }
 
       const aiResponseText = result.candidates[0].content.parts[0].text;
 
+      console.log('AI response text:', aiResponseText); 
+
+      if (!aiResponseText || aiResponseText.trim() === '') {
+        throw new Error('Empty response from Gemini API');
+      }
+
       // Add user message to history
       conversationHistory.push({
         role: 'user',
-        parts: [{ text: userText }]
+        content: userText
       });
 
       // Add AI response to history
       conversationHistory.push({
-        role: 'model',
-        parts: [{ text: aiResponseText }]
+        role: 'assistant',
+        content: aiResponseText
       });
 
       hideTypingIndicator(typingElement);
