@@ -274,6 +274,7 @@ function showQuestion() {
 }
 
 function selectAnswer(btn, isCorrect, explanation) {
+  const optionsContainer = document.getElementById('optionsContainer');
   document.querySelectorAll('.option-btn').forEach((opt) => {
     opt.disabled = true;
     if (opt.dataset.correct === 'true') {
@@ -295,11 +296,14 @@ function selectAnswer(btn, isCorrect, explanation) {
 
     if (explanation) {
       const explanationDiv = document.createElement('div');
-      explanationDiv.className = 'card-text';
+      explanationDiv.className = 'card-text explanation-box';
       explanationDiv.style.marginTop = '15px';
+      explanationDiv.style.padding = '12px';
+      explanationDiv.style.backgroundColor = 'rgba(255, 193, 7, 0.15)';
+      explanationDiv.style.borderRadius = '8px';
       explanationDiv.style.fontSize = '14px';
-      explanationDiv.style.color = 'var(--text-light)';
-      explanationDiv.style.fontStyle = 'italic';
+      explanationDiv.style.color = 'var(--text-color)';
+      explanationDiv.style.borderLeft = '3px solid var(--secondary-color)';
       explanationDiv.innerHTML = `<strong>Обяснение:</strong> ${explanation}`;
       optionsContainer.appendChild(explanationDiv);
     }

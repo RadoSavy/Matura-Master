@@ -655,22 +655,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     let formatted = text;
     
-    // Convert headers ### to <h3>
     formatted = formatted.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     
-    // Convert headers ## to <h2>
     formatted = formatted.replace(/^## (.+)$/gm, '<h2>$1</h2>');
     
-    // Convert headers # to <h1>
     formatted = formatted.replace(/^# (.+)$/gm, '<h1>$1</h1>');
     
-    // Convert **bold** to <strong>bold</strong>
     formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     
-    // Convert horizontal rule --- to <hr>
     formatted = formatted.replace(/^---$/gm, '<hr>');
     
-    // Process lists - handle numbered lists and bullet lists line by line
     const lines = formatted.split('\n');
     let inList = false;
     let inOrderedList = false;
@@ -679,7 +673,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       
-      // Skip if it's a header or horizontal rule
       if (line.match(/^<h[1-3]>/) || line.match(/^<hr>$/)) {
         if (inList) {
           result.push('</ul>');
@@ -693,7 +686,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         continue;
       }
       
-      // Check for numbered list (1. 2. etc)
       const numberedMatch = line.match(/^(\d+)\.\s+(.+)$/);
       if (numberedMatch) {
         if (inList) {
@@ -708,7 +700,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         continue;
       }
       
-      // Check for bullet list (- or *)
       const bulletMatch = line.match(/^[\-\*]\s+(.+)$/);
       if (bulletMatch) {
         if (inOrderedList) {
