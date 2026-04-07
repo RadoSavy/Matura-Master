@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
@@ -24,3 +24,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+module.exports = handler;
