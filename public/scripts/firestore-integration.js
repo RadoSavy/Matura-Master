@@ -1,5 +1,5 @@
 class FirestoreIntegration {
-  constructor(apiBaseUrl = 'http://localhost:5000/api') {
+  constructor(apiBaseUrl = typeof window !== 'undefined' ? `${window.location.origin}/api` : 'http://localhost:5000/api') {
     this.apiBaseUrl = apiBaseUrl;
     this.cache = {};
   }

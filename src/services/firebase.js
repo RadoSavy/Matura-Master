@@ -60,9 +60,16 @@ export const signInWithGooglePopup = async () => {
 
 export { db };
 
+const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/api`;
+  }
+  return process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+};
+
 export const getBulgarianLessons = async () => {
   try {
-    const response = await fetch('http://localhost:5000/api/lessons');
+    const response = await fetch(`${getApiBaseUrl()}/lessons`);
     if (!response.ok) throw new Error('Failed to fetch');
     return await response.json();
   } catch (error) {
@@ -73,7 +80,7 @@ export const getBulgarianLessons = async () => {
 
 export const getLiteratureLessons = async () => {
   try {
-    const response = await fetch('http://localhost:5000/api/literature/lessons');
+    const response = await fetch(`${getApiBaseUrl()}/literature/lessons`);
     if (!response.ok) throw new Error('Failed to fetch');
     return await response.json();
   } catch (error) {
@@ -84,7 +91,7 @@ export const getLiteratureLessons = async () => {
 
 export const getLiteraryWorks = async () => {
   try {
-    const response = await fetch('http://localhost:5000/api/literature/texts');
+    const response = await fetch(`${getApiBaseUrl()}/literature/texts`);
     if (!response.ok) throw new Error('Failed to fetch');
     return await response.json();
   } catch (error) {

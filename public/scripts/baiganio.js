@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   try {
     console.log('Fetching Gemini API key from server...');
-    const response = await fetch('http://localhost:5000/api/gemini-key');
+    const API_BASE_URL = `${window.location.origin}/api`;
+    const response = await fetch(`${API_BASE_URL}/gemini-key`);
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
     }
@@ -646,7 +647,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (!isInitialized) {
     messages.push({
       sender: 'ai',
-      text: '❌ Error: Could not connect to the Gemini API. Make sure the server is running on http://localhost:5000',
+      text: '❌ Error: Could not connect to the Gemini API. Make sure the server is running.',
     });
   }
 
