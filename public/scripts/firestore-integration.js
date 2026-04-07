@@ -5,6 +5,7 @@ class FirestoreIntegration {
   }
 
   async addDocument(collectionName, data) {
+    this._validateCollectionName(collectionName);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}`, {
         method: 'POST',
@@ -21,6 +22,7 @@ class FirestoreIntegration {
   }
 
   async loadDocuments(collectionName, useCache = true) {
+    this._validateCollectionName(collectionName);
     try {
       if (useCache && this.cache[collectionName]) {
         return this.cache[collectionName];
@@ -38,6 +40,8 @@ class FirestoreIntegration {
     }
   }
   async getDocument(collectionName, docId) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -49,6 +53,8 @@ class FirestoreIntegration {
   }
 
   async updateDocument(collectionName, docId, data) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`, {
         method: 'PUT',
@@ -65,6 +71,8 @@ class FirestoreIntegration {
   }
 
   async deleteDocument(collectionName, docId) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}/${docId}`, {
         method: 'DELETE',
@@ -80,6 +88,7 @@ class FirestoreIntegration {
   }
 
   async batchUploadDocuments(collectionName, documents) {
+    this._validateCollectionName(collectionName);
     try {
       const response = await fetch(`${this.apiBaseUrl}/batch/${collectionName}`, {
         method: 'POST',
@@ -97,6 +106,10 @@ class FirestoreIntegration {
   }
 
   async queryDocuments(collectionName, field, value) {
+    this._validateCollectionName(collectionName);
+    if (!field || typeof field !== 'string') {
+      throw new Error('Invalid field name');
+    }
     try {
       const response = await fetch(
         `${this.apiBaseUrl}/query/${collectionName}?field=${field}&value=${value}`
@@ -244,6 +257,24 @@ class FirestoreIntegration {
   async loadMultiple(collectionNames) {
     const promises = collectionNames.map(name => this.loadDocuments(name));
     return Promise.all(promises);
+  }
+
+  _validateCollectionName(collectionName) {
+    if (!collectionName || typeof collectionName !== 'string') {
+      throw new Error('Invalid collection name');
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(collectionName)) {
+      throw new Error('Collection name contains invalid characters');
+    }
+  }
+
+  _validateDocId(docId) {
+    if (!docId || typeof docId !== 'string') {
+      throw new Error('Invalid document ID');
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(docId)) {
+      throw new Error('Document ID contains invalid characters');
+    }
   }
 }
 

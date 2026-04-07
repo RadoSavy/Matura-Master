@@ -9,6 +9,7 @@ class FirestoreUploader {
    * @returns {Promise<object>} 
    */
   async addDocument(collectionName, data) {
+    this._validateCollectionName(collectionName);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}`, {
         method: 'POST',
@@ -34,6 +35,7 @@ class FirestoreUploader {
    * @returns {Promise<Array>}
    */
   async getDocuments(collectionName) {
+    this._validateCollectionName(collectionName);
     try {
       const response = await fetch(`${this.apiBaseUrl}/documents/${collectionName}`);
 
@@ -54,6 +56,8 @@ class FirestoreUploader {
    * @returns {Promise<object>} 
    */
   async getDocument(collectionName, docId) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(
         `${this.apiBaseUrl}/documents/${collectionName}/${docId}`
@@ -77,6 +81,8 @@ class FirestoreUploader {
    * @returns {Promise<object>} 
    */
   async updateDocument(collectionName, docId, data) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(
         `${this.apiBaseUrl}/documents/${collectionName}/${docId}`,
@@ -106,6 +112,8 @@ class FirestoreUploader {
    * @returns {Promise<object>} 
    */
   async deleteDocument(collectionName, docId) {
+    this._validateCollectionName(collectionName);
+    this._validateDocId(docId);
     try {
       const response = await fetch(
         `${this.apiBaseUrl}/documents/${collectionName}/${docId}`,
@@ -131,6 +139,7 @@ class FirestoreUploader {
    * @returns {Promise<object>} 
    */
   async batchUpload(collectionName, documents) {
+    this._validateCollectionName(collectionName);
     try {
       const response = await fetch(`${this.apiBaseUrl}/batch/${collectionName}`, {
         method: 'POST',
@@ -158,6 +167,10 @@ class FirestoreUploader {
    * @returns {Promise<Array>} 
    */
   async queryDocuments(collectionName, field, value) {
+    this._validateCollectionName(collectionName);
+    if (!field || typeof field !== 'string') {
+      throw new Error('Invalid field name');
+    }
     try {
       const params = new URLSearchParams({
         field,
@@ -193,6 +206,24 @@ class FirestoreUploader {
     } catch (error) {
       console.error('Error submitting form:', error);
       throw error;
+    }
+  }
+
+  _validateCollectionName(collectionName) {
+    if (!collectionName || typeof collectionName !== 'string') {
+      throw new Error('Invalid collection name');
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(collectionName)) {
+      throw new Error('Collection name contains invalid characters');
+    }
+  }
+
+  _validateDocId(docId) {
+    if (!docId || typeof docId !== 'string') {
+      throw new Error('Invalid document ID');
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(docId)) {
+      throw new Error('Document ID contains invalid characters');
     }
   }
 }

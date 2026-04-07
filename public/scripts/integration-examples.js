@@ -220,7 +220,8 @@ function showLoading(element) {
 }
 
 function showError(element, error) {
-  element.innerHTML = `<div style="color: red; padding: 20px;">${error.message}</div>`;
+  element.innerHTML = '<div style="color: red; padding: 20px;"></div>';
+  element.querySelector('div').textContent = error.message;
 }
 
 function formatDate(timestamp) {

@@ -83,18 +83,44 @@ function renderLessons() {
       lessonCard.dataset.id = lesson.id;
 
       if (isLocked) {
-        lessonCard.innerHTML = `
-                    <div class="lesson-icon">🔒</div>
-                    <div class="lesson-title">${lesson.title}</div>
-                    <div class="lesson-xp">${lesson.xp} XP</div>
-                `;
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'lesson-icon';
+        iconDiv.textContent = '🔒';
+        lessonCard.appendChild(iconDiv);
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'lesson-title';
+        titleDiv.textContent = lesson.title;
+        lessonCard.appendChild(titleDiv);
+
+        const xpDiv = document.createElement('div');
+        xpDiv.className = 'lesson-xp';
+        xpDiv.textContent = `${lesson.xp} XP`;
+        lessonCard.appendChild(xpDiv);
       } else {
-        lessonCard.innerHTML = `
-                    ${lesson.crown ? '<div class="crown-icon"><i class="fas fa-crown"></i></div>' : ''}
-                    <div class="lesson-icon">${lesson.icon || lesson.id}</div>
-                    <div class="lesson-title">${lesson.title}</div>
-                    <div class="lesson-xp">${lesson.xp} XP</div>
-                `;
+        if (lesson.crown) {
+          const crownDiv = document.createElement('div');
+          crownDiv.className = 'crown-icon';
+          const crownIcon = document.createElement('i');
+          crownIcon.className = 'fas fa-crown';
+          crownDiv.appendChild(crownIcon);
+          lessonCard.appendChild(crownDiv);
+        }
+
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'lesson-icon';
+        iconDiv.textContent = lesson.icon || lesson.id;
+        lessonCard.appendChild(iconDiv);
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'lesson-title';
+        titleDiv.textContent = lesson.title;
+        lessonCard.appendChild(titleDiv);
+
+        const xpDiv = document.createElement('div');
+        xpDiv.className = 'lesson-xp';
+        xpDiv.textContent = `${lesson.xp} XP`;
+        lessonCard.appendChild(xpDiv);
       }
 
       if (!isLocked) {
@@ -109,39 +135,102 @@ function renderLessons() {
 function showLessonPreview(lesson) {
   const previewModal = document.createElement('div');
   previewModal.className = 'modal active';
-  previewModal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <button class="close-modal" id="closePreviewModal"><i class="fas fa-times"></i></button>
-            <div class="lesson-icon" style="margin: 0 auto 20px; font-size: 40px; width: 80px; height: 80px;">${lesson.icon || lesson.id}</div>
-            <h2 style="margin-bottom: 10px;">${lesson.title}</h2>
-            <p style="color: var(--text-light); margin-bottom: 25px;">${lesson.description}</p>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
-                <div style="background: rgba(76, 175, 80, 0.1); padding: 10px; border-radius: 10px; width: 48%;">
-                    <div style="font-size: 12px; color: var(--text-light);">XP</div>
-                    <div style="font-weight: bold; color: var(--primary-color);">${lesson.xp}</div>
-                </div>
-                <div style="background: rgba(255, 193, 7, 0.1); padding: 10px; border-radius: 10px; width: 48%;">
-                    <div style="font-size: 12px; color: var(--text-light);">Въпроси</div>
-                    <div style="font-weight: bold; color: var(--secondary-color);">${lesson.questions ? lesson.questions.length : '3'}</div>
-                </div>
-            </div>
-            <button class="btn" id="startLessonBtn" style="width: 100%;">
-                <i class="fas fa-play"></i> Започни урока
-            </button>
-        </div>
-    `;
 
+  const modalContent = document.createElement('div');
+  modalContent.className = 'modal-content';
+  modalContent.style.textAlign = 'center';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'close-modal';
+  closeBtn.id = 'closePreviewModal';
+  const closeIcon = document.createElement('i');
+  closeIcon.className = 'fas fa-times';
+  closeBtn.appendChild(closeIcon);
+  modalContent.appendChild(closeBtn);
+
+  const lessonIcon = document.createElement('div');
+  lessonIcon.className = 'lesson-icon';
+  lessonIcon.style.margin = '0 auto 20px';
+  lessonIcon.style.fontSize = '40px';
+  lessonIcon.style.width = '80px';
+  lessonIcon.style.height = '80px';
+  lessonIcon.textContent = lesson.icon || lesson.id;
+  modalContent.appendChild(lessonIcon);
+
+  const h2 = document.createElement('h2');
+  h2.style.marginBottom = '10px';
+  h2.textContent = lesson.title;
+  modalContent.appendChild(h2);
+
+  const p = document.createElement('p');
+  p.style.color = 'var(--text-light)';
+  p.style.marginBottom = '25px';
+  p.textContent = lesson.description;
+  modalContent.appendChild(p);
+
+  const statsDiv = document.createElement('div');
+  statsDiv.style.display = 'flex';
+  statsDiv.style.justifyContent = 'space-between';
+  statsDiv.style.marginBottom = '25px';
+
+  const xpDiv = document.createElement('div');
+  xpDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+  xpDiv.style.padding = '10px';
+  xpDiv.style.borderRadius = '10px';
+  xpDiv.style.width = '48%';
+  const xpLabel = document.createElement('div');
+  xpLabel.style.fontSize = '12px';
+  xpLabel.style.color = 'var(--text-light)';
+  xpLabel.textContent = 'XP';
+  const xpValue = document.createElement('div');
+  xpValue.style.fontWeight = 'bold';
+  xpValue.style.color = 'var(--primary-color)';
+  xpValue.textContent = lesson.xp;
+  xpDiv.appendChild(xpLabel);
+  xpDiv.appendChild(xpValue);
+
+  const questionsDiv = document.createElement('div');
+  questionsDiv.style.background = 'rgba(255, 193, 7, 0.1)';
+  questionsDiv.style.padding = '10px';
+  questionsDiv.style.borderRadius = '10px';
+  questionsDiv.style.width = '48%';
+  const questionsLabel = document.createElement('div');
+  questionsLabel.style.fontSize = '12px';
+  questionsLabel.style.color = 'var(--text-light)';
+  questionsLabel.textContent = 'Въпроси';
+  const questionsValue = document.createElement('div');
+  questionsValue.style.fontWeight = 'bold';
+  questionsValue.style.color = 'var(--secondary-color)';
+  questionsValue.textContent = lesson.questions ? lesson.questions.length : '3';
+  questionsDiv.appendChild(questionsLabel);
+  questionsDiv.appendChild(questionsValue);
+
+  statsDiv.appendChild(xpDiv);
+  statsDiv.appendChild(questionsDiv);
+  modalContent.appendChild(statsDiv);
+
+  const startBtn = document.createElement('button');
+  startBtn.className = 'btn';
+  startBtn.id = 'startLessonBtn';
+  startBtn.style.width = '100%';
+  const playIcon = document.createElement('i');
+  playIcon.className = 'fas fa-play';
+  startBtn.appendChild(playIcon);
+  startBtn.appendChild(document.createTextNode(' Започни урока'));
+  modalContent.appendChild(startBtn);
+
+  previewModal.appendChild(modalContent);
   document.body.appendChild(previewModal);
 
-  const closeBtn = document.getElementById('closePreviewModal');
-  const startBtn = document.getElementById('startLessonBtn');
+  const closePreviewBtn = document.getElementById('closePreviewModal');
+  const startLessonBtn = document.getElementById('startLessonBtn');
 
-  closeBtn.addEventListener('click', () => {
+  closePreviewBtn.addEventListener('click', () => {
     previewModal.classList.remove('active');
     setTimeout(() => previewModal.remove(), 300);
   });
 
-  startBtn.addEventListener('click', () => {
+  startLessonBtn.addEventListener('click', () => {
     previewModal.classList.remove('active');
     setTimeout(() => {
       previewModal.remove();
@@ -306,7 +395,10 @@ function selectAnswer(btn, isCorrect, explanation) {
       explanationDiv.style.fontSize = '14px';
       explanationDiv.style.color = 'var(--text-color)';
       explanationDiv.style.borderLeft = '3px solid var(--secondary-color)';
-      explanationDiv.innerHTML = `<strong>Обяснение:</strong> ${explanation}`;
+      const strong = document.createElement('strong');
+      strong.textContent = 'Обяснение:';
+      explanationDiv.appendChild(strong);
+      explanationDiv.appendChild(document.createTextNode(' ' + explanation));
       optionsContainer.appendChild(explanationDiv);
     }
   }
@@ -367,32 +459,82 @@ function completeLesson() {
 function showCompletionModal(xpEarned, correctCount, totalQuestions) {
   const completionModal = document.createElement('div');
   completionModal.className = 'modal active';
-  completionModal.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-            <div style="margin-bottom: 20px;">
-                <div style="width: 80px; height: 80px; background-color: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                    <i class="fas fa-check" style="font-size: 36px; color: white;"></i>
-                </div>
-                <h2 style="margin-bottom: 10px;">Урок завършен!</h2>
-                <p style="color: var(--text-light);">Вие отговорихте правилно на ${correctCount} от ${totalQuestions} въпроси</p>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 25px;">
-                <div style="background: rgba(76, 175, 80, 0.1); padding: 15px; border-radius: 10px; min-width: 100px;">
-                    <div style="font-size: 12px; color: var(--text-light);">Спечелени XP</div>
-                    <div style="font-weight: bold; color: var(--primary-color); font-size: 24px;">+${xpEarned}</div>
-                </div>
-            </div>
-            <button class="btn" id="closeCompletionModal" style="width: 100%;">
-                <i class="fas fa-check"></i> Готово
-            </button>
-        </div>
-    `;
 
+  const modalContent = document.createElement('div');
+  modalContent.className = 'modal-content';
+  modalContent.style.textAlign = 'center';
+
+  const mainDiv = document.createElement('div');
+  mainDiv.style.marginBottom = '20px';
+
+  const iconDiv = document.createElement('div');
+  iconDiv.style.width = '80px';
+  iconDiv.style.height = '80px';
+  iconDiv.style.backgroundColor = 'var(--primary-color)';
+  iconDiv.style.borderRadius = '50%';
+  iconDiv.style.display = 'flex';
+  iconDiv.style.alignItems = 'center';
+  iconDiv.style.justifyContent = 'center';
+  iconDiv.style.margin = '0 auto 15px';
+  const checkIcon = document.createElement('i');
+  checkIcon.className = 'fas fa-check';
+  checkIcon.style.fontSize = '36px';
+  checkIcon.style.color = 'white';
+  iconDiv.appendChild(checkIcon);
+  mainDiv.appendChild(iconDiv);
+
+  const h2 = document.createElement('h2');
+  h2.style.marginBottom = '10px';
+  h2.textContent = 'Урок завършен!';
+  mainDiv.appendChild(h2);
+
+  const p = document.createElement('p');
+  p.style.color = 'var(--text-light)';
+  p.textContent = `Вие отговорихте правилно на ${correctCount} от ${totalQuestions} въпроси`;
+  mainDiv.appendChild(p);
+  modalContent.appendChild(mainDiv);
+
+  const statsDiv = document.createElement('div');
+  statsDiv.style.display = 'flex';
+  statsDiv.style.justifyContent = 'center';
+  statsDiv.style.gap = '20px';
+  statsDiv.style.marginBottom = '25px';
+
+  const xpDiv = document.createElement('div');
+  xpDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+  xpDiv.style.padding = '15px';
+  xpDiv.style.borderRadius = '10px';
+  xpDiv.style.minWidth = '100px';
+  const xpLabel = document.createElement('div');
+  xpLabel.style.fontSize = '12px';
+  xpLabel.style.color = 'var(--text-light)';
+  xpLabel.textContent = 'Спечелени XP';
+  const xpValue = document.createElement('div');
+  xpValue.style.fontWeight = 'bold';
+  xpValue.style.color = 'var(--primary-color)';
+  xpValue.style.fontSize = '24px';
+  xpValue.textContent = `+${xpEarned}`;
+  xpDiv.appendChild(xpLabel);
+  xpDiv.appendChild(xpValue);
+  statsDiv.appendChild(xpDiv);
+  modalContent.appendChild(statsDiv);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn';
+  closeBtn.id = 'closeCompletionModal';
+  closeBtn.style.width = '100%';
+  const doneIcon = document.createElement('i');
+  doneIcon.className = 'fas fa-check';
+  closeBtn.appendChild(doneIcon);
+  closeBtn.appendChild(document.createTextNode(' Готово'));
+  modalContent.appendChild(closeBtn);
+
+  completionModal.appendChild(modalContent);
   document.body.appendChild(completionModal);
 
-  const closeBtn = document.getElementById('closeCompletionModal');
+  const closeCompletionBtn = document.getElementById('closeCompletionModal');
 
-  closeBtn.addEventListener('click', () => {
+  closeCompletionBtn.addEventListener('click', () => {
     completionModal.classList.remove('active');
     setTimeout(() => {
       completionModal.remove();
@@ -461,7 +603,11 @@ function updateStreak() {
 
     const streakCounter = document.querySelector('.streak-counter');
     if (streakCounter) {
-      streakCounter.innerHTML = `<i class="fas fa-fire"></i> ${appData.streak}`;
+      streakCounter.innerHTML = '';
+      const fireIcon = document.createElement('i');
+      fireIcon.className = 'fas fa-fire';
+      streakCounter.appendChild(fireIcon);
+      streakCounter.appendChild(document.createTextNode(' ' + appData.streak));
 
       streakCounter.classList.add('bounce');
       setTimeout(() => streakCounter.classList.remove('bounce'), 1000);
@@ -486,7 +632,11 @@ function checkDailyStreak() {
 
   const streakCounter = document.querySelector('.streak-counter');
   if (streakCounter) {
-    streakCounter.innerHTML = `<i class="fas fa-fire"></i> ${appData.streak}`;
+    streakCounter.innerHTML = '';
+    const fireIcon = document.createElement('i');
+    fireIcon.className = 'fas fa-fire';
+    streakCounter.appendChild(fireIcon);
+    streakCounter.appendChild(document.createTextNode(' ' + appData.streak));
   }
 }
 

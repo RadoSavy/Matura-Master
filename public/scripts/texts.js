@@ -43,26 +43,57 @@ document.addEventListener('DOMContentLoaded', function () {
     Object.entries(authors).forEach(([author, texts]) => {
       const section = document.createElement('div');
       section.className = 'author-section';
-      section.innerHTML = `<div class="author-header"><h3>${author}</h3></div>`;
+      const authorHeader = document.createElement('div');
+      authorHeader.className = 'author-header';
+      const h3 = document.createElement('h3');
+      h3.textContent = author;
+      authorHeader.appendChild(h3);
+      section.appendChild(authorHeader);
 
       texts.forEach(t => {
         const item = document.createElement('div');
         item.className = 'work-item';
         const authorName = t.author || t.creator || '';
-        item.innerHTML = `
-          <div class="work-info">
-            <i class="fas fa-file-alt work-icon"></i>
-            <span class="work-title">${t.title || t.name || ''}</span>
-          </div>
-          ${authorName ? `<p class="work-author">${authorName}</p>` : ''}
-          <div class="work-parts">
-            <div class="work-part">
-              <div class="part-actions">
-                <button class="btn btn-sm show-text" data-work="${t.id}">Текст</button>
-                <button class="btn btn-sm btn-outline show-analysis" data-work="${t.id}">Анализ</button>
-              </div>
-            </div>
-          </div>`;
+
+        const workInfo = document.createElement('div');
+        workInfo.className = 'work-info';
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-file-alt work-icon';
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'work-title';
+        titleSpan.textContent = t.title || t.name || '';
+        workInfo.appendChild(icon);
+        workInfo.appendChild(titleSpan);
+
+        item.appendChild(workInfo);
+
+        if (authorName) {
+          const authorP = document.createElement('p');
+          authorP.className = 'work-author';
+          authorP.textContent = authorName;
+          item.appendChild(authorP);
+        }
+
+        const workParts = document.createElement('div');
+        workParts.className = 'work-parts';
+        const workPart = document.createElement('div');
+        workPart.className = 'work-part';
+        const partActions = document.createElement('div');
+        partActions.className = 'part-actions';
+        const textBtn = document.createElement('button');
+        textBtn.className = 'btn btn-sm show-text';
+        textBtn.setAttribute('data-work', t.id);
+        textBtn.textContent = 'Текст';
+        const analysisBtn = document.createElement('button');
+        analysisBtn.className = 'btn btn-sm btn-outline show-analysis';
+        analysisBtn.setAttribute('data-work', t.id);
+        analysisBtn.textContent = 'Анализ';
+        partActions.appendChild(textBtn);
+        partActions.appendChild(analysisBtn);
+        workPart.appendChild(partActions);
+        workParts.appendChild(workPart);
+        item.appendChild(workParts);
+
         section.appendChild(item);
       });
 
@@ -133,8 +164,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    textContent.innerHTML = `<pre>${work.text}</pre>`;
-    analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
+    textContent.innerHTML = '';
+    const preText = document.createElement('pre');
+    preText.textContent = work.text;
+    textContent.appendChild(preText);
+
+    analysisContent.innerHTML = '';
+    const preAnalysis = document.createElement('pre');
+    preAnalysis.textContent = work.analysis;
+    analysisContent.appendChild(preAnalysis);
 
     if (showAnalysis) {
       tabs[0].classList.remove('active');
@@ -172,8 +210,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (work) {
         modalTitle.textContent = work.title;
-        textContent.innerHTML = `<pre>${work.text}</pre>`;
-        analysisContent.innerHTML = `<pre>${work.analysis}</pre>`;
+        textContent.innerHTML = '';
+        const preText = document.createElement('pre');
+        preText.textContent = work.text;
+        textContent.appendChild(preText);
+
+        analysisContent.innerHTML = '';
+        const preAnalysis = document.createElement('pre');
+        preAnalysis.textContent = work.analysis;
+        analysisContent.appendChild(preAnalysis);
 
         tabs[0].classList.remove('active');
         tabs[1].classList.add('active');

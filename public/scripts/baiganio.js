@@ -1681,7 +1681,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       'Попитай ме за конкретно правило, произведение или автор и ще ти помогна!',
     ];
     return {
-      text: randomResponses[Math.floor(Math.random() * randomResponses.length)],
+      text: randomResponses[crypto.getRandomValues(new Uint32Array(1))[0] % randomResponses.length],
       formatted: false,
     };
   }
@@ -1717,7 +1717,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         "Момко, ако не видя една 'а' и една 'ъ' в изречението, нема повече да ти отговарям!",
       ];
       const randomGanioMsg =
-        ganioPhrases[Math.floor(Math.random() * ganioPhrases.length)];
+        ganioPhrases[crypto.getRandomValues(new Uint32Array(1))[0] % ganioPhrases.length];
       messages.push({ sender: 'user', text: userText });
       messages.push({ sender: 'ai', text: randomGanioMsg, formatted: false });
       renderMessages();
