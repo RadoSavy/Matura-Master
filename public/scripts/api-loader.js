@@ -1,6 +1,20 @@
-const API_BASE_URL = typeof window !== 'undefined' 
-  ? `${window.location.origin}/api` 
-  : 'http://localhost:5000/api';
+const API_BASE_URL = (() => {
+  if (typeof window !== 'undefined' && window.__API_BASE_URL__) {
+    return window.__API_BASE_URL__;
+  }
+  
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return 'http://localhost:5000/api';
+  }
+  
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/api`;
+  }
+  
+  return 'http://localhost:5000/api';
+})();
+
+console.log('API Base URL:', API_BASE_URL);
 
 async function loadDataFromAPI() {
   try {
