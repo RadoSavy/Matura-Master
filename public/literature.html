@@ -1,0 +1,126 @@
+<!doctype html>
+<html dir="ltr" lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="robots" content="NOODP">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Matura Master">
+  <meta name="google" content="notranslate">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Литература - Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-checking">    <script src="scripts/api-loader.js"></script>    <script type="module" src="/scripts/auth-check.js"></script>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">MM</div>
+            <span>Matura Master</span>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-gem"></i>
+            </button>
+            <button class="profile-btn">И</button>
+        </div>
+    </header>
+
+    <nav class="desktop-nav">
+        <a href="courses.html" class="desktop-nav-item">
+            <i class="fas fa-book desktop-nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="desktop-nav-item">
+            <i class="fas fa-robot desktop-nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="desktop-nav-item">
+            <i class="fas fa-book-reader desktop-nav-icon"></i>
+            <span>Произведения</span>
+        </a>
+        <a href="auth.html" class="desktop-nav-item" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
+
+    <main>
+        <div class="content-area">
+            <div class="section-header">
+                <h1 class="unit-title">Литература</h1>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Дневни задачи</h2>
+                <p class="card-text">Завършете 3 урока</p>
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>Прогрес</span>
+                        <span>0/3</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="leaderboardProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="card-title" style="margin-bottom: 15px;">Раздел 1: Българинът във възрожденския свят</h2>
+            <div class="lesson-grid" id="lessonGrid1"></div>
+            <h2 class="card-title" style="margin-bottom: 15px;">Раздел 2: Човекът в обществото - норми, ценности и конфликти</h2>
+            <div class="lesson-grid" id="lessonGrid2"></div>
+        </div>
+    </main>
+
+    <nav class="mobile-nav">
+        <a href="courses.html" class="nav-item">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="nav-item">
+            <i class="fas fa-robot nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="nav-item">
+            <i class="fas fa-book-reader nav-icon"></i>
+            <span>Текстове</span>
+        </a>
+        <a href="auth.html" class="nav-item" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
+
+    <div class="modal" id="lessonModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="lesson-header">
+                <div class="lesson-type">Заглавие</div>
+                <div class="lesson-question" id="lessonQuestion">Въпрос</div>
+            </div>
+            
+            <div class="options-container" id="optionsContainer">
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 1</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 2</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">Отговор 3</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">Отговор 4</button>
+            </div>
+            
+            <div class="lesson-footer">
+                <div class="xp-badge">+10 XP</div>
+                <button class="btn btn-sm" id="nextQuestionBtn">Следващ въпрос</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/literature.js"></script>
+</body>
+</html>

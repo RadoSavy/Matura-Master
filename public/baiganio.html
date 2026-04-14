@@ -1,0 +1,103 @@
+<!doctype html>
+<html dir="ltr" lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="robots" content="NOODP">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Matura Master">
+  <meta name="google" content="notranslate">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>BAI Ганьо AI Асистент - Matura Master</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/baiganio.css">
+</head>
+<body class="auth-checking">
+  <script type="module" src="scripts/auth-check.js"></script>
+  <header>
+        <div class="logo">
+            <div class="logo-icon">MM</div>
+            <span>Matura Master</span>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge"></span>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-gem"></i>
+            </button>
+            <button class="profile-btn">И</button>
+        </div>
+    </header>
+
+    <nav class="desktop-nav">
+        <a href="courses.html" class="desktop-nav-item">
+            <i class="fas fa-book desktop-nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="desktop-nav-item active">
+            <i class="fas fa-robot desktop-nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="desktop-nav-item">
+            <i class="fas fa-book-reader desktop-nav-icon"></i>
+            <span>Произведения</span>
+        </a>
+        <a href="auth.html" class="desktop-nav-item" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt desktop-nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
+
+  <main>
+    <div class="section-header">
+      <div class="section-title">AI Асистент</div>
+      <h1 class="unit-title" id="title">BAI Ганьо</h1>
+    </div>
+
+    <div class="quick-questions-container">
+      <div class="quick-questions">
+        <button class="quick-question">Какви са видовете частици?</button>
+        <button class="quick-question">Кои са основните теми в "Под игото"?</button>
+        <button class="quick-question">Кои са героите в "Немили-недраги"?</button>
+        <button class="quick-question">Какви са правилата за правопис на "ъ" и "ь"?</button>
+      </div>
+    </div>
+    
+    <div class="chat-container">
+      <div id="chat" aria-live="polite" aria-label="Чат с BAI Ганьо"></div>
+      <form id="chat-form" aria-label="Форма за въвеждане на съобщение">
+        <textarea id="chat-input" rows="2" placeholder="Напиши въпрос към BAI Ганьо..." required></textarea>
+        <button type="submit" aria-label="Изпрати съобщение"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </main>
+
+  <nav class="mobile-nav">
+        <a href="courses.html" class="nav-item">
+            <i class="fas fa-book nav-icon"></i>
+            <span>Предмети</span>
+        </a>
+        <a href="baiganio.html" class="nav-item active">
+            <i class="fas fa-robot nav-icon"></i>
+            <span>BAI Ганьо</span>
+        </a>
+        <a href="texts.html" class="nav-item ">
+            <i class="fas fa-book-reader nav-icon"></i>
+            <span>Текстове</span>
+        </a>
+        <a href="auth.html" class="nav-item" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+            <span>Изход</span>
+        </a>
+    </nav>
+
+  <script src="scripts/baiganio.js"></script>
+</body>
+</html>

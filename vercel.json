@@ -1,0 +1,4 @@
+{
+  "installCommand": "npm install && npm install -C server",
+  "buildCommand": "npm run build"
+}
