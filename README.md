@@ -139,7 +139,7 @@ The system provides an intuitive web interface:
 ### Common Issues
 
 1. **"Server not starting" error**
-   - Check if port `5000` is already in use
+   - Check if port `3000` is already in use
    - Verify your `.env` file exists in the `server/` folder
    - Ensure all dependencies are installed with `npm install`
 
